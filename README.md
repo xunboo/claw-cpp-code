@@ -17,11 +17,13 @@ boundaries.
 
 ## Highlights
 
-- **150 source files, ~39 000 lines of C++20** across 9 modules
+- **150 source files, ~40 000 lines of C++20** across 9 modules
 - Builds with **Visual Studio 2022** (MSVC 14.44+) on Windows 11
-- No C++23 features — uses [`tl::expected`](https://github.com/TartanLlama/expected) as a drop-in for `std::expected`
-- CMake 3.25+ mono-repo with FetchContent for third-party dependencies
+- C++20 features for the best performance
+- CMake 3.25+ mono-repo with FetchContent for all dependencies (no vcpkg needed)
 - Windows-native: BCrypt for crypto, `CreateProcess` for shell execution, UTF-8 console output
+- **All 48 tool dispatch entries** match the Rust source 1-to-1
+- Real Anthropic API calls via `AnthropicClient` (set `ANTHROPIC_API_KEY` to use)
 
 ## Repository layout
 
@@ -29,12 +31,10 @@ boundaries.
 claw-cpp-code/
   CMakeLists.txt              Top-level CMake (delegates to src/)
   README.md                   This file
-  claw-cpp-code.md            Detailed project plan & conversion guidelines
   build/                      VS 2022 solution (generated)
-  library/                    Vendored / third-party headers
   src/
     CMakeLists.txt             Mono-repo root: global flags, FetchContent, sub-projects
-    runtime/                   Core engine (17 500 LOC) — session, MCP, config, hooks,
+    runtime/                   Core engine — session, MCP, config, hooks,
                                permissions, bash, file-ops, OAuth, sandbox, policy
     api/                       HTTP client for Anthropic / OpenAI-compat providers, SSE
     plugins/                   Plugin registry, manager, types, tools, hooks
@@ -50,15 +50,27 @@ claw-cpp-code/
 
 | Rust crate | C++ target | Type | Lines |
 |---|---|---|---|
-| `runtime` | `claw_runtime` | Static lib | 17 534 |
-| `api` | `claw_api` | Static lib | 4 205 |
-| `plugins` | `claw_plugins` | Static lib | 3 302 |
-| `tools` | `claw_tools` | Static lib | 4 012 |
+| `runtime` | `claw_runtime` | Static lib | 17 593 |
+| `api` | `claw_api` | Static lib | 4 258 |
+| `plugins` | `claw_plugins` | Static lib | 3 303 |
+| `tools` | `claw_tools` | Static lib | 4 397 |
 | `commands` | `commands` | Static lib | 3 296 |
-| `rusty-claude-cli` | `claw_lib` + `claw.exe` | Lib + EXE | 4 171 |
+| `rusty-claude-cli` | `claw_lib` + `claw.exe` | Lib + EXE | 4 572 |
 | `telemetry` | `claw_telemetry` | Static lib | 725 |
-| `compat-harness` | `compat-harness` | Static lib | 857 |
-| `mock-anthropic-service` | `mock-anthropic-service.exe` | EXE | 1 033 |
+| `compat-harness` | `compat-harness` | Static lib | 859 |
+| `mock-anthropic-service` | `mock-anthropic-service.exe` | EXE | 1 055 |
+| **Total** | | | **40 058** |
+
+## Dependencies (all fetched automatically)
+
+| Library | Version | Purpose |
+|---|---|---|
+| [tl::expected](https://github.com/TartanLlama/expected) | 1.1+ | C++20 backport of `std::expected` |
+| [nlohmann/json](https://github.com/nlohmann/json) | 3.11+ | JSON parsing and serialization |
+| [libcurl](https://github.com/curl/curl) | 8.19.0 | HTTP client (Anthropic API, web tools) |
+
+No vcpkg, Conan, or manual library installation required. CMake FetchContent
+downloads, builds, and links everything from source on first configure.
 
 ## Build instructions
 
@@ -66,50 +78,80 @@ claw-cpp-code/
 
 - **Visual Studio 2022** with C++ desktop workload (MSVC v14.44+)
 - **CMake 3.25+** (bundled with VS 2022)
-- **Git** (for FetchContent to pull `tl::expected` and `nlohmann/json`)
-
-Optional (enables full functionality):
-- **libcurl** — `vcpkg install curl:x64-windows` (enables HTTP client in api module)
-- **OpenSSL** — `vcpkg install openssl:x64-windows` (enables native SHA256 in OAuth)
+- **Git** (for FetchContent to clone dependencies)
 
 ### Build
 
 ```powershell
-# From a Developer Command Prompt or PowerShell with cmake on PATH:
 cd claw-cpp-code
 mkdir build && cd build
 cmake .. -G "Visual Studio 17 2022" -A x64
 cmake --build . --config Debug
 ```
 
+First build takes ~5 minutes (fetches and compiles curl from source).
+Subsequent builds are incremental.
+
 ### Run
 
 ```powershell
 # Show version
-.\bin\Debug\claw.exe --version
+.\bin\Release\claw.exe --version
 
 # Show help
-.\bin\Debug\claw.exe --help
+.\bin\Release\claw.exe --help
 
 # Print status snapshot
-.\bin\Debug\claw.exe status
+.\bin\Release\claw.exe status
+
+# Print bootstrap plan
+.\bin\Release\claw.exe bootstrap-plan
+
+# OAuth login flow
+.\bin\Release\claw.exe login
+
+# Initialize project (creates CLAUDE.md, .claude/, .gitignore entries)
+.\bin\Release\claw.exe init
+
+# List agents / skills / MCP servers
+.\bin\Release\claw.exe agents
+.\bin\Release\claw.exe skills
+.\bin\Release\claw.exe mcp
+
+# One-shot prompt (requires ANTHROPIC_API_KEY)
+set ANTHROPIC_API_KEY=sk-ant-...
+.\bin\Release\claw.exe -p "explain what this project does"
 
 # Start interactive REPL
-.\bin\Debug\claw.exe
+.\bin\Release\claw.exe
 ```
 
 ### Run tests
 
 ```powershell
-# Build and run the test executables
-.\bin\Debug\test_args.exe
-.\bin\Debug\test_init.exe
-.\bin\Debug\test_render.exe
+.\bin\Release\test_args.exe
+.\bin\Release\test_init.exe
+.\bin\Release\test_render.exe
 ```
 
-## Conversion guidelines
+## Tool executor dispatch
 
-The C++ code follows these rules to stay faithful to the Rust source:
+All 48 tools from the Rust source are dispatched with full parity:
+
+| Category | Tools | Runtime wiring |
+|---|---|---|
+| File / bash | `bash`, `read_file`, `write_file`, `edit_file`, `glob_search`, `grep_search`, `PowerShell` | `claw::runtime` (real execution) |
+| Task | `TaskCreate`, `TaskGet`, `TaskList`, `TaskStop`, `TaskUpdate`, `TaskOutput` | `TaskRegistry` singleton |
+| Worker | `WorkerCreate/Get/Observe/ResolveTrust/AwaitReady/SendPrompt/Restart/Terminate` | `WorkerRegistry` singleton |
+| Team / Cron | `TeamCreate`, `TeamDelete`, `CronCreate`, `CronDelete`, `CronList` | `TeamRegistry` / `CronRegistry` |
+| LSP / MCP | `LSP`, `ListMcpResources`, `ReadMcpResource`, `McpAuth`, `MCP` | `LspRegistry` / `McpToolRegistry` |
+| Web | `WebFetch`, `WebSearch` | libcurl HTTP client |
+| Interactive | `TodoWrite`, `Skill`, `Agent`, `ToolSearch`, `NotebookEdit` | misc_tools / agent_tools |
+| Session | `Sleep`, `SendUserMessage`/`Brief`, `Config`, `REPL`, `AskUserQuestion` | misc_tools |
+| Plan | `EnterPlanMode`, `ExitPlanMode`, `StructuredOutput` | misc_tools |
+| Other | `RemoteTrigger`, `TestingPermission` | HTTP client / stub |
+
+## Conversion guidelines
 
 | Rust | C++ |
 |---|---|
