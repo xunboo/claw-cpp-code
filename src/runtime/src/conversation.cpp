@@ -67,7 +67,7 @@ static constexpr std::string_view AUTO_COMPACTION_THRESHOLD_ENV_VAR =
 // using-declaration in this TU so the bodies below can reference them.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Rust: pub struct PromptCacheEvent { unexpected, reason, previous/current cache tokens, drop }
+/// Prompt-cache telemetry captured from the provider response stream.
 struct PromptCacheEvent {
     bool        unexpected{false};
     std::string reason;
@@ -76,15 +76,14 @@ struct PromptCacheEvent {
     uint32_t    token_drop{0};
 };
 
-// Rust: pub struct AutoCompactionEvent { removed_message_count }
+/// Details about automatic session compaction applied during a turn.
 struct AutoCompactionEvent {
     std::size_t removed_message_count{0};
 
     bool operator==(const AutoCompactionEvent&) const noexcept = default;
 };
 
-// Rust: pub struct TurnSummary { assistant_messages, tool_results, prompt_cache_events,
-//                                iterations, usage, auto_compaction }
+/// Summary of one completed runtime turn, including tool results and usage.
 struct TurnSummary {
     std::vector<ConversationMessage>  assistant_messages;
     std::vector<ConversationMessage>  tool_results;
@@ -98,6 +97,7 @@ struct TurnSummary {
 // ToolError  (Rust: pub struct ToolError { message })
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// Error returned when a tool invocation fails locally.
 struct ToolError {
     std::string message;
 
@@ -110,6 +110,7 @@ struct ToolError {
 // RuntimeError  (Rust: pub struct RuntimeError { message })
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// Error returned when a conversation turn cannot be completed.
 struct RuntimeError {
     std::string message;
 

@@ -1,5 +1,6 @@
 #include "agent_tools.hpp"
 #include "tool_specs.hpp"
+#include "summary_compression.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -16,52 +17,10 @@ namespace claw::tools {
 namespace fs = std::filesystem;
 
 // ── JSON helpers for lane types ───────────────────────────────────────────────
+// Now delegated to runtime::lane_events; kept as thin wrappers for tools code.
 
 std::string_view lane_failure_class_name(LaneFailureClass fc) noexcept {
-    switch (fc) {
-        case LaneFailureClass::PromptDelivery:    return "prompt_delivery";
-        case LaneFailureClass::TrustGate:         return "trust_gate";
-        case LaneFailureClass::BranchDivergence:  return "branch_divergence";
-        case LaneFailureClass::Compile:           return "compile";
-        case LaneFailureClass::Test:              return "test";
-        case LaneFailureClass::PluginStartup:     return "plugin_startup";
-        case LaneFailureClass::McpStartup:        return "mcp_startup";
-        case LaneFailureClass::McpHandshake:      return "mcp_handshake";
-        case LaneFailureClass::GatewayRouting:    return "gateway_routing";
-        case LaneFailureClass::ToolRuntime:       return "tool_runtime";
-        case LaneFailureClass::Infra:             return "infra";
-    }
-    return "infra";
-}
-
-static std::string_view lane_event_name_str(LaneEventName e) noexcept {
-    switch (e) {
-        case LaneEventName::Started:  return "lane.started";
-        case LaneEventName::Blocked:  return "lane.blocked";
-        case LaneEventName::Finished: return "lane.finished";
-        case LaneEventName::Failed:   return "lane.failed";
-    }
-    return "lane.started";
-}
-
-nlohmann::json to_json(const LaneBlocker& b) {
-    return {
-        {"failureClass", lane_failure_class_name(b.failure_class)},
-        {"detail",       b.detail}
-    };
-}
-
-nlohmann::json to_json(const LaneEvent& ev) {
-    nlohmann::json j = {
-        {"event",     lane_event_name_str(ev.event)},
-        {"status",    ev.status},
-        {"emittedAt", ev.emitted_at}
-    };
-    if (ev.failure_class)
-        j["failureClass"] = lane_failure_class_name(*ev.failure_class);
-    if (ev.detail)
-        j["detail"] = *ev.detail;
-    return j;
+    return claw::runtime::lane_failure_class_wire(fc);
 }
 
 nlohmann::json to_json(const AgentOutput& ao) {
@@ -81,11 +40,18 @@ nlohmann::json to_json(const AgentOutput& ao) {
     if (ao.started_at)    j["startedAt"]    = *ao.started_at;
     if (ao.completed_at)  j["completedAt"]  = *ao.completed_at;
     if (ao.error)         j["error"]        = *ao.error;
-    if (ao.current_blocker) j["currentBlocker"] = to_json(*ao.current_blocker);
+    if (ao.current_blocker) {
+        nlohmann::json blocker_j;
+        claw::runtime::to_json(blocker_j, *ao.current_blocker);
+        j["currentBlocker"] = blocker_j;
+    }
 
     auto events_arr = nlohmann::json::array();
-    for (auto& ev : ao.lane_events)
-        events_arr.push_back(to_json(ev));
+    for (auto& ev : ao.lane_events) {
+        nlohmann::json ev_j;
+        claw::runtime::to_json(ev_j, ev);
+        events_arr.push_back(ev_j);
+    }
     j["laneEvents"] = events_arr;
     return j;
 }
@@ -191,7 +157,7 @@ std::set<std::string> allowed_tools_for_subagent(const std::string& subagent_typ
 LaneFailureClass classify_lane_failure(const std::string& error) {
     std::string n = error;
     std::transform(n.begin(), n.end(), n.begin(),
-        [](unsigned char c) { return std::tolower(c); });
+        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
 
     if (n.find("prompt") != std::string::npos && n.find("deliver") != std::string::npos)
         return LaneFailureClass::PromptDelivery;
@@ -200,22 +166,25 @@ LaneFailureClass classify_lane_failure(const std::string& error) {
     if (n.find("branch") != std::string::npos &&
         (n.find("stale") != std::string::npos || n.find("diverg") != std::string::npos))
         return LaneFailureClass::BranchDivergence;
+    // GatewayRouting moved before Compile/Test (mirrors Rust reorder)
+    if (n.find("gateway") != std::string::npos || n.find("routing") != std::string::npos)
+        return LaneFailureClass::GatewayRouting;
     if (n.find("compile") != std::string::npos || n.find("build failed") != std::string::npos ||
         n.find("cargo check") != std::string::npos)
         return LaneFailureClass::Compile;
     if (n.find("test") != std::string::npos)
         return LaneFailureClass::Test;
+    // ToolRuntime now uses narrower matching (mirrors Rust change)
+    if (n.find("tool failed") != std::string::npos ||
+        n.find("runtime tool") != std::string::npos ||
+        n.find("tool runtime") != std::string::npos)
+        return LaneFailureClass::ToolRuntime;
     if (n.find("plugin") != std::string::npos)
         return LaneFailureClass::PluginStartup;
     if (n.find("mcp") != std::string::npos && n.find("handshake") != std::string::npos)
         return LaneFailureClass::McpHandshake;
     if (n.find("mcp") != std::string::npos)
         return LaneFailureClass::McpStartup;
-    if (n.find("gateway") != std::string::npos || n.find("routing") != std::string::npos)
-        return LaneFailureClass::GatewayRouting;
-    if (n.find("tool") != std::string::npos || n.find("hook") != std::string::npos ||
-        n.find("permission") != std::string::npos || n.find("denied") != std::string::npos)
-        return LaneFailureClass::ToolRuntime;
     return LaneFailureClass::Infra;
 }
 
@@ -257,7 +226,7 @@ append_agent_output(const std::string& path, const std::string& suffix) {
 static std::string format_agent_terminal_output(
     const std::string& status,
     const std::optional<std::string>& result,
-    const std::optional<LaneBlocker>& blocker,
+    const std::optional<LaneEventBlocker>& blocker,
     const std::optional<std::string>& error)
 {
     std::string out = "\n## Result\n\n- status: " + status + "\n";
@@ -285,7 +254,7 @@ persist_agent_terminal_state(AgentOutput& manifest,
                               const std::optional<std::string>& result,
                               const std::optional<std::string>& error)
 {
-    std::optional<LaneBlocker> blocker;
+    std::optional<LaneEventBlocker> blocker;
     if (error) blocker = classify_lane_blocker(*error);
 
     auto suffix = format_agent_terminal_output(status, result, blocker, error);
@@ -298,19 +267,25 @@ persist_agent_terminal_state(AgentOutput& manifest,
     manifest.current_blocker = blocker;
 
     if (blocker) {
-        manifest.lane_events.push_back({
-            LaneEventName::Blocked, status, iso8601_now(),
-            blocker->failure_class, blocker->detail
-        });
-        manifest.lane_events.push_back({
-            LaneEventName::Failed, status, iso8601_now(),
-            blocker->failure_class, blocker->detail
-        });
+        manifest.lane_events.push_back(
+            LaneEvent::blocked(iso8601_now(), *blocker));
+        manifest.lane_events.push_back(
+            LaneEvent::failed(iso8601_now(), *blocker));
     } else {
         manifest.current_blocker = std::nullopt;
-        manifest.lane_events.push_back({
-            LaneEventName::Finished, status, iso8601_now(), std::nullopt, std::nullopt
-        });
+        // Compress detail from result, matching Rust's SummaryCompressor wire-up
+        std::optional<std::string> compressed_detail;
+        if (result && !result->empty()) {
+            auto trimmed = *result;
+            while (!trimmed.empty() && std::isspace(static_cast<unsigned char>(trimmed.back())))
+                trimmed.pop_back();
+            while (!trimmed.empty() && std::isspace(static_cast<unsigned char>(trimmed.front())))
+                trimmed.erase(trimmed.begin());
+            if (!trimmed.empty())
+                compressed_detail = claw::runtime::compress_summary_text(trimmed);
+        }
+        manifest.lane_events.push_back(
+            LaneEvent::finished(iso8601_now(), compressed_detail));
     }
 
     return write_agent_manifest(manifest);
@@ -372,9 +347,7 @@ tl::expected<AgentOutput, std::string> execute_agent(AgentInput input) {
     manifest.manifest_file = manifest_file;
     manifest.created_at   = created_at;
     manifest.started_at   = created_at;
-    manifest.lane_events  = {{
-        LaneEventName::Started, "running", iso8601_now(), std::nullopt, std::nullopt
-    }};
+    manifest.lane_events  = {LaneEvent::started(iso8601_now())};
 
     if (auto r = write_agent_manifest(manifest); !r)
         return tl::unexpected(r.error());

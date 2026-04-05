@@ -30,7 +30,7 @@ uint64_t now_secs() noexcept {
         duration_cast<seconds>(system_clock::now().time_since_epoch()).count());
 }
 
-// Return a truncated preview of a prompt string (≤48 visible chars, then "…").
+// Return a truncated preview of a prompt string (<=48 visible chars, then "...").
 // Mirrors Rust prompt_preview().
 std::string prompt_preview(std::string_view prompt) {
     // Trim leading/trailing whitespace
@@ -65,26 +65,191 @@ std::string prompt_preview(std::string_view prompt) {
     // Trim trailing whitespace from preview then append ellipsis.
     auto trim_end = preview.find_last_not_of(" \t");
     if (trim_end != std::string::npos) preview.erase(trim_end + 1);
-    preview += "\xe2\x80\xa6";  // UTF-8 "…"
+    preview += "\xe2\x80\xa6";  // UTF-8 "..."
     return preview;
 }
 
 // Does the path `cwd` fall under `trusted_root`?
-// Mirrors Rust path_matches_allowlist(): canonicalize if possible, then
-// check equality or prefix.
 bool path_matches_allowlist(std::string_view cwd, std::string_view trusted_root) noexcept {
-    // Delegate to the shared helper declared in trust_resolver.hpp.
     return path_matches_trusted_root(cwd, trusted_root);
 }
 
 // Conservative heuristic: is the last non-empty screen line a shell prompt?
-// Shell prompts end or start with $, %, or #.
 bool is_shell_prompt(std::string_view trimmed) noexcept {
     if (trimmed.empty()) return false;
     char back  = trimmed.back();
     char front = trimmed.front();
     return back  == '$' || back  == '%' || back  == '#'
         || front == '$' || front == '%' || front == '#';
+}
+
+bool is_shell_prompt_token(std::string_view token) noexcept {
+    return token == "$" || token == "%" || token == "#"
+        || token == ">" || token == "\xc2\xbb"         // UTF-8 > (U+203A)
+        || token == "\xe2\x9d\xaf";                     // UTF-8 > (U+276F)
+}
+
+bool looks_like_cwd_label(std::string_view candidate) noexcept {
+    return candidate.starts_with('/')
+        || candidate.starts_with('~')
+        || candidate.starts_with('.')
+        || candidate.find('/') != std::string_view::npos;
+}
+
+std::filesystem::path normalize_path(std::string_view p) {
+    namespace fs = std::filesystem;
+    std::error_code ec;
+    auto canonical = fs::canonical(fs::path(p), ec);
+    if (!ec) return canonical;
+    return fs::path(p);
+}
+
+bool cwd_matches_observed_target(std::string_view expected_cwd, std::string_view observed_cwd) {
+    namespace fs = std::filesystem;
+    auto expected = normalize_path(expected_cwd);
+    auto expected_base = expected.filename().string();
+    if (expected_base.empty()) expected_base = expected.string();
+
+    fs::path observed_path(observed_cwd);
+    auto observed_base = observed_path.filename().string();
+    if (observed_base.empty()) {
+        // Trim colons from observed
+        observed_base = std::string(observed_cwd);
+        while (!observed_base.empty() && observed_base.back() == ':') observed_base.pop_back();
+        while (!observed_base.empty() && observed_base.front() == ':') observed_base.erase(0, 1);
+    }
+
+    auto expected_str = expected.string();
+    return expected_str.ends_with(observed_cwd)
+        || std::string_view(observed_cwd).ends_with(expected_str)
+        || expected_base == observed_base;
+}
+
+std::optional<std::string> detect_observed_shell_cwd(std::string_view screen_text) {
+    std::string_view remaining = screen_text;
+    while (!remaining.empty()) {
+        auto nl = remaining.find('\n');
+        std::string_view line = (nl == std::string_view::npos) ? remaining : remaining.substr(0, nl);
+
+        // Split line into whitespace-separated tokens
+        std::vector<std::string_view> tokens;
+        std::string_view rest = line;
+        while (!rest.empty()) {
+            auto s = rest.find_first_not_of(" \t\r");
+            if (s == std::string_view::npos) break;
+            rest = rest.substr(s);
+            auto e = rest.find_first_of(" \t\r");
+            if (e == std::string_view::npos) {
+                tokens.push_back(rest);
+                rest = {};
+            } else {
+                tokens.push_back(rest.substr(0, e));
+                rest = rest.substr(e);
+            }
+        }
+
+        // Find a shell prompt token and check the token before it
+        for (std::size_t i = 0; i < tokens.size(); ++i) {
+            if (is_shell_prompt_token(tokens[i]) && i > 0) {
+                auto candidate = tokens[i - 1];
+                if (looks_like_cwd_label(candidate)) {
+                    return std::string(candidate);
+                }
+            }
+        }
+
+        if (nl == std::string_view::npos) break;
+        remaining = remaining.substr(nl + 1);
+    }
+    return std::nullopt;
+}
+
+struct PromptDeliveryObservation {
+    WorkerPromptTarget target;
+    std::optional<std::string> observed_cwd;
+};
+
+std::string_view prompt_misdelivery_detail(const PromptDeliveryObservation& observation) {
+    switch (observation.target) {
+        case WorkerPromptTarget::Shell:       return "shell misdelivery detected";
+        case WorkerPromptTarget::WrongTarget: return "prompt landed in wrong target";
+        case WorkerPromptTarget::Unknown:     return "prompt delivery failure detected";
+    }
+    return "prompt delivery failure detected";
+}
+
+// Mirrors Rust detect_prompt_misdelivery with enhanced wrong-target detection.
+std::optional<PromptDeliveryObservation> detect_prompt_misdelivery(
+    std::string_view screen_text,
+    std::string_view lowered,
+    std::optional<std::string_view> prompt,
+    std::string_view expected_cwd)
+{
+    if (!prompt.has_value()) return std::nullopt;
+
+    // Find first non-empty line of prompt, lower-cased and trimmed.
+    std::string prompt_snippet;
+    {
+        std::string_view rem = *prompt;
+        while (!rem.empty()) {
+            auto nl = rem.find('\n');
+            std::string_view line = (nl == std::string_view::npos) ? rem : rem.substr(0, nl);
+            auto s = line.find_first_not_of(" \t\r");
+            if (s != std::string_view::npos) {
+                auto e = line.find_last_not_of(" \t\r");
+                std::string_view trimmed = line.substr(s, e - s + 1);
+                for (unsigned char c : trimmed)
+                    prompt_snippet.push_back(static_cast<char>(std::tolower(c)));
+                break;
+            }
+            if (nl == std::string_view::npos) break;
+            rem = rem.substr(nl + 1);
+        }
+    }
+    if (prompt_snippet.empty()) return std::nullopt;
+    bool prompt_visible = lowered.find(prompt_snippet) != std::string::npos;
+
+    // Check for wrong-target delivery
+    if (auto observed_cwd = detect_observed_shell_cwd(screen_text)) {
+        if (prompt_visible && !cwd_matches_observed_target(expected_cwd, *observed_cwd)) {
+            return PromptDeliveryObservation{
+                WorkerPromptTarget::WrongTarget,
+                std::move(observed_cwd),
+            };
+        }
+    }
+
+    // Check for shell error indicators
+    static constexpr std::string_view SHELL_ERRORS[] = {
+        "command not found",
+        "syntax error near unexpected token",
+        "parse error near",
+        "no such file or directory",
+        "unknown command",
+    };
+    bool shell_error = false;
+    for (auto err : SHELL_ERRORS) {
+        if (lowered.find(err) != std::string::npos) { shell_error = true; break; }
+    }
+
+    if (shell_error && prompt_visible) {
+        return PromptDeliveryObservation{
+            WorkerPromptTarget::Shell,
+            std::nullopt,
+        };
+    }
+
+    return std::nullopt;
+}
+
+bool detect_running_cue(std::string_view lowered) {
+    static constexpr std::string_view RUNNING_CUES[] = {
+        "thinking", "working", "running tests", "inspecting", "analyzing",
+    };
+    for (auto cue : RUNNING_CUES) {
+        if (lowered.find(cue) != std::string::npos) return true;
+    }
+    return false;
 }
 
 } // anonymous namespace
@@ -98,9 +263,7 @@ std::string_view worker_status_name(WorkerStatus s) noexcept {
         case WorkerStatus::Spawning:       return "spawning";
         case WorkerStatus::TrustRequired:  return "trust_required";
         case WorkerStatus::ReadyForPrompt: return "ready_for_prompt";
-        case WorkerStatus::PromptAccepted: return "prompt_accepted";
         case WorkerStatus::Running:        return "running";
-        case WorkerStatus::Blocked:        return "blocked";
         case WorkerStatus::Finished:       return "finished";
         case WorkerStatus::Failed:         return "failed";
     }
@@ -111,16 +274,7 @@ std::string_view worker_status_name(WorkerStatus s) noexcept {
 // Screen-text detectors (free functions declared in worker_boot.hpp)
 // ---------------------------------------------------------------------------
 
-// Mirrors Rust detect_ready_for_prompt().
-// Returns true when the screen clearly shows a "ready for input" cue or
-// one of the Claude prompt-line symbols (>, ›, ❯), but NOT a plain shell
-// prompt (lines ending/starting with $, %, #).
-bool detect_ready_for_prompt(std::string_view screen_text) {
-    // Lower-case copy for keyword search.
-    std::string lowered;
-    lowered.reserve(screen_text.size());
-    for (unsigned char c : screen_text) lowered.push_back(static_cast<char>(std::tolower(c)));
-
+bool detect_ready_for_prompt(std::string_view screen_text, std::string_view lowered) {
     static constexpr std::string_view READY_KEYWORDS[] = {
         "ready for input",
         "ready for your input",
@@ -139,7 +293,6 @@ bool detect_ready_for_prompt(std::string_view screen_text) {
         std::string_view line = (nl == std::string_view::npos)
             ? remaining
             : remaining.substr(0, nl);
-        // Trim the line
         auto s = line.find_first_not_of(" \t\r");
         if (s != std::string_view::npos) {
             auto e = line.find_last_not_of(" \t\r");
@@ -152,21 +305,18 @@ bool detect_ready_for_prompt(std::string_view screen_text) {
     if (last_non_empty.empty()) return false;
     if (is_shell_prompt(last_non_empty)) return false;
 
-    // Exact single-character prompt symbols.
     if (last_non_empty == ">"
-     || last_non_empty == "\xc2\xbb"           // UTF-8 › (U+203A single right angle)
-     || last_non_empty == "\xe2\x9d\xaf")      // UTF-8 ❯ (U+276F)
+     || last_non_empty == "\xc2\xbb"
+     || last_non_empty == "\xe2\x9d\xaf")
     {
         return true;
     }
-    // Prefix forms: "> text", "› text", "❯ text"
     if (last_non_empty.starts_with("> ")
      || last_non_empty.starts_with("\xc2\xbb ")
      || last_non_empty.starts_with("\xe2\x9d\xaf "))
     {
         return true;
     }
-    // Box-drawing forms: "│ >", "│ ›", "│ ❯"
     if (last_non_empty.find("\xe2\x94\x82 >")            != std::string_view::npos
      || last_non_empty.find("\xe2\x94\x82 \xc2\xbb")     != std::string_view::npos
      || last_non_empty.find("\xe2\x94\x82 \xe2\x9d\xaf") != std::string_view::npos)
@@ -177,55 +327,6 @@ bool detect_ready_for_prompt(std::string_view screen_text) {
     return false;
 }
 
-// Mirrors Rust detect_prompt_misdelivery().
-// Returns true when the screen shows a shell error AND the first non-empty
-// line of the prompt appears in the screen text (i.e. the prompt was fed to
-// the shell as a command).
-bool detect_prompt_misdelivery(std::string_view screen_text, std::string_view prompt) {
-    if (prompt.empty()) return false;
-
-    // Lower-case screen text for keyword search.
-    std::string lowered;
-    lowered.reserve(screen_text.size());
-    for (unsigned char c : screen_text) lowered.push_back(static_cast<char>(std::tolower(c)));
-
-    static constexpr std::string_view SHELL_ERRORS[] = {
-        "command not found",
-        "syntax error near unexpected token",
-        "parse error near",
-        "no such file or directory",
-        "unknown command",
-    };
-    bool shell_error = false;
-    for (auto err : SHELL_ERRORS) {
-        if (lowered.find(err) != std::string::npos) { shell_error = true; break; }
-    }
-    if (!shell_error) return false;
-
-    // Find first non-empty line of prompt, lower-cased.
-    std::string_view rem = prompt;
-    std::string first_prompt_line_lower;
-    while (!rem.empty()) {
-        auto nl = rem.find('\n');
-        std::string_view line = (nl == std::string_view::npos) ? rem : rem.substr(0, nl);
-        // Trim
-        auto s = line.find_first_not_of(" \t\r");
-        if (s != std::string_view::npos) {
-            auto e = line.find_last_not_of(" \t\r");
-            std::string_view trimmed = line.substr(s, e - s + 1);
-            for (unsigned char c : trimmed)
-                first_prompt_line_lower.push_back(static_cast<char>(std::tolower(c)));
-            break;
-        }
-        if (nl == std::string_view::npos) break;
-        rem.remove_prefix(nl + 1);
-    }
-
-    // Mirrors Rust: "first_prompt_line.is_empty() || lowered.contains(&first_prompt_line)"
-    return first_prompt_line_lower.empty()
-        || lowered.find(first_prompt_line_lower) != std::string::npos;
-}
-
 // ---------------------------------------------------------------------------
 // WorkerRegistry::push_event  (private)
 // ---------------------------------------------------------------------------
@@ -233,7 +334,8 @@ bool detect_prompt_misdelivery(std::string_view screen_text, std::string_view pr
 void WorkerRegistry::push_event(
     Worker& w,
     WorkerEventKind kind,
-    std::optional<std::string> detail)
+    std::optional<std::string> detail,
+    std::optional<WorkerEventPayload> payload)
 {
     uint64_t ts = now_secs();
     w.events.push_back(WorkerEvent{
@@ -241,6 +343,7 @@ void WorkerRegistry::push_event(
         .kind            = kind,
         .status          = w.status,
         .detail          = std::move(detail),
+        .payload         = std::move(payload),
         .timestamp_epoch = ts,
     });
 }
@@ -255,7 +358,6 @@ Worker WorkerRegistry::create(std::string cwd, std::optional<std::string> prompt
     uint64_t ts = now_secs();
     std::string worker_id = std::format("worker_{:08x}_{}", ts, inner_.counter);
 
-    // Determine whether this cwd is in the trusted-root allowlist.
     bool auto_trusted = false;
     for (const auto& root : trusted_roots_) {
         if (path_matches_allowlist(cwd, root)) {
@@ -269,6 +371,10 @@ Worker WorkerRegistry::create(std::string cwd, std::optional<std::string> prompt
     w.cwd         = cwd;
     w.prompt      = std::move(prompt);
     w.auto_trusted = auto_trusted;
+    w.trust_gate_cleared = false;
+    w.auto_recover_prompt_misdelivery = auto_recover_;
+    w.prompt_delivery_attempts = 0;
+    w.prompt_in_flight = false;
     w.status      = WorkerStatus::Spawning;
     w.event_seq   = 0;
 
@@ -304,11 +410,6 @@ std::size_t WorkerRegistry::len() const {
 // ---------------------------------------------------------------------------
 // WorkerRegistry::observe
 // ---------------------------------------------------------------------------
-// Mirrors Rust WorkerRegistry::observe() in full:
-//   1. Trust-gate detection (with optional auto-resolve for allowlisted cwds)
-//   2. Prompt-misdelivery detection (with optional auto-replay)
-//   3. Running-cue detection (PromptAccepted → Running)
-//   4. Ready-for-prompt detection
 
 tl::expected<Worker, std::string>
 WorkerRegistry::observe(std::string_view worker_id, std::string_view screen_text) {
@@ -324,76 +425,94 @@ WorkerRegistry::observe(std::string_view worker_id, std::string_view screen_text
     lowered.reserve(screen_text.size());
     for (unsigned char c : screen_text) lowered.push_back(static_cast<char>(std::tolower(c)));
 
-    // ── 1. Trust-gate ────────────────────────────────────────────────────────
-    // Only check when the trust gate has not yet been cleared.
-    // (In the C++ model we track this via status == TrustRequired to avoid
-    //  re-entering the trust block; conceptually equivalent to Rust's
-    //  !worker.trust_gate_cleared guard.)
-    if (w.status != WorkerStatus::TrustRequired
-     && detect_trust_prompt(screen_text))
-    {
+    // -- 1. Trust-gate --
+    if (!w.trust_gate_cleared && detect_trust_prompt(screen_text)) {
         w.status = WorkerStatus::TrustRequired;
-        push_event(w, WorkerEventKind::TrustRequired, "trust prompt detected");
+        push_event(w, WorkerEventKind::TrustRequired, "trust prompt detected",
+            WorkerEventPayload{WorkerEventPayload::TrustPrompt{w.cwd, std::nullopt}});
 
         if (w.auto_trusted) {
-            // Allowlisted repo: auto-resolve and keep going.
+            w.trust_gate_cleared = true;
             w.status = WorkerStatus::Spawning;
             push_event(w, WorkerEventKind::TrustResolved,
-                       "allowlisted repo auto-resolved trust prompt");
-            // Fall through to the remaining detectors.
+                       "allowlisted repo auto-resolved trust prompt",
+                       WorkerEventPayload{WorkerEventPayload::TrustPrompt{
+                           w.cwd, WorkerTrustResolution::AutoAllowlisted}});
         } else {
             return w;
         }
     }
 
-    // ── 2. Prompt-misdelivery ─────────────────────────────────────────────────
-    // Relevant only when we have already sent a prompt (PromptAccepted or Running).
-    bool misdelivery_relevant =
-        (w.status == WorkerStatus::PromptAccepted || w.status == WorkerStatus::Running)
-        && w.prompt.has_value();
+    // -- 2. Prompt-misdelivery --
+    bool misdelivery_relevant = w.prompt_in_flight && w.prompt.has_value();
 
-    if (misdelivery_relevant
-     && detect_prompt_misdelivery(lowered, w.prompt.has_value() ? *w.prompt : ""))
-    {
-        std::string detail = "shell misdelivery detected";
-        push_event(w, WorkerEventKind::Blocked, detail);
+    if (misdelivery_relevant) {
+        auto observation = detect_prompt_misdelivery(
+            screen_text, lowered,
+            w.prompt.has_value() ? std::optional<std::string_view>(*w.prompt) : std::nullopt,
+            w.cwd);
 
-        // Always arm replay prompt (mirrors Rust auto_recover_prompt_misdelivery;
-        // in C++ the registry always stores replay_prompt and the caller decides
-        // whether to use it).
-        w.replay_prompt = w.prompt;
-        w.status = WorkerStatus::ReadyForPrompt;
-        push_event(w, WorkerEventKind::ReadyForPrompt,
-                   "prompt replay armed after shell misdelivery");
-        return w;
+        if (observation.has_value()) {
+            auto preview = prompt_preview(w.prompt.value_or(""));
+            std::string message;
+            switch (observation->target) {
+                case WorkerPromptTarget::Shell:
+                    message = std::format("worker prompt landed in shell instead of coding agent: {}", preview);
+                    break;
+                case WorkerPromptTarget::WrongTarget:
+                    message = std::format("worker prompt landed in the wrong target instead of {}: {}", w.cwd, preview);
+                    break;
+                case WorkerPromptTarget::Unknown:
+                    message = std::format("worker prompt delivery failed before reaching coding agent: {}", preview);
+                    break;
+            }
+
+            w.last_error = WorkerFailure{
+                WorkerFailureKind::PromptDelivery,
+                message,
+                now_secs(),
+            };
+            w.prompt_in_flight = false;
+            w.status = WorkerStatus::Failed;
+            push_event(w, WorkerEventKind::PromptMisdelivery,
+                std::string(prompt_misdelivery_detail(*observation)),
+                WorkerEventPayload{WorkerEventPayload::PromptDelivery{
+                    preview, observation->target, observation->observed_cwd, false}});
+
+            if (w.auto_recover_prompt_misdelivery) {
+                w.replay_prompt = w.prompt;
+                w.prompt_delivery_attempts += 1;
+                w.status = WorkerStatus::ReadyForPrompt;
+                push_event(w, WorkerEventKind::PromptReplayArmed,
+                    "prompt replay armed after prompt misdelivery",
+                    WorkerEventPayload{WorkerEventPayload::PromptDelivery{
+                        preview, observation->target,
+                        std::move(observation->observed_cwd), true}});
+            } else {
+                w.status = WorkerStatus::Failed;
+            }
+            return w;
+        }
     }
 
-    // ── 3. Running-cue ───────────────────────────────────────────────────────
-    // Mirrors Rust detect_running_cue: "thinking", "working", "running tests",
-    // "inspecting", "analyzing".
-    static constexpr std::string_view RUNNING_CUES[] = {
-        "thinking", "working", "running tests", "inspecting", "analyzing",
-    };
-    bool running_cue = false;
-    for (auto cue : RUNNING_CUES) {
-        if (lowered.find(cue) != std::string::npos) { running_cue = true; break; }
-    }
-    if (running_cue
-     && (w.status == WorkerStatus::PromptAccepted
-      || w.status == WorkerStatus::ReadyForPrompt))
-    {
+    // -- 3. Running-cue --
+    if (detect_running_cue(lowered) && w.prompt_in_flight) {
+        w.prompt_in_flight = false;
         w.status = WorkerStatus::Running;
-        push_event(w, WorkerEventKind::Running,
-                   "worker accepted prompt and started running");
+        w.last_error = std::nullopt;
     }
 
-    // ── 4. Ready-for-prompt ──────────────────────────────────────────────────
-    // Mirrors Rust: only transition when NOT already ReadyForPrompt or Running.
-    if (detect_ready_for_prompt(screen_text)
-     && w.status != WorkerStatus::ReadyForPrompt
-     && w.status != WorkerStatus::Running)
+    // -- 4. Ready-for-prompt --
+    if (detect_ready_for_prompt(screen_text, lowered)
+        && w.status != WorkerStatus::ReadyForPrompt)
     {
         w.status = WorkerStatus::ReadyForPrompt;
+        w.prompt_in_flight = false;
+        if (w.last_error.has_value()
+            && w.last_error->kind == WorkerFailureKind::TrustGate)
+        {
+            w.last_error = std::nullopt;
+        }
         push_event(w, WorkerEventKind::ReadyForPrompt,
                    "worker is ready for prompt delivery");
     }
@@ -424,8 +543,12 @@ WorkerRegistry::resolve_trust(std::string_view worker_id, bool approved) {
         w.status = WorkerStatus::Failed;
         push_event(w, WorkerEventKind::TrustDenied, "user denied trust");
     } else {
+        w.trust_gate_cleared = true;
         w.status = WorkerStatus::Spawning;
-        push_event(w, WorkerEventKind::TrustResolved, "trust prompt resolved manually");
+        push_event(w, WorkerEventKind::TrustResolved,
+                   "trust prompt resolved manually",
+                   WorkerEventPayload{WorkerEventPayload::TrustPrompt{
+                       w.cwd, WorkerTrustResolution::ManualApproval}});
     }
     return w;
 }
@@ -433,12 +556,6 @@ WorkerRegistry::resolve_trust(std::string_view worker_id, bool approved) {
 // ---------------------------------------------------------------------------
 // WorkerRegistry::send_prompt
 // ---------------------------------------------------------------------------
-// Mirrors Rust send_prompt():
-//   - Worker must be ReadyForPrompt.
-//   - Use caller-provided prompt, or fall back to replay_prompt.
-//   - Increment prompt_delivery_attempts (tracked via event count proxy here;
-//     the C++ Worker struct doesn't carry the counter so we just ensure state
-//     transitions match).
 
 tl::expected<Worker, std::string>
 WorkerRegistry::send_prompt(std::string_view worker_id,
@@ -460,7 +577,6 @@ WorkerRegistry::send_prompt(std::string_view worker_id,
     std::optional<std::string> resolved;
     if (new_prompt.has_value()) {
         std::string trimmed = *new_prompt;
-        // Strip leading/trailing whitespace.
         auto s = trimmed.find_first_not_of(" \t\r\n");
         auto e = trimmed.find_last_not_of(" \t\r\n");
         if (s != std::string::npos) trimmed = trimmed.substr(s, e - s + 1);
@@ -476,11 +592,14 @@ WorkerRegistry::send_prompt(std::string_view worker_id,
     }
 
     std::string preview = prompt_preview(*resolved);
+    w.prompt_delivery_attempts += 1;
+    w.prompt_in_flight = true;
     w.prompt        = resolved;
     w.replay_prompt = std::nullopt;
-    w.status        = WorkerStatus::PromptAccepted;
-    push_event(w, WorkerEventKind::PromptSent,
-               std::format("prompt accepted for delivery: {}", preview));
+    w.last_error    = std::nullopt;
+    w.status        = WorkerStatus::Running;
+    push_event(w, WorkerEventKind::Running,
+               std::format("prompt dispatched to worker: {}", preview));
     return w;
 }
 
@@ -496,6 +615,7 @@ tl::expected<Worker, std::string> WorkerRegistry::terminate(std::string_view wor
     }
     Worker& w = it->second;
     w.status = WorkerStatus::Finished;
+    w.prompt_in_flight = false;
     push_event(w, WorkerEventKind::Finished, "worker terminated by control plane");
     return w;
 }
@@ -511,12 +631,81 @@ tl::expected<Worker, std::string> WorkerRegistry::restart(std::string_view worke
         return tl::unexpected(std::format("worker not found: {}", worker_id));
     }
     Worker& w = it->second;
-    // Reset to initial spawning state; preserve replay_prompt from current prompt.
-    w.replay_prompt = w.prompt;
     w.prompt        = std::nullopt;
+    w.replay_prompt = std::nullopt;
+    w.last_error    = std::nullopt;
+    w.prompt_delivery_attempts = 0;
+    w.prompt_in_flight = false;
     w.status        = WorkerStatus::Spawning;
-    push_event(w, WorkerEventKind::Spawned, "worker restarted");
+    push_event(w, WorkerEventKind::Restarted, "worker restarted");
     return w;
+}
+
+// ---------------------------------------------------------------------------
+// WorkerRegistry::observe_completion
+// ---------------------------------------------------------------------------
+
+tl::expected<Worker, std::string>
+WorkerRegistry::observe_completion(std::string_view worker_id,
+                                    std::string_view finish_reason,
+                                    uint64_t tokens_output) {
+    std::lock_guard lock(mutex_);
+    auto it = inner_.workers.find(std::string(worker_id));
+    if (it == inner_.workers.end()) {
+        return tl::unexpected(std::format("worker not found: {}", worker_id));
+    }
+    Worker& w = it->second;
+
+    bool is_provider_failure =
+        (finish_reason == "unknown" && tokens_output == 0) || finish_reason == "error";
+
+    if (is_provider_failure) {
+        std::string message;
+        if (finish_reason == "unknown" && tokens_output == 0) {
+            message = "session completed with finish='unknown' and zero output -- provider degraded or context exhausted";
+        } else {
+            message = std::format("session failed with finish='{}' -- provider error", finish_reason);
+        }
+
+        w.last_error = WorkerFailure{
+            WorkerFailureKind::Provider,
+            message,
+            now_secs(),
+        };
+        w.status = WorkerStatus::Failed;
+        w.prompt_in_flight = false;
+        push_event(w, WorkerEventKind::Failed, "provider failure classified");
+    } else {
+        w.status = WorkerStatus::Finished;
+        w.prompt_in_flight = false;
+        w.last_error = std::nullopt;
+        push_event(w, WorkerEventKind::Finished,
+            std::format("session completed: finish='{}', tokens={}", finish_reason, tokens_output));
+    }
+
+    return w;
+}
+
+// ---------------------------------------------------------------------------
+// WorkerRegistry::await_ready
+// ---------------------------------------------------------------------------
+
+tl::expected<WorkerReadySnapshot, std::string>
+WorkerRegistry::await_ready(std::string_view worker_id) const {
+    std::lock_guard lock(mutex_);
+    auto it = inner_.workers.find(std::string(worker_id));
+    if (it == inner_.workers.end()) {
+        return tl::unexpected(std::format("worker not found: {}", worker_id));
+    }
+    const Worker& w = it->second;
+    return WorkerReadySnapshot{
+        .worker_id = w.worker_id,
+        .status = w.status,
+        .ready = w.status == WorkerStatus::ReadyForPrompt,
+        .blocked = (w.status == WorkerStatus::TrustRequired || w.status == WorkerStatus::Failed),
+        .replay_prompt_ready = w.replay_prompt.has_value(),
+        .last_error = w.last_error,
+    };
 }
 
 } // namespace claw::runtime

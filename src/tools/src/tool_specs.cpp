@@ -359,6 +359,38 @@ std::vector<ToolSpec> mvp_tool_specs() {
             PM_DANGER_FULL
         },
         {
+            "RunTaskPacket",
+            "Create a background task from a structured task packet.",
+            j::parse(R"({
+                "type": "object",
+                "properties": {
+                    "objective": { "type": "string" },
+                    "scope": { "type": "string" },
+                    "repo": { "type": "string" },
+                    "branch_policy": { "type": "string" },
+                    "acceptance_tests": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                    },
+                    "commit_policy": { "type": "string" },
+                    "reporting_contract": { "type": "string" },
+                    "escalation_policy": { "type": "string" }
+                },
+                "required": [
+                    "objective",
+                    "scope",
+                    "repo",
+                    "branch_policy",
+                    "acceptance_tests",
+                    "commit_policy",
+                    "reporting_contract",
+                    "escalation_policy"
+                ],
+                "additionalProperties": false
+            })"),
+            PM_DANGER_FULL
+        },
+        {
             "TaskGet",
             "Get the status and details of a background task by ID.",
             j::parse(R"({ "type": "object", "properties": { "task_id": { "type": "string" } }, "required": ["task_id"], "additionalProperties": false })"),

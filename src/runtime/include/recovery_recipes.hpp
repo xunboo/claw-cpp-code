@@ -1,4 +1,5 @@
 #pragma once
+#include "worker_boot.hpp"
 #include <string>
 #include <vector>
 #include <optional>
@@ -16,9 +17,14 @@ enum class FailureScenario {
     CompileRedCrossCrate,
     McpHandshakeFailure,
     PartialPluginStartup,
+    ProviderFailure,
 };
 
 [[nodiscard]] std::string_view failure_scenario_name(FailureScenario s) noexcept;
+
+/// Map a WorkerFailureKind to the corresponding FailureScenario.
+/// This is the bridge that lets recovery policy consume worker boot events.
+[[nodiscard]] FailureScenario from_worker_failure_kind(WorkerFailureKind kind) noexcept;
 
 // Recovery steps
 struct StepRetryWithDelay       { uint64_t delay_ms{1000}; };
@@ -27,6 +33,7 @@ struct StepEscalateToHuman      {};
 struct StepRestartComponent     { std::string component; };
 struct StepRetryMcpHandshake    { uint64_t timeout_ms{30000}; };
 struct StepRestartPlugin        { std::string name; };
+struct StepRestartWorker        {};
 struct StepSkipAndContinue      {};
 
 using RecoveryStep = std::variant<
@@ -36,6 +43,7 @@ using RecoveryStep = std::variant<
     StepRestartComponent,
     StepRetryMcpHandshake,
     StepRestartPlugin,
+    StepRestartWorker,
     StepSkipAndContinue
 >;
 

@@ -13,6 +13,7 @@
 
 namespace claw::runtime {
 
+/// Fully assembled request payload sent to the upstream model client.
 struct ApiRequest {
     std::string model;
     std::string system_prompt;
@@ -22,7 +23,7 @@ struct ApiRequest {
     nlohmann::json tool_definitions;
 };
 
-// Events emitted during a conversation turn
+/// Streamed events emitted while processing a single assistant turn.
 struct EventTextDelta       { std::string text; };
 struct EventToolUse         { std::string id; std::string name; nlohmann::json input; };
 struct EventThinkingDelta   { std::string thinking; };
@@ -33,21 +34,21 @@ using AssistantEvent = std::variant<EventTextDelta, EventToolUse, EventThinkingD
 
 using EventCallback = std::function<void(AssistantEvent)>;
 
-// Abstract API client
+/// Minimal streaming API contract required by ConversationRuntime.
 class ApiClient {
 public:
     virtual ~ApiClient() = default;
     virtual void stream_request(const ApiRequest& req, EventCallback callback) = 0;
 };
 
-// Abstract tool executor
+/// Trait implemented by tool dispatchers that execute model-requested tools.
 class ToolExecutor {
 public:
     virtual ~ToolExecutor() = default;
     virtual nlohmann::json execute(std::string_view tool_name, const nlohmann::json& input) = 0;
 };
 
-// Static tool executor: maps tool name → function
+/// Simple in-memory tool executor for tests and lightweight integrations.
 class StaticToolExecutor : public ToolExecutor {
 public:
     using ToolFn = std::function<nlohmann::json(const nlohmann::json&)>;
@@ -67,6 +68,7 @@ struct ConversationConfig {
     bool enable_hooks{false};
 };
 
+/// Coordinates the model loop, tool execution, hooks, and session updates.
 class ConversationRuntime {
 public:
     ConversationRuntime(std::shared_ptr<ApiClient> client,
@@ -89,7 +91,7 @@ private:
     UsageTracker usage_tracker_;
 };
 
-// Read CLAW_AUTO_COMPACT_THRESHOLD env variable
+/// Reads the automatic compaction threshold from the environment.
 [[nodiscard]] std::optional<std::size_t> auto_compaction_threshold_from_env();
 
 } // namespace claw::runtime

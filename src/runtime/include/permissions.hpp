@@ -12,6 +12,8 @@ namespace claw::runtime {
 // PermissionMode — ordered so that >= comparisons work as in Rust (Ord derive)
 // ReadOnly < WorkspaceWrite < DangerFullAccess < Prompt < Allow
 // ---------------------------------------------------------------------------
+
+/// Permission level assigned to a tool invocation or runtime session.
 enum class PermissionMode {
     ReadOnly         = 0,
     WorkspaceWrite   = 1,
@@ -25,6 +27,8 @@ enum class PermissionMode {
 // ---------------------------------------------------------------------------
 // PermissionOverride — used by PermissionContext (hook pre-decisions)
 // ---------------------------------------------------------------------------
+
+/// Hook-provided override applied before standard permission evaluation.
 enum class PermissionOverride {
     Allow,
     Deny,
@@ -34,6 +38,8 @@ enum class PermissionOverride {
 // ---------------------------------------------------------------------------
 // PermissionContext — carries an optional hook override decision + reason
 // ---------------------------------------------------------------------------
+
+/// Additional permission context supplied by hooks or higher-level orchestration.
 struct PermissionContext {
     std::optional<PermissionOverride> override_decision;
     std::optional<std::string>        override_reason;
@@ -57,6 +63,8 @@ struct PermissionContext {
 // ---------------------------------------------------------------------------
 // PermissionRequest — passed to the prompter
 // ---------------------------------------------------------------------------
+
+/// Full authorization request presented to a permission prompt.
 struct PermissionRequest {
     std::string    tool_name;
     std::string    input;
@@ -68,6 +76,8 @@ struct PermissionRequest {
 // ---------------------------------------------------------------------------
 // PermissionPromptDecision — what the prompter decided
 // ---------------------------------------------------------------------------
+
+/// User-facing decision returned by a PermissionPrompter.
 struct PermissionPromptDecision {
     bool        allowed{false};
     std::string reason;  // non-empty when denied
@@ -79,6 +89,8 @@ struct PermissionPromptDecision {
 // ---------------------------------------------------------------------------
 // PermissionPrompter — abstract interface (mirrors Rust trait)
 // ---------------------------------------------------------------------------
+
+/// Prompting interface used when policy requires interactive approval.
 class PermissionPrompter {
 public:
     virtual ~PermissionPrompter() = default;
@@ -88,6 +100,8 @@ public:
 // ---------------------------------------------------------------------------
 // PermissionOutcome — result of a permission check
 // ---------------------------------------------------------------------------
+
+/// Final authorization result after evaluating static rules and prompts.
 struct PermissionOutcome {
     bool        allowed{false};
     std::string deny_reason;
@@ -155,6 +169,8 @@ struct RuntimePermissionRuleConfig {
 // ---------------------------------------------------------------------------
 // PermissionPolicy — the central decision engine
 // ---------------------------------------------------------------------------
+
+/// Evaluates permission mode requirements plus allow/deny/ask rules.
 class PermissionPolicy {
 public:
     explicit PermissionPolicy(PermissionMode active_mode);

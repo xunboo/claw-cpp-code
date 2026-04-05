@@ -125,6 +125,76 @@ bool McpServerManagerError::is_io() const {
     return std::holds_alternative<IoVariant>(variant);
 }
 
+// ── lifecycle integration helpers (mirrors Rust McpServerManagerError methods) ──
+
+static McpLifecyclePhase lifecycle_phase_for_method(const char* method) {
+    std::string_view m(method);
+    if (m == "initialize")     return McpLifecyclePhase::InitializeHandshake;
+    if (m == "tools/list")     return McpLifecyclePhase::ToolDiscovery;
+    if (m == "resources/list") return McpLifecyclePhase::ResourceDiscovery;
+    if (m == "resources/read" || m == "tools/call") return McpLifecyclePhase::Invocation;
+    return McpLifecyclePhase::ErrorSurfacing;
+}
+
+McpLifecyclePhase McpServerManagerError::lifecycle_phase() const {
+    return std::visit([](const auto& v) -> McpLifecyclePhase {
+        using T = std::decay_t<decltype(v)>;
+        if constexpr (std::is_same_v<T, IoVariant>) {
+            return McpLifecyclePhase::SpawnConnect;
+        } else if constexpr (std::is_same_v<T, TransportVariant>
+                          || std::is_same_v<T, JsonRpcVariant>
+                          || std::is_same_v<T, InvalidResponseVariant>
+                          || std::is_same_v<T, TimeoutVariant>) {
+            return lifecycle_phase_for_method(v.method);
+        } else if constexpr (std::is_same_v<T, UnknownToolVariant>) {
+            return McpLifecyclePhase::ToolDiscovery;
+        } else if constexpr (std::is_same_v<T, UnknownServerVariant>) {
+            return McpLifecyclePhase::ServerRegistration;
+        }
+        return McpLifecyclePhase::ErrorSurfacing;
+    }, variant);
+}
+
+bool McpServerManagerError::recoverable() const {
+    auto phase = lifecycle_phase();
+    if (phase == McpLifecyclePhase::InitializeHandshake) return false;
+    return is_transport() || is_timeout();
+}
+
+std::map<std::string, std::string> McpServerManagerError::error_context() const {
+    return std::visit([](const auto& v) -> std::map<std::string, std::string> {
+        using T = std::decay_t<decltype(v)>;
+        if constexpr (std::is_same_v<T, IoVariant>) {
+            return {{"kind", v.message}};
+        } else if constexpr (std::is_same_v<T, TransportVariant>) {
+            return {{"server", v.server_name}, {"method", v.method}, {"io_kind", v.source_message}};
+        } else if constexpr (std::is_same_v<T, JsonRpcVariant>) {
+            return {{"server", v.server_name}, {"method", v.method},
+                    {"jsonrpc_code", std::to_string(v.error.code)}};
+        } else if constexpr (std::is_same_v<T, InvalidResponseVariant>) {
+            return {{"server", v.server_name}, {"method", v.method}, {"details", v.details}};
+        } else if constexpr (std::is_same_v<T, TimeoutVariant>) {
+            return {{"server", v.server_name}, {"method", v.method},
+                    {"timeout_ms", std::to_string(v.timeout_ms)}};
+        } else if constexpr (std::is_same_v<T, UnknownToolVariant>) {
+            return {{"qualified_tool", v.qualified_name}};
+        } else if constexpr (std::is_same_v<T, UnknownServerVariant>) {
+            return {{"server", v.server_name}};
+        }
+        return {};
+    }, variant);
+}
+
+McpDiscoveryFailure McpServerManagerError::discovery_failure(const std::string& server_name) const {
+    return McpDiscoveryFailure{
+        server_name,
+        lifecycle_phase(),
+        to_string(),
+        recoverable(),
+        error_context(),
+    };
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // §2  JSON-RPC id helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1651,9 +1721,12 @@ McpToolDiscoveryReport McpServerManager::discover_tools_best_effort() {
     McpToolDiscoveryReport report;
     report.unsupported_servers = st.unsupported_servers;
 
+    std::vector<std::string> working_servers;
+
     for (const auto& srv_name : names) {
         auto tools_r = discover_tools_for_server(st, srv_name);
         if (tools_r) {
+            working_servers.push_back(srv_name);
             clear_routes_for_server(st, srv_name);
             for (const auto& tool : *tools_r) {
                 st.tool_index.emplace(tool.qualified_name,
@@ -1662,10 +1735,48 @@ McpToolDiscoveryReport McpServerManager::discover_tools_best_effort() {
             }
         } else {
             clear_routes_for_server(st, srv_name);
-            report.failures.push_back(McpDiscoveryFailure{
-                srv_name, tools_r.error().to_string()
-            });
+            report.failures.push_back(tools_r.error().discovery_failure(srv_name));
         }
+    }
+
+    // Build degraded report when some servers work but others failed
+    std::vector<McpFailedServer> degraded_failed;
+    for (const auto& failure : report.failures) {
+        degraded_failed.push_back(McpFailedServer{
+            failure.server_name,
+            failure.phase,
+            McpErrorSurface::make(
+                failure.phase,
+                failure.server_name,
+                failure.error,
+                failure.context,
+                failure.recoverable),
+        });
+    }
+    for (const auto& unsup : st.unsupported_servers) {
+        degraded_failed.push_back(McpFailedServer{
+            unsup.server_name,
+            McpLifecyclePhase::ServerRegistration,
+            McpErrorSurface::make(
+                McpLifecyclePhase::ServerRegistration,
+                unsup.server_name,
+                unsup.reason,
+                {{"transport", unsup.transport}},
+                false),
+        });
+    }
+
+    if (!working_servers.empty() && !degraded_failed.empty()) {
+        std::vector<std::string> available_tools;
+        for (const auto& tool : report.tools) {
+            available_tools.push_back(tool.qualified_name);
+        }
+        report.degraded_startup = McpDegradedReport{
+            std::move(working_servers),
+            std::move(degraded_failed),
+            std::move(available_tools),
+            {}, // missing_tools
+        };
     }
 
     return report;

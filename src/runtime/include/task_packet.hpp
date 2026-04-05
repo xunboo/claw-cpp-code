@@ -1,85 +1,50 @@
 #pragma once
-#include "green_contract.hpp"
 #include <string>
 #include <vector>
 #include <optional>
-#include <variant>
-#include <map>
 #include <tl/expected.hpp>
 #include <nlohmann/json.hpp>
 
 namespace claw::runtime {
 
-struct RepoConfig {
-    std::string repo_root;
-    std::string worktree_root;
-};
-
-struct TaskScopeGlobal {};
-struct TaskScopeFiles { std::vector<std::string> paths; };
-struct TaskScopeDirectory { std::string directory; };
-
-using TaskScope = std::variant<TaskScopeGlobal, TaskScopeFiles, TaskScopeDirectory>;
-
-// Resolve relative paths in scope to absolute using dispatch_root
-[[nodiscard]] TaskScope resolve_task_scope_paths(const TaskScope& scope, const std::string& dispatch_root);
-
-// Branch policies
-struct BranchPolicyCreateNew { std::string prefix; };
-struct BranchPolicyUseExisting { std::string name; };
-struct BranchPolicyWorktreeIsolated {};
-
-using BranchPolicy = std::variant<BranchPolicyCreateNew, BranchPolicyUseExisting, BranchPolicyWorktreeIsolated>;
-
-// Commit policies
-struct CommitPolicyCommitPerTask {};
-struct CommitPolicySquashOnMerge {};
-struct CommitPolicyNoAutoCommit {};
-
-using CommitPolicy = std::variant<CommitPolicyCommitPerTask, CommitPolicySquashOnMerge, CommitPolicyNoAutoCommit>;
-
-// Acceptance tests
-struct AccTestCargoTest { std::optional<std::string> filter; };
-struct AccTestCustomCommand { std::string cmd; };
-struct AccTestGreenLevel { GreenLevel level; };
-
-using AcceptanceTest = std::variant<AccTestCargoTest, AccTestCustomCommand, AccTestGreenLevel>;
-
-// Reporting
-enum class ReportingContract { EventStream, Summary, Silent };
-
-// Escalation
-struct EscalationPolicyRetryThenEscalate { uint32_t max_retries{3}; };
-struct EscalationPolicyAutoEscalate {};
-struct EscalationPolicyNeverEscalate {};
-
-using EscalationPolicy = std::variant<EscalationPolicyRetryThenEscalate, EscalationPolicyAutoEscalate, EscalationPolicyNeverEscalate>;
-
+/// Simplified task packet: all fields are plain strings.
+/// Mirrors Rust TaskPacket after simplification.
 struct TaskPacket {
-    std::string id;
     std::string objective;
-    RepoConfig repo;
-    TaskScope scope{TaskScopeGlobal{}};
-    BranchPolicy branch_policy{BranchPolicyCreateNew{"task/"}};
-    CommitPolicy commit_policy{CommitPolicyCommitPerTask{}};
-    std::vector<AcceptanceTest> acceptance_tests;
-    ReportingContract reporting{ReportingContract::Summary};
-    EscalationPolicy escalation{EscalationPolicyRetryThenEscalate{3}};
-    std::map<std::string, nlohmann::json> metadata;
+    std::string scope;
+    std::string repo;
+    std::string branch_policy;
+    std::vector<std::string> acceptance_tests;
+    std::string commit_policy;
+    std::string reporting_contract;
+    std::string escalation_policy;
+
+    bool operator==(const TaskPacket&) const = default;
 };
 
-// Newtype wrapper for validated packets
+/// Validation error listing all field-level issues.
+struct TaskPacketValidationError {
+    std::vector<std::string> errors;
+    [[nodiscard]] std::string to_string() const;
+};
+
+/// Newtype wrapper for validated packets.
 class ValidatedPacket {
 public:
     explicit ValidatedPacket(TaskPacket packet) : packet_(std::move(packet)) {}
     [[nodiscard]] const TaskPacket& packet() const noexcept { return packet_; }
+    [[nodiscard]] TaskPacket into_inner() && { return std::move(packet_); }
 
 private:
     TaskPacket packet_;
 };
 
-// Validate a packet; returns list of error strings (empty = valid)
-[[nodiscard]] tl::expected<ValidatedPacket, std::vector<std::string>>
+/// Validate a packet; returns validated wrapper or list of error strings.
+[[nodiscard]] tl::expected<ValidatedPacket, TaskPacketValidationError>
     validate_packet(const TaskPacket& packet);
+
+// JSON serialization helpers (mirrors Rust serde Serialize/Deserialize)
+void to_json(nlohmann::json& j, const TaskPacket& p);
+void from_json(const nlohmann::json& j, TaskPacket& p);
 
 } // namespace claw::runtime

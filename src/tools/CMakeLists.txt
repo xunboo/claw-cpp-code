@@ -23,6 +23,7 @@ add_library(claw_tools STATIC
     src/web_tools.cpp
     src/agent_tools.cpp
     src/misc_tools.cpp
+    src/lane_completion.cpp
 )
 
 target_include_directories(claw_tools

@@ -33,6 +33,33 @@ Task TaskRegistry::create(std::string_view prompt, std::optional<std::string_vie
         .task_id = task_id,
         .prompt = std::string(prompt),
         .description = description.has_value() ? std::optional<std::string>(std::string(*description)) : std::nullopt,
+        .task_packet = std::nullopt,
+        .status = TaskStatus::Created,
+        .created_at = ts,
+        .updated_at = ts,
+    };
+    inner_.tasks.emplace(task_id, task);
+    return task;
+}
+
+tl::expected<Task, TaskPacketValidationError>
+TaskRegistry::create_from_packet(TaskPacket packet) {
+    auto validated = validate_packet(packet);
+    if (!validated.has_value()) {
+        return tl::unexpected(validated.error());
+    }
+    auto inner_packet = std::move(validated).value().into_inner();
+    std::string prompt_str = inner_packet.objective;
+    std::string scope_str = inner_packet.scope;
+    std::lock_guard lock(mutex_);
+    ++inner_.counter;
+    uint64_t ts = now_secs();
+    std::string task_id = std::format("task_{:08x}_{}", ts, inner_.counter);
+    Task task{
+        .task_id = task_id,
+        .prompt = std::move(prompt_str),
+        .description = std::move(scope_str),
+        .task_packet = std::move(inner_packet),
         .status = TaskStatus::Created,
         .created_at = ts,
         .updated_at = ts,

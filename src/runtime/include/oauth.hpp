@@ -7,6 +7,7 @@
 
 namespace claw::runtime {
 
+/// Persisted OAuth access token bundle used by the CLI.
 struct OAuthTokenSet {
     std::string access_token;
     std::optional<std::string> refresh_token;
@@ -15,14 +16,17 @@ struct OAuthTokenSet {
     std::optional<std::string> scope;
 };
 
+/// Challenge algorithms supported by the local PKCE helpers.
 enum class PkceChallengeMethod { S256 };
 
+/// PKCE verifier/challenge pair generated for an OAuth authorization flow.
 struct PkceCodePair {
     std::string code_verifier;   // raw 32-byte base64url
     std::string code_challenge;  // SHA256 of verifier, base64url
     PkceChallengeMethod method{PkceChallengeMethod::S256};
 };
 
+/// Parameters needed to build an authorization URL for browser-based login.
 struct OAuthAuthorizationRequest {
     std::string authorization_endpoint;
     std::string client_id;
@@ -34,6 +38,7 @@ struct OAuthAuthorizationRequest {
     [[nodiscard]] std::string build_url() const;
 };
 
+/// Request body for exchanging an OAuth authorization code for tokens.
 struct OAuthTokenExchangeRequest {
     std::string token_endpoint;
     std::string client_id;
@@ -44,6 +49,7 @@ struct OAuthTokenExchangeRequest {
     [[nodiscard]] std::string form_params() const;
 };
 
+/// Request body for refreshing an existing OAuth token set.
 struct OAuthRefreshRequest {
     std::string token_endpoint;
     std::string client_id;

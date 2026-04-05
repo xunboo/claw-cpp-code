@@ -42,6 +42,7 @@ set(RUNTIME_HEADERS
     include/green_contract.hpp
     include/hooks.hpp
     include/json_value.hpp
+    include/lane_events.hpp
     include/lsp_client.hpp
     include/mcp.hpp
     include/mcp_client.hpp
@@ -81,6 +82,7 @@ set(RUNTIME_SOURCES
     src/green_contract.cpp
     src/hooks.cpp
     src/json_value.cpp
+    src/lane_events.cpp
     src/lsp_client.cpp
     src/mcp.cpp
     src/mcp_client.cpp

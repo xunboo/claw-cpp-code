@@ -10,9 +10,10 @@
 
 namespace claw::runtime {
 
+/// Speaker role associated with a persisted conversation message.
 enum class MessageRole { User, Assistant };
 
-// ContentBlock variants
+/// Structured message content stored inside a Session.
 struct TextBlock    { std::string text; };
 struct ToolUseBlock { std::string id; std::string name; nlohmann::json input; };
 struct ToolResultBlock {
@@ -31,6 +32,7 @@ struct TokenUsageMsg {
     uint32_t cache_read_input_tokens{0};
 };
 
+/// One conversation message with optional token-usage metadata.
 struct ConversationMessage {
     MessageRole role;
     std::vector<ContentBlock> blocks;
@@ -41,6 +43,7 @@ struct ConversationMessage {
 inline constexpr std::size_t SESSION_ROTATION_BYTES = 256 * 1024;
 inline constexpr std::size_t SESSION_MAX_ROTATED     = 3;
 
+/// Persisted conversational state for the runtime and CLI session manager.
 struct Session {
     std::string id;
     std::string model;

@@ -62,7 +62,8 @@ public:
     [[nodiscard]] ToolSearchOutput search(
         const std::string& query,
         std::size_t max_results,
-        std::optional<std::vector<std::string>> pending_mcp_servers) const;
+        std::optional<std::vector<std::string>> pending_mcp_servers,
+        std::optional<nlohmann::json> mcp_degraded = std::nullopt) const;
 
     /// Execute a tool by name; delegates to built-ins or plugin tools.
     [[nodiscard]] tl::expected<std::string, std::string>

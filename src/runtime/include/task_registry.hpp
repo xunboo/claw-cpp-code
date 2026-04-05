@@ -1,4 +1,5 @@
 #pragma once
+#include "task_packet.hpp"
 #include <string>
 #include <vector>
 #include <optional>
@@ -30,6 +31,7 @@ struct Task {
     std::string task_id;
     std::string prompt;
     std::optional<std::string> description;
+    std::optional<TaskPacket> task_packet;
     TaskStatus status{TaskStatus::Created};
     uint64_t created_at{0};
     uint64_t updated_at{0};
@@ -43,6 +45,7 @@ public:
     TaskRegistry() = default;
 
     [[nodiscard]] Task create(std::string_view prompt, std::optional<std::string_view> description = std::nullopt);
+    [[nodiscard]] tl::expected<Task, TaskPacketValidationError> create_from_packet(TaskPacket packet);
     [[nodiscard]] std::optional<Task> get(std::string_view task_id) const;
     [[nodiscard]] std::vector<Task> list(std::optional<TaskStatus> status_filter = std::nullopt) const;
     [[nodiscard]] tl::expected<Task, std::string> stop(std::string_view task_id);

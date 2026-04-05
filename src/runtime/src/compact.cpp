@@ -600,8 +600,8 @@ static std::string format_compact_summary_str(std::string_view summary) {
 }
 
 // ─── Internal: get_compact_continuation_message_str ──────────────────────────
-// Mirrors Rust get_compact_continuation_message.
 
+/// Builds the synthetic system message used after session compaction.
 static std::string get_compact_continuation_message_str(
     std::string_view summary,
     bool suppress_follow_up_questions,

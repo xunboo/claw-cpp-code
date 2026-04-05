@@ -1,7 +1,8 @@
 #pragma once
-// mcp_stdio.hpp — C++20 faithful conversion of mcp_stdio.rs
+// mcp_stdio.hpp -- C++20 faithful conversion of mcp_stdio.rs
 // Namespace: runtime  (matching existing codebase convention)
 
+#include "mcp_lifecycle_hardened.hpp"
 #include <string>
 #include <vector>
 #include <optional>
@@ -186,21 +187,26 @@ struct ManagedMcpTool {
 
 // Rust: UnsupportedMcpServer { server_name, transport, reason }
 struct UnsupportedMcpServer {
-    std::string name;        // server_name in Rust
+    std::string server_name;
+    std::string transport;
     std::string reason;
 };
 
-// Rust: McpDiscoveryFailure { server_name, error }
+// Rust: McpDiscoveryFailure { server_name, phase, error, recoverable, context }
 struct McpDiscoveryFailure {
     std::string server_name;
+    McpLifecyclePhase phase{McpLifecyclePhase::ToolDiscovery};
     std::string error;
+    bool recoverable{false};
+    std::map<std::string, std::string> context;
 };
 
-// Rust: McpToolDiscoveryReport { tools, failed_servers, unsupported_servers }
+// Rust: McpToolDiscoveryReport { tools, failed_servers, unsupported_servers, degraded_startup }
 struct McpToolDiscoveryReport {
-    std::vector<ManagedMcpTool>     tools;
-    std::vector<McpDiscoveryFailure> failures;           // failed_servers in Rust
+    std::vector<ManagedMcpTool>       tools;
+    std::vector<McpDiscoveryFailure>  failures;           // failed_servers in Rust
     std::vector<UnsupportedMcpServer> unsupported_servers;
+    std::optional<McpDegradedReport>  degraded_startup;
 };
 
 // ─── McpServerManagerError — rich variant matching Rust enum ─────────────────
@@ -263,6 +269,12 @@ struct McpServerManagerError {
     [[nodiscard]] bool is_timeout()          const;
     [[nodiscard]] bool is_invalid_response() const;
     [[nodiscard]] bool is_io()               const;
+
+    // Lifecycle integration (mirrors Rust McpServerManagerError methods)
+    [[nodiscard]] McpLifecyclePhase lifecycle_phase() const;
+    [[nodiscard]] bool recoverable() const;
+    [[nodiscard]] McpDiscoveryFailure discovery_failure(const std::string& server_name) const;
+    [[nodiscard]] std::map<std::string, std::string> error_context() const;
 };
 
 // ─── Content-Length framing (free-function versions for POSIX fd) ─────────────

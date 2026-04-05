@@ -26,6 +26,8 @@ bool PolicyEngine::condition_matches(const PolicyCondition& cond, const LaneCont
             return ctx.blocker;
         } else if constexpr (std::is_same_v<T, ConditionLaneCompleted>) {
             return ctx.completed;
+        } else if constexpr (std::is_same_v<T, ConditionLaneReconciled>) {
+            return ctx.reconciled;
         } else if constexpr (std::is_same_v<T, ConditionReviewPassed>) {
             return ctx.review_status;
         } else if constexpr (std::is_same_v<T, ConditionScopedDiff>) {

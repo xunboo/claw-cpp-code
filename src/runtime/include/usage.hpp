@@ -7,6 +7,7 @@
 
 namespace claw::runtime {
 
+/// Per-million-token pricing used for cost estimation.
 struct ModelPricing {
     double input_cost_per_million;
     double output_cost_per_million;
@@ -18,6 +19,7 @@ struct ModelPricing {
     }
 };
 
+/// Token counters accumulated for a conversation turn or session.
 struct TokenUsage {
     uint32_t input_tokens{0};
     uint32_t output_tokens{0};
@@ -31,6 +33,7 @@ struct TokenUsage {
     [[nodiscard]] bool operator==(const TokenUsage&) const noexcept = default;
 };
 
+/// Estimated dollar cost derived from a TokenUsage sample.
 struct UsageCostEstimate {
     double input_cost_usd{0.0};
     double output_cost_usd{0.0};
@@ -42,11 +45,14 @@ struct UsageCostEstimate {
     }
 };
 
+/// Returns pricing metadata for a known model alias or family.
 [[nodiscard]] std::optional<ModelPricing> pricing_for_model(std::string_view model);
 [[nodiscard]] UsageCostEstimate estimate_cost_usd(TokenUsage usage, ModelPricing pricing = ModelPricing::default_sonnet_tier());
+/// Formats a dollar-denominated value for CLI display.
 [[nodiscard]] std::string format_usd(double amount);
 [[nodiscard]] std::vector<std::string> token_usage_summary_lines(TokenUsage usage, std::string_view label, std::optional<std::string_view> model = std::nullopt);
 
+/// Aggregates token usage across a running session.
 class UsageTracker {
 public:
     UsageTracker() = default;

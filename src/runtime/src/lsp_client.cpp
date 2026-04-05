@@ -123,14 +123,28 @@ LspRegistry::dispatch(std::string_view language, LspActionKind action, const nlo
     // Return cached diagnostics for diagnostics action
     if (action == LspActionKind::Diagnostics) {
         nlohmann::json arr = nlohmann::json::array();
+        std::optional<std::string> path_filter;
+        if (params.contains("path")) path_filter = params["path"].get<std::string>();
         for (const auto& d : it->second.diagnostics) {
-            arr.push_back({{"path", d.path}, {"line", d.line}, {"severity", d.severity}, {"message", d.message}});
+            if (path_filter && d.path != *path_filter) continue;
+            arr.push_back({{"path", d.path}, {"line", d.line}, {"character", d.character},
+                           {"severity", d.severity}, {"message", d.message}});
         }
-        return arr;
+        return nlohmann::json{{"action", "diagnostics"}, {"diagnostics", arr}, {"count", arr.size()}};
     }
 
-    // Placeholder for other actions (real implementation would send LSP requests)
-    return nlohmann::json{{"placeholder", true}, {"action", std::string(lsp_action_name(action))}};
+    // For other actions: return structured dispatch result (mirrors Rust)
+    auto path = params.value("path", std::string{});
+    auto line = params.contains("line") ? params["line"].get<int>() : 0;
+    auto character = params.contains("character") ? params["character"].get<int>() : 0;
+    return nlohmann::json{
+        {"action", std::string(lsp_action_name(action))},
+        {"path", path}, {"line", line}, {"character", character},
+        {"language", std::string(language)},
+        {"status", "dispatched"},
+        {"message", std::format("LSP {} dispatched to {} server",
+                                lsp_action_name(action), language)}
+    };
 }
 
 std::size_t LspRegistry::size() const {

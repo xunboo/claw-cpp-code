@@ -13,6 +13,14 @@ using GreenLevelU8 = uint8_t;
 
 inline constexpr std::chrono::seconds STALE_BRANCH_THRESHOLD{3600};
 
+/// Why a lane was reconciled without further action.
+enum class ReconcileReason {
+    AlreadyMerged,
+    Superseded,
+    EmptyDiff,
+    ManualClose,
+};
+
 // Policy actions
 struct ActionMergeToDev {};
 struct ActionMergeForward {};
@@ -20,6 +28,7 @@ struct ActionRecoverOnce {};
 struct ActionEscalate { std::string reason; };
 struct ActionCloseoutLane {};
 struct ActionCleanupSession {};
+struct ActionReconcile { ReconcileReason reason; };
 struct ActionNotify { std::string channel; };
 struct ActionBlock { std::string reason; };
 struct ActionChain; // forward declared
@@ -31,6 +40,7 @@ using PolicyAction = std::variant<
     ActionEscalate,
     ActionCloseoutLane,
     ActionCleanupSession,
+    ActionReconcile,
     ActionNotify,
     ActionBlock
 >;
@@ -46,6 +56,7 @@ struct ConditionGreenAt    { GreenLevelU8 level; };
 struct ConditionStaleBranch {};
 struct ConditionStartupBlocked {};
 struct ConditionLaneCompleted {};
+struct ConditionLaneReconciled {};
 struct ConditionReviewPassed {};
 struct ConditionScopedDiff { std::string scope; };
 struct ConditionTimedOut   { std::chrono::seconds duration; };
@@ -55,6 +66,7 @@ using PolicyCondition = std::variant<
     ConditionStaleBranch,
     ConditionStartupBlocked,
     ConditionLaneCompleted,
+    ConditionLaneReconciled,
     ConditionReviewPassed,
     ConditionScopedDiff,
     ConditionTimedOut
@@ -75,7 +87,17 @@ struct LaneContext {
     bool review_status{false};
     std::string diff_scope;
     bool completed{false};
+    bool reconciled{false};
     std::chrono::seconds elapsed{0};
+
+    /// Create a lane context that is already reconciled (no further action needed).
+    [[nodiscard]] static LaneContext make_reconciled(std::string lane_id) {
+        LaneContext ctx;
+        ctx.lane_id = std::move(lane_id);
+        ctx.completed = true;
+        ctx.reconciled = true;
+        return ctx;
+    }
 };
 
 class PolicyEngine {

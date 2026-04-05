@@ -17,13 +17,16 @@ namespace claw::runtime {
 // Constants (pub const in Rust)
 // ---------------------------------------------------------------------------
 
+/// Marker separating static prompt scaffolding from dynamic runtime context.
 extern const std::string_view SYSTEM_PROMPT_DYNAMIC_BOUNDARY; // "__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__"
+/// Human-readable default frontier model name embedded into generated prompts.
 extern const std::string_view FRONTIER_MODEL_NAME;            // "Claude Opus 4.6"
 
 // ---------------------------------------------------------------------------
 // PromptBuildError  (mirrors Rust enum PromptBuildError { Io, Config })
 // ---------------------------------------------------------------------------
 
+/// Errors raised while assembling the final system prompt.
 struct PromptBuildError {
     enum class Kind { Io, Config };
     Kind        kind{Kind::Io};
@@ -38,6 +41,7 @@ struct PromptBuildError {
 // ContextFile  (mirrors Rust struct ContextFile)
 // ---------------------------------------------------------------------------
 
+/// Contents of an instruction file included in prompt construction.
 struct ContextFile {
     std::filesystem::path path;
     std::string           content;
@@ -47,6 +51,7 @@ struct ContextFile {
 // ProjectContext  (mirrors Rust struct ProjectContext)
 // ---------------------------------------------------------------------------
 
+/// Project-local context injected into the rendered system prompt.
 struct ProjectContext {
     std::filesystem::path    cwd;
     std::string              current_date;
@@ -67,6 +72,7 @@ struct ProjectContext {
 // SystemPromptBuilder  (mirrors Rust struct SystemPromptBuilder)
 // ---------------------------------------------------------------------------
 
+/// Builder for the runtime system prompt and dynamic environment sections.
 class SystemPromptBuilder {
 public:
     SystemPromptBuilder() = default;
@@ -101,10 +107,10 @@ private:
 // Free functions (mirrors Rust pub fn / private fn with public tests)
 // ---------------------------------------------------------------------------
 
-// Mirrors Rust pub fn prepend_bullets
+/// Formats each item as an indented bullet for prompt sections.
 [[nodiscard]] std::vector<std::string> prepend_bullets(std::vector<std::string> items);
 
-// Mirrors Rust pub fn load_system_prompt
+/// Loads config and project context, then renders the system prompt text.
 [[nodiscard]] tl::expected<std::vector<std::string>, PromptBuildError>
 load_system_prompt(const std::filesystem::path& cwd,
                    std::string                  current_date,

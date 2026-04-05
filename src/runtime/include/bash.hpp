@@ -9,6 +9,7 @@ namespace claw::runtime {
 
 inline constexpr std::size_t BASH_OUTPUT_TRUNCATE_BYTES = 16384;
 
+/// Input schema for the built-in bash execution tool.
 struct BashCommandInput {
     std::string command;
     std::optional<std::string> cwd;
@@ -17,6 +18,7 @@ struct BashCommandInput {
     bool sandbox{false};
 };
 
+/// Output returned from a bash tool invocation.
 struct BashCommandOutput {
     std::string stdout_output;
     std::string stderr_output;
@@ -25,7 +27,7 @@ struct BashCommandOutput {
     bool truncated{false};
 };
 
-// Synchronous bash execution
+/// Executes a shell command with the requested sandbox settings.
 [[nodiscard]] tl::expected<BashCommandOutput, std::string>
     execute_bash(const BashCommandInput& input);
 

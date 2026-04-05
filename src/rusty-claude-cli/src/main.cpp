@@ -26,6 +26,7 @@
 #include <functional>
 #include <iostream>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -88,7 +89,11 @@ struct ActionPrompt {
 struct ActionLogin  {};
 struct ActionLogout {};
 struct ActionInit   {};
-struct ActionRepl   { std::string model; PermissionMode permission_mode; };
+struct ActionRepl   {
+    std::string model;
+    std::optional<std::set<std::string>> allowed_tools;
+    PermissionMode permission_mode;
+};
 struct ActionAgents { std::optional<std::string> args; };
 struct ActionMcp    { std::optional<std::string> args; };
 struct ActionSkills { std::optional<std::string> args; };
@@ -319,7 +324,7 @@ ActionResumeSession parse_resume_args(const std::vector<std::string>& args) {
 CliAction parse_args(const std::vector<std::string>& args) {
     std::string model{DEFAULT_MODEL};
     OutputFormat output_format = OutputFormat::Text;
-    PermissionMode permission_mode = PermissionMode::DangerFullAccess;
+    std::optional<PermissionMode> permission_mode_override;
     bool wants_help    = false;
     bool wants_version = false;
     std::vector<std::string> rest;
@@ -336,6 +341,11 @@ CliAction parse_args(const std::vector<std::string>& args) {
         if (arg.size() > prefix.size() && arg.substr(0, prefix.size()) == prefix)
             return arg.substr(prefix.size());
         return std::nullopt;
+    };
+
+    // Helper: resolve override to concrete mode (mirrors Rust unwrap_or_else)
+    auto resolve_permission_mode = [&]() -> PermissionMode {
+        return permission_mode_override.value_or(PermissionMode::DangerFullAccess);
     };
 
     while (i < args.size()) {
@@ -360,13 +370,13 @@ CliAction parse_args(const std::vector<std::string>& args) {
             output_format = parse_output_format_arg(*v); ++i; continue;
         }
         if (arg == "--permission-mode") {
-            permission_mode = parse_permission_mode_arg(next_value("--permission-mode")); ++i; continue;
+            permission_mode_override = parse_permission_mode_arg(next_value("--permission-mode")); ++i; continue;
         }
         if (auto v = strip_prefix(arg, "--permission-mode=")) {
-            permission_mode = parse_permission_mode_arg(*v); ++i; continue;
+            permission_mode_override = parse_permission_mode_arg(*v); ++i; continue;
         }
         if (arg == "--dangerously-skip-permissions") {
-            permission_mode = PermissionMode::DangerFullAccess; ++i; continue;
+            permission_mode_override = PermissionMode::DangerFullAccess; ++i; continue;
         }
         if (arg == "--print") {
             output_format = OutputFormat::Text; ++i; continue;
@@ -379,7 +389,8 @@ CliAction parse_args(const std::vector<std::string>& args) {
             }
             if (prompt.empty())
                 throw std::runtime_error("-p requires a prompt string");
-            return ActionPrompt{prompt, resolve_model_alias(model), output_format, permission_mode};
+            return ActionPrompt{prompt, resolve_model_alias(model), output_format,
+                                resolve_permission_mode()};
         }
         if ((arg == "--resume") && rest.empty()) {
             rest.push_back("--resume"); ++i; continue;
@@ -406,8 +417,10 @@ CliAction parse_args(const std::vector<std::string>& args) {
     if (wants_help)    return ActionHelp{};
     if (wants_version) return ActionVersion{};
 
-    if (rest.empty())
-        return ActionRepl{model, permission_mode};
+    if (rest.empty()) {
+        auto permission_mode = resolve_permission_mode();
+        return ActionRepl{model, std::nullopt, permission_mode};
+    }
 
     // --resume
     if (rest[0] == "--resume") {
@@ -420,12 +433,14 @@ CliAction parse_args(const std::vector<std::string>& args) {
         auto& w = rest[0];
         if (w == "help")    return ActionHelp{};
         if (w == "version") return ActionVersion{};
-        if (w == "status")  return ActionStatus{model, permission_mode};
+        if (w == "status")  return ActionStatus{model, resolve_permission_mode()};
         if (w == "sandbox") return ActionSandbox{};
         if (w == "login")   return ActionLogin{};
         if (w == "logout")  return ActionLogout{};
         if (w == "init")    return ActionInit{};
     }
+
+    auto permission_mode = resolve_permission_mode();
 
     // Named subcommands.
     if (rest[0] == "dump-manifests")  return ActionDumpManifests{};
@@ -1329,6 +1344,7 @@ void dispatch(const CliAction& action) {
             run_init();
         else if constexpr (std::is_same_v<T, ActionRepl>)
             run_repl_action(a.model, a.permission_mode);
+            // a.allowed_tools is available but not yet wired into SessionConfig
         else if constexpr (std::is_same_v<T, ActionAgents>)
             print_agents(a.args);
         else if constexpr (std::is_same_v<T, ActionMcp>)

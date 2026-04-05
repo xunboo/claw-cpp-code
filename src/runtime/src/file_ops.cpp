@@ -34,6 +34,7 @@ inline constexpr std::size_t   MAX_WRITE_SIZE = 10ULL * 1024 * 1024; // 10 MB
 // Rich result/output structs (mirrors Rust structs)
 // ---------------------------------------------------------------------------
 
+/// Text payload returned by file-reading operations.
 struct TextFilePayload {
     std::string file_path;
     std::string content;
@@ -42,11 +43,13 @@ struct TextFilePayload {
     std::size_t total_lines{0};
 };
 
+/// Output envelope for the `read_file` tool.
 struct ReadFileOutput {
     std::string kind;          // "text"
     TextFilePayload file;
 };
 
+/// Structured patch hunk emitted by write and edit operations.
 struct StructuredPatchHunk {
     std::size_t old_start{0};
     std::size_t old_lines{0};
@@ -55,6 +58,7 @@ struct StructuredPatchHunk {
     std::vector<std::string> lines;
 };
 
+/// Output envelope for full-file write operations.
 struct WriteFileOutput {
     std::string kind;          // "create" or "update"
     std::string file_path;
@@ -64,6 +68,7 @@ struct WriteFileOutput {
     // git_diff omitted (always null in Rust source)
 };
 
+/// Output envelope for targeted string-replacement edits.
 struct EditFileOutput {
     std::string file_path;
     std::string old_string;
@@ -75,6 +80,7 @@ struct EditFileOutput {
     // git_diff omitted (always null in Rust source)
 };
 
+/// Result of a glob-based filename search.
 struct GlobSearchOutput {
     std::uint64_t duration_ms{0};
     std::size_t   num_files{0};
@@ -82,6 +88,7 @@ struct GlobSearchOutput {
     bool truncated{false};
 };
 
+/// Parameters accepted by the grep-style search tool.
 struct GrepSearchInput {
     std::string pattern;
     std::optional<std::string> path;
@@ -99,6 +106,7 @@ struct GrepSearchInput {
     std::optional<bool> multiline;
 };
 
+/// Result payload returned by the grep-style search tool.
 struct GrepSearchOutput {
     std::optional<std::string> mode;
     std::size_t num_files{0};
@@ -482,8 +490,7 @@ static ApplyLimitResult apply_limit(std::vector<std::string> items,
 // Public Rust-faithful API
 // ---------------------------------------------------------------------------
 
-/// Read a file (no workspace enforcement).
-/// Mirrors read_file() in Rust.
+/// Reads a text file and returns a line-windowed payload.
 ReadFileOutput read_file_rich(const std::string& path,
                                std::optional<std::size_t> offset,
                                std::optional<std::size_t> limit) {
@@ -559,8 +566,7 @@ ReadFileOutput read_file_rich(const std::string& path,
     return out;
 }
 
-/// Write a file (no workspace enforcement).
-/// Mirrors write_file() in Rust.
+/// Replaces a file's contents and returns patch metadata.
 WriteFileOutput write_file_rich(const std::string& path, const std::string& content) {
     if (content.size() > MAX_WRITE_SIZE) {
         throw make_error(std::errc::invalid_argument,
@@ -613,8 +619,7 @@ WriteFileOutput write_file_rich(const std::string& path, const std::string& cont
     return result;
 }
 
-/// Edit a file: replace old_string with new_string.
-/// Mirrors edit_file() in Rust.
+/// Performs an in-file string replacement and returns patch metadata.
 EditFileOutput edit_file_rich(const std::string& path,
                                const std::string& old_string,
                                const std::string& new_string,
@@ -679,13 +684,13 @@ EditFileOutput edit_file_rich(const std::string& path,
     return result;
 }
 
-/// Glob search. Mirrors glob_search() in Rust.
+/// Expands a glob pattern and returns matching filenames.
 GlobSearchOutput glob_search_rich(const std::string& pattern,
                                    std::optional<std::string> path) {
     return glob_search_impl(pattern, std::move(path));
 }
 
-/// Grep search. Mirrors grep_search() in Rust.
+/// Runs a regex search over workspace files with optional context lines.
 GrepSearchOutput grep_search_rich(const GrepSearchInput& input) {
     fs::path base_path;
     if (input.path.has_value()) {

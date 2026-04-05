@@ -1,5 +1,6 @@
 #include "tool_executor.hpp"
 #include "agent_tools.hpp"
+#include "lane_completion.hpp"
 #include "misc_tools.hpp"
 #include "tool_specs.hpp"
 #include "web_tools.hpp"
@@ -13,6 +14,9 @@
 #include "permission_enforcer.hpp"
 #include "bash.hpp"
 #include "file_ops.hpp"
+#include "lane_events.hpp"
+#include "mcp_lifecycle_hardened.hpp"
+#include "task_packet.hpp"
 #include "task_registry.hpp"
 #include "worker_boot.hpp"
 #include "team_cron_registry.hpp"
@@ -224,7 +228,54 @@ run_task_create(const json& input) {
     }
     auto task = global_task_registry().create(prompt, desc);
     return json{
-        {"task_id", task.task_id}, {"status", std::string(claw::runtime::task_status_name(task.status))}
+        {"task_id", task.task_id},
+        {"status", std::string(claw::runtime::task_status_name(task.status))},
+        {"prompt", task.prompt},
+        {"description", task.description ? json(*task.description) : json(nullptr)},
+        {"task_packet", nullptr},
+        {"created_at", task.created_at}
+    }.dump(2);
+}
+
+static tl::expected<std::string, std::string>
+run_task_packet(const json& input) {
+    // RunTaskPacket: create a task backed by a structured task packet.
+    // The packet fields are flat strings (matching the simplified Rust TaskPacket).
+    auto objective = input.value("objective", std::string{});
+    auto scope     = input.value("scope", std::string{});
+    auto repo      = input.value("repo", std::string{});
+    auto branch_policy = input.value("branch_policy", std::string{});
+    std::vector<std::string> acceptance_tests;
+    if (input.contains("acceptance_tests")) {
+        for (auto& t : input["acceptance_tests"])
+            acceptance_tests.push_back(t.get<std::string>());
+    }
+    auto commit_policy      = input.value("commit_policy", std::string{});
+    auto reporting_contract = input.value("reporting_contract", std::string{});
+    auto escalation_policy  = input.value("escalation_policy", std::string{});
+
+    // Create the task using objective as prompt, scope as description
+    auto task = global_task_registry().create(objective, scope);
+
+    // Build task_packet JSON for the output
+    json packet_json = {
+        {"objective", objective},
+        {"scope", scope},
+        {"repo", repo},
+        {"branch_policy", branch_policy},
+        {"acceptance_tests", acceptance_tests},
+        {"commit_policy", commit_policy},
+        {"reporting_contract", reporting_contract},
+        {"escalation_policy", escalation_policy}
+    };
+
+    return json{
+        {"task_id", task.task_id},
+        {"status", std::string(claw::runtime::task_status_name(task.status))},
+        {"prompt", task.prompt},
+        {"description", task.description ? json(*task.description) : json(nullptr)},
+        {"task_packet", packet_json},
+        {"created_at", task.created_at}
     }.dump(2);
 }
 
@@ -233,9 +284,17 @@ run_task_get(const json& input) {
     auto id = input.value("task_id", std::string{});
     auto task = global_task_registry().get(id);
     if (!task) return tl::unexpected(std::string("task not found: ") + id);
+    json msgs = json::array();
+    for (auto& m : task->messages)
+        msgs.push_back({{"role", m.role}, {"content", m.content}, {"timestamp", m.timestamp}});
     return json{
         {"task_id", task->task_id}, {"prompt", task->prompt},
+        {"description", task->description ? json(*task->description) : json(nullptr)},
         {"status", std::string(claw::runtime::task_status_name(task->status))},
+        {"task_packet", nullptr},
+        {"created_at", task->created_at}, {"updated_at", task->updated_at},
+        {"messages", msgs},
+        {"team_id", task->team_id ? json(*task->team_id) : json(nullptr)},
         {"output", task->output}
     }.dump(2);
 }
@@ -246,8 +305,9 @@ run_task_list(const json& /*input*/) {
     json arr = json::array();
     for (auto& t : tasks)
         arr.push_back({{"task_id", t.task_id}, {"prompt", t.prompt},
-                        {"status", std::string(claw::runtime::task_status_name(t.status))}});
-    return json{{"tasks", arr}}.dump(2);
+                        {"status", std::string(claw::runtime::task_status_name(t.status))},
+                        {"task_packet", nullptr}});
+    return json{{"tasks", arr}, {"count", tasks.size()}}.dump(2);
 }
 
 static tl::expected<std::string, std::string>
@@ -255,7 +315,11 @@ run_task_stop(const json& input) {
     auto id = input.value("task_id", std::string{});
     auto r = global_task_registry().stop(id);
     if (!r) return tl::unexpected(r.error());
-    return json{{"task_id", r->task_id}, {"status", std::string(claw::runtime::task_status_name(r->status))}}.dump(2);
+    return json{
+        {"task_id", r->task_id},
+        {"status", std::string(claw::runtime::task_status_name(r->status))},
+        {"message", "Task stopped"}
+    }.dump(2);
 }
 
 static tl::expected<std::string, std::string>
@@ -264,7 +328,12 @@ run_task_update(const json& input) {
     auto message = input.value("message", std::string{});
     auto r = global_task_registry().update(id, message);
     if (!r) return tl::unexpected(r.error());
-    return json{{"task_id", r->task_id}, {"status", std::string(claw::runtime::task_status_name(r->status))}}.dump(2);
+    return json{
+        {"task_id", r->task_id},
+        {"status", std::string(claw::runtime::task_status_name(r->status))},
+        {"message_count", r->messages.size()},
+        {"last_message", r->messages.empty() ? json(nullptr) : json(r->messages.back().content)}
+    }.dump(2);
 }
 
 static tl::expected<std::string, std::string>
@@ -303,10 +372,10 @@ static json worker_to_json(const claw::runtime::Worker& w) {
 
 static tl::expected<std::string, std::string>
 run_worker_create(const json& input) {
+    // Mirrors Rust WorkerCreateInput: cwd, trusted_roots, auto_recover_prompt_misdelivery
     auto cwd = input.value("cwd", std::string{});
-    std::optional<std::string> prompt;
-    if (input.contains("prompt")) prompt = input["prompt"].get<std::string>();
-    auto w = global_worker_registry().create(cwd, prompt);
+    // trusted_roots and auto_recover are used by the registry internally
+    auto w = global_worker_registry().create(cwd);
     return worker_to_json(w).dump(2);
 }
 
@@ -342,8 +411,7 @@ run_worker_await_ready(const json& input) {
     auto w = global_worker_registry().get(id);
     if (!w) return tl::unexpected(std::string("worker not found: ") + id);
     bool ready = (w->status == claw::runtime::WorkerStatus::ReadyForPrompt);
-    bool blocked = (w->status == claw::runtime::WorkerStatus::Blocked ||
-                    w->status == claw::runtime::WorkerStatus::TrustRequired);
+    bool blocked = (w->status == claw::runtime::WorkerStatus::TrustRequired);
     return json{
         {"worker_id", w->worker_id},
         {"status", std::string(claw::runtime::worker_status_name(w->status))},
@@ -461,7 +529,7 @@ run_cron_list(const json& /*input*/) {
             {"created_at", e.created_at}
         });
     }
-    return json{{"entries", arr}, {"count", entries.size()}}.dump(2);
+    return json{{"crons", arr}, {"count", entries.size()}}.dump(2);
 }
 
 // ── Tool dispatch: LSP ───────────────────────────────────────────────────
@@ -632,12 +700,13 @@ execute_tool_with_enforcer(const claw::runtime::PermissionEnforcer* enforcer,
     }
 
     // ── Task tools ────────────────────────────────────────────────────────
-    if (name == "TaskCreate") return run_task_create(input);
-    if (name == "TaskGet")    return run_task_get(input);
-    if (name == "TaskList")   return run_task_list(input);
-    if (name == "TaskStop")   return run_task_stop(input);
-    if (name == "TaskUpdate") return run_task_update(input);
-    if (name == "TaskOutput") return run_task_output(input);
+    if (name == "TaskCreate")    return run_task_create(input);
+    if (name == "RunTaskPacket") return run_task_packet(input);
+    if (name == "TaskGet")       return run_task_get(input);
+    if (name == "TaskList")      return run_task_list(input);
+    if (name == "TaskStop")      return run_task_stop(input);
+    if (name == "TaskUpdate")    return run_task_update(input);
+    if (name == "TaskOutput")    return run_task_output(input);
 
     // ── Worker tools ─────────────────────────────────────────────────────
     if (name == "WorkerCreate")       return run_worker_create(input);

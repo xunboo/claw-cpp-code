@@ -7,6 +7,7 @@
 
 namespace claw::runtime {
 
+/// Thresholds controlling when and how a session is compacted.
 struct CompactionConfig {
     std::size_t target_token_budget{8192};
     std::size_t max_summary_tokens{2048};
@@ -14,6 +15,7 @@ struct CompactionConfig {
     std::optional<std::size_t> keep_last_n_messages;
 };
 
+/// Result of compacting a session into a summary plus preserved tail messages.
 struct CompactionResult {
     std::size_t original_message_count{0};
     std::size_t compacted_message_count{0};
@@ -22,19 +24,19 @@ struct CompactionResult {
     std::string summary; // The generated summary text
 };
 
-// Estimate token count for a session (rough approximation: chars / 4)
+/// Roughly estimates the token footprint of the current session transcript.
 [[nodiscard]] std::size_t estimate_session_tokens(const Session& session);
 
-// Decide if compaction should run based on token count and budget
+/// Returns `true` when the session exceeds the configured compaction budget.
 [[nodiscard]] bool should_compact(const Session& session, std::size_t token_budget);
 
-// Format a compact summary header string
+/// Normalizes a compaction summary into user-facing continuation text.
 [[nodiscard]] std::string format_compact_summary(const CompactionResult& result);
 
 // Read auto-compaction threshold from environment: CLAW_AUTO_COMPACT_THRESHOLD
 [[nodiscard]] std::optional<std::size_t> auto_compaction_threshold_from_env();
 
-// Compact a session: remove old messages, generate summary, return new session + result
+/// Compacts a session by summarizing older messages and preserving the recent tail.
 [[nodiscard]] tl::expected<std::pair<Session, CompactionResult>, std::string>
     compact_session(const Session& session, const CompactionConfig& config);
 

@@ -221,7 +221,8 @@ bool GlobalToolRegistry::has_runtime_tool(std::string_view name) const {
 ToolSearchOutput GlobalToolRegistry::search(
     const std::string& query,
     std::size_t max_results,
-    std::optional<std::vector<std::string>> pending_mcp_servers) const
+    std::optional<std::vector<std::string>> pending_mcp_servers,
+    std::optional<nlohmann::json> mcp_degraded) const
 {
     auto trimmed = query;
     auto s = trimmed.find_first_not_of(" \t\r\n");
@@ -253,6 +254,7 @@ ToolSearchOutput GlobalToolRegistry::search(
         std::move(normalized_query),
         total,
         std::move(pending_mcp_servers),
+        std::move(mcp_degraded),
     };
 }
 

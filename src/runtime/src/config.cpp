@@ -11,7 +11,7 @@
 //   serde_json          -> nlohmann::json (but JSON parsing here uses a custom JsonValue
 //                          defined in json_value.hpp, matching json.rs hand-written parser)
 //
-// The existing config.hpp has a simplified stub structure that differs from the Rust source.
+// The existing config.hpp has a simplified structure that differs from the Rust source.
 // Per task instructions, all missing types are defined inline below with a comment.
 // The implementation lives in namespace claw::runtime (matches the existing header).
 
@@ -960,7 +960,13 @@ parse_mcp_server_config(const std::string& server_name,
 
     auto type_res = optional_string(object, "type", context);
     if (!type_res) return tl::unexpected(type_res.error());
-    std::string server_type = type_res->value_or("stdio");
+    // Infer server type from config shape when "type" is absent (mirrors Rust infer_mcp_server_type).
+    std::string server_type;
+    if (type_res->has_value()) {
+        server_type = **type_res;
+    } else {
+        server_type = (object.count("url") > 0) ? "http" : "stdio";
+    }
 
     if (server_type == "stdio") {
         ClawMcpStdioServerConfig cfg;
@@ -1082,34 +1088,49 @@ std::optional<std::string> parse_optional_model(const JsonMap& root) {
 }
 
 // ---------------------------------------------------------------------------
-// parse_optional_hooks_config
-// Rust: fn parse_optional_hooks_config(root: &JsonValue)
+// parse_optional_hooks_config_object
+// Rust: fn parse_optional_hooks_config_object(object: &BTreeMap, context: &str)
 //           -> Result<RuntimeHookConfig, ConfigError>
 // ---------------------------------------------------------------------------
 tl::expected<RuntimeHookConfig, ConfigError>
-parse_optional_hooks_config(const JsonMap& root) {
-    auto hooks_it = root.find("hooks");
-    if (hooks_it == root.end()) return RuntimeHookConfig{};
+parse_optional_hooks_config_object(const JsonMap& object, std::string_view context) {
+    auto hooks_it = object.find("hooks");
+    if (hooks_it == object.end()) return RuntimeHookConfig{};
 
-    auto hooks_res = expect_object_map(hooks_it->second, "merged settings.hooks");
+    auto hooks_res = expect_object_map(hooks_it->second, context);
     if (!hooks_res) return tl::unexpected(hooks_res.error());
     const JsonMap& hooks = *hooks_res;
 
     RuntimeHookConfig cfg;
 
-    auto pre_res = optional_string_array(hooks, "PreToolUse", "merged settings.hooks");
+    auto pre_res = optional_string_array(hooks, "PreToolUse", context);
     if (!pre_res) return tl::unexpected(pre_res.error());
     if (*pre_res) cfg.pre_tool_use = **pre_res;
 
-    auto post_res = optional_string_array(hooks, "PostToolUse", "merged settings.hooks");
+    auto post_res = optional_string_array(hooks, "PostToolUse", context);
     if (!post_res) return tl::unexpected(post_res.error());
     if (*post_res) cfg.post_tool_use = **post_res;
 
-    auto fail_res = optional_string_array(hooks, "PostToolUseFailure", "merged settings.hooks");
+    auto fail_res = optional_string_array(hooks, "PostToolUseFailure", context);
     if (!fail_res) return tl::unexpected(fail_res.error());
     if (*fail_res) cfg.post_tool_use_failure = **fail_res;
 
     return cfg;
+}
+
+// parse_optional_hooks_config — top-level (uses "merged settings.hooks" as context)
+tl::expected<RuntimeHookConfig, ConfigError>
+parse_optional_hooks_config(const JsonMap& root) {
+    return parse_optional_hooks_config_object(root, "merged settings.hooks");
+}
+
+// validate_optional_hooks_config — validate hooks *before* merge, using file path as context
+tl::expected<void, ConfigError>
+validate_optional_hooks_config(const JsonMap& root, const std::filesystem::path& path) {
+    std::string context = path.string() + ": hooks";
+    auto result = parse_optional_hooks_config_object(root, context);
+    if (!result) return tl::unexpected(result.error());
+    return {};
 }
 
 // ---------------------------------------------------------------------------
@@ -1384,6 +1405,10 @@ struct ClawConfigLoader {
 
             const JsonMap& value = **value_res;
 
+            // Validate hooks config *before* merge (catches invalid entries early)
+            auto hooks_validate_res = validate_optional_hooks_config(value, entry.path);
+            if (!hooks_validate_res) return tl::unexpected(hooks_validate_res.error());
+
             // merge MCP servers from this file
             auto mcp_res = merge_mcp_servers(mcp_servers, entry.source, value, entry.path);
             if (!mcp_res) return tl::unexpected(mcp_res.error());
@@ -1459,7 +1484,7 @@ tl::expected<RuntimeConfig, std::string> ConfigLoader::load_file(
 
     if (j.contains("mcp_servers") && j["mcp_servers"].is_object()) {
         for (auto& [name, srv_j] : j["mcp_servers"].items()) {
-            // Parse using the faithful MCP parser and convert to the legacy stub format
+            // Parse using the faithful MCP parser and convert to the legacy format
             std::string context = std::format("{}: mcpServers.{}", path.string(), name);
             // Convert nlohmann item to our JsonMap for parse_mcp_server_config
             JsonMap srv_map;
@@ -1538,7 +1563,7 @@ tl::expected<RuntimeConfig, std::string> ConfigLoader::load(
     RuntimeConfig merged;
     merged.primary_source = ConfigSource::DefaultBuiltin;
 
-    // Discovery order: system → user → project (matches original stub behaviour)
+    // Discovery order: system → user → project (matches original behaviour)
 
     static const std::filesystem::path SYSTEM_CONFIG = "/etc/claw/config.json";
     {

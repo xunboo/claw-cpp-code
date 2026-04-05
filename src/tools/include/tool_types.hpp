@@ -8,14 +8,16 @@
 #include <vector>
 
 // Forward declarations from other crates
-namespace runtime {
+namespace claw::runtime {
 enum class PermissionMode;
+struct McpDegradedReport;
+void to_json(nlohmann::json& j, const McpDegradedReport& r);
 }
 
 namespace claw::tools {
 
 using nlohmann::json;
-using PermissionMode = runtime::PermissionMode;
+using PermissionMode = claw::runtime::PermissionMode;
 
 // ── ToolSource / ToolManifestEntry ───────────────────────────────────────────
 
@@ -52,6 +54,7 @@ struct ToolSearchOutput {
     std::string                     normalized_query;
     std::size_t                     total_deferred_tools{0};
     std::optional<std::vector<std::string>> pending_mcp_servers;
+    std::optional<nlohmann::json>   mcp_degraded; // serialized McpDegradedReport
 };
 
 inline void to_json(json& j, const ToolSearchOutput& o) {
@@ -65,6 +68,8 @@ inline void to_json(json& j, const ToolSearchOutput& o) {
         j["pending_mcp_servers"] = *o.pending_mcp_servers;
     else
         j["pending_mcp_servers"] = nullptr;
+    if (o.mcp_degraded)
+        j["mcp_degraded"] = *o.mcp_degraded;
 }
 
 }  // namespace claw::tools

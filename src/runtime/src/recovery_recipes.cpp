@@ -43,8 +43,19 @@ std::string_view failure_scenario_name(FailureScenario s) noexcept {
         case FailureScenario::CompileRedCrossCrate:   return "compile_red_cross_crate";
         case FailureScenario::McpHandshakeFailure:    return "mcp_handshake_failure";
         case FailureScenario::PartialPluginStartup:   return "partial_plugin_startup";
+        case FailureScenario::ProviderFailure:        return "provider_failure";
     }
     return "unknown";
+}
+
+FailureScenario from_worker_failure_kind(WorkerFailureKind kind) noexcept {
+    switch (kind) {
+        case WorkerFailureKind::TrustGate:       return FailureScenario::TrustPromptUnresolved;
+        case WorkerFailureKind::PromptDelivery:  return FailureScenario::PromptMisdelivery;
+        case WorkerFailureKind::Protocol:        return FailureScenario::McpHandshakeFailure;
+        case WorkerFailureKind::Provider:        return FailureScenario::ProviderFailure;
+    }
+    return FailureScenario::ProviderFailure;
 }
 
 // ---------------------------------------------------------------------------
@@ -107,6 +118,14 @@ RecoveryRecipe recipe_for(FailureScenario scenario) {
                 { StepRestartPlugin{"stalled"}, StepRetryMcpHandshake{3000} },
                 1,
                 EscalationPolicy::LogAndContinue,
+            };
+
+        case FailureScenario::ProviderFailure:
+            return RecoveryRecipe{
+                scenario,
+                { StepRestartWorker{} },
+                1,
+                EscalationPolicy::AlertHuman,
             };
     }
 
