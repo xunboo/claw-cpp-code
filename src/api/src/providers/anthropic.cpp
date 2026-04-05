@@ -636,6 +636,40 @@ AnthropicClient AnthropicClient::with_prompt_cache(PromptCache pc) && {
     return std::move(*this);
 }
 
+AnthropicClient AnthropicClient::with_session_tracer(
+    claw::telemetry::SessionTracer tracer) &&
+{
+    session_tracer_ = std::move(tracer);
+    return std::move(*this);
+}
+
+AnthropicClient AnthropicClient::with_client_identity(
+    claw::telemetry::ClientIdentity identity) &&
+{
+    request_profile_.client_identity = std::move(identity);
+    return std::move(*this);
+}
+
+AnthropicClient AnthropicClient::with_beta(std::string beta) && {
+    request_profile_ = std::move(request_profile_).with_beta(std::move(beta));
+    return std::move(*this);
+}
+
+AnthropicClient AnthropicClient::with_extra_body_param(
+    std::string key, nlohmann::json value) &&
+{
+    request_profile_ = std::move(request_profile_).with_extra_body(
+        std::move(key), std::move(value));
+    return std::move(*this);
+}
+
+AnthropicClient AnthropicClient::with_request_profile(
+    claw::telemetry::AnthropicRequestProfile profile) &&
+{
+    request_profile_ = std::move(profile);
+    return std::move(*this);
+}
+
 // ===========================================================================
 // AnthropicClient – accessors
 // ===========================================================================
@@ -712,7 +746,9 @@ std::chrono::milliseconds AnthropicClient::backoff_for_attempt(uint32_t attempt)
 
 static std::vector<std::string> build_request_headers(
     const AuthSource& auth,
-    std::string_view  api_version)
+    std::string_view  api_version,
+    const claw::telemetry::AnthropicRequestProfile& profile =
+        claw::telemetry::AnthropicRequestProfile::make_default())
 {
     std::vector<std::string> hdrs;
     hdrs.emplace_back(std::string("anthropic-version: ") + std::string(api_version));
@@ -720,6 +756,13 @@ static std::vector<std::string> build_request_headers(
         hdrs.emplace_back("x-api-key: " + std::string(*key));
     if (auto tok = auth.get_bearer_token())
         hdrs.emplace_back("Authorization: Bearer " + std::string(*tok));
+    // Apply extra headers from request profile (beta, client identity, etc.)
+    for (const auto& [name, value] : profile.header_pairs())
+        hdrs.emplace_back(name + ": " + value);
+    // Read Custom headers from environment, DO NOT REMOVE IT
+    if (auto* headers = std::getenv("ANTHROPIC_CUSTOM_HEADERS")) {
+        hdrs.emplace_back(headers);
+    }
     return hdrs;
 }
 
@@ -737,19 +780,23 @@ struct RawResponse {
 static RawResponse send_raw_request_impl(
     const MessageRequest& request,
     const AuthSource&     auth,
-    const std::string&    base_url)
+    const std::string&    base_url,
+    const claw::telemetry::AnthropicRequestProfile& profile =
+        claw::telemetry::AnthropicRequestProfile::make_default())
 {
     // Build URL
     std::string url = base_url;
     while (!url.empty() && url.back() == '/') url.pop_back();
     url += "/v1/messages";
 
-    // Serialise body
+    // Serialise body — merge extra body params from profile
     nlohmann::json body_json = request;
+    for (const auto& [k, v] : profile.extra_body)
+        body_json[k] = v;
     std::string    json_body = body_json.dump();
 
-    // Headers
-    auto hdrs = build_request_headers(auth, ANTHROPIC_API_VERSION);
+    // Headers (includes profile headers for beta, client identity)
+    auto hdrs = build_request_headers(auth, ANTHROPIC_API_VERSION, profile);
 
     auto res = do_post_json(url, json_body, hdrs);
     RawResponse rr;
@@ -785,7 +832,7 @@ std::future<MessageResponse> AnthropicClient::send_message(const MessageRequest&
             bool request_ok = false;
 
             try {
-                rr         = send_raw_request_impl(r, auth_, base_url_);
+                rr         = send_raw_request_impl(r, auth_, base_url_, request_profile_);
                 request_ok = true;
             } catch (const ApiError& e) {
                 if (e.is_retryable() && attempts <= max_retries_ + 1u) {
@@ -875,7 +922,7 @@ std::future<AnthropicMessageStream> AnthropicClient::stream_message(
             ++attempts;
             bool ok = false;
             try {
-                rr = send_raw_request_impl(r, auth_, base_url_);
+                rr = send_raw_request_impl(r, auth_, base_url_, request_profile_);
                 // Check HTTP success
                 CurlResult cr;
                 cr.status = rr.status;

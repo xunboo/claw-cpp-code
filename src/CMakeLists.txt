@@ -145,8 +145,8 @@ target_link_libraries(claw_tools    PUBLIC claw_runtime claw_plugins)
 # commands depends on runtime and plugins (replaces the old stubs)
 target_link_libraries(commands      PUBLIC claw_runtime claw_plugins)
 
-# api depends on runtime (for OAuthTokenSet, config types)
-target_link_libraries(claw_api      PUBLIC claw_runtime)
+# api depends on runtime (for OAuthTokenSet, config types) and telemetry (for RequestProfile)
+target_link_libraries(claw_api      PUBLIC claw_runtime claw_telemetry)
 
 # cli depends on everything
 target_link_libraries(claw_lib PUBLIC

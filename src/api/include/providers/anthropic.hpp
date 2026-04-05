@@ -8,6 +8,7 @@
 #include "../prompt_cache.hpp"
 #include "../sse.hpp"
 #include "../types.hpp"
+#include "telemetry.hpp"
 
 #include <chrono>
 #include <deque>
@@ -146,9 +147,17 @@ public:
                                                     std::chrono::milliseconds initial_backoff,
                                                     std::chrono::milliseconds max_backoff) &&;
     [[nodiscard]] AnthropicClient with_prompt_cache(PromptCache cache) &&;
+    [[nodiscard]] AnthropicClient with_session_tracer(claw::telemetry::SessionTracer tracer) &&;
+    [[nodiscard]] AnthropicClient with_client_identity(claw::telemetry::ClientIdentity identity) &&;
+    [[nodiscard]] AnthropicClient with_beta(std::string beta) &&;
+    [[nodiscard]] AnthropicClient with_extra_body_param(std::string key, nlohmann::json value) &&;
+    [[nodiscard]] AnthropicClient with_request_profile(claw::telemetry::AnthropicRequestProfile profile) &&;
 
     // Accessors
     [[nodiscard]] const AuthSource& auth_source() const noexcept { return auth_; }
+    [[nodiscard]] const claw::telemetry::AnthropicRequestProfile& request_profile() const noexcept { return request_profile_; }
+    [[nodiscard]] const std::optional<claw::telemetry::SessionTracer>& session_tracer() const noexcept { return session_tracer_; }
+    [[nodiscard]] const std::optional<PromptCache>& prompt_cache() const noexcept { return prompt_cache_; }
     [[nodiscard]] std::optional<PromptCacheStats> prompt_cache_stats() const;
     [[nodiscard]] std::optional<PromptCacheRecord> take_last_prompt_cache_record();
 
@@ -182,6 +191,9 @@ private:
     std::chrono::milliseconds initial_backoff_{200};
     std::chrono::milliseconds max_backoff_{2000};
     std::optional<PromptCache> prompt_cache_;
+    std::optional<claw::telemetry::SessionTracer> session_tracer_;
+    claw::telemetry::AnthropicRequestProfile request_profile_{
+        claw::telemetry::AnthropicRequestProfile::make_default()};
     std::shared_ptr<std::mutex> record_mutex_{std::make_shared<std::mutex>()};
     std::shared_ptr<std::optional<PromptCacheRecord>> last_record_{
         std::make_shared<std::optional<PromptCacheRecord>>()};
