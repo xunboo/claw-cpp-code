@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2466DD69-7E4A-3F8D-AD0B-B9889C773135}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>libcurl_static</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libcurl_static.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libcurl-d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libcurl_static.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libcurl</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libcurl_static.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libcurl</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libcurl_static.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libcurl</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4061;4191;4255;4464;4548;4574;4668;4710;4711;4746;4820;5045</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4061;4191;4255;4464;4548;4574;4668;4710;4711;4746;4820;5045</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4061;4191;4255;4464;4548;4574;4668;4710;4711;4746;4820;5045</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4061;4191;4255;4464;4548;4574;4668;4710;4711;4746;4820;5045</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\altsvc.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\amigaos.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\asyn-ares.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\asyn-base.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\asyn-thrdd.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\bufq.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\bufref.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cf-h1-proxy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cf-h2-proxy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cf-haproxy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cf-https-connect.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cf-ip-happy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cf-socket.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cfilters.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\conncache.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\connect.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\content_encoding.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cookie.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cshutdn.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_addrinfo.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_endian.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_fnmatch.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_fopen.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_get_line.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_gethostname.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_gssapi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_memrchr.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_ntlm_core.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_range.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_rtmp.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_sasl.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_sha512_256.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_share.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_sspi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_threads.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_trc.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cw-out.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cw-pause.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\dict.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\doh.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\dynhds.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\easy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\easygetopt.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\easyoptions.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\escape.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\fake_addrinfo.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\file.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\fileinfo.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\formdata.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\ftp.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\ftplistparser.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\getenv.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\getinfo.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\gopher.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\hash.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\headers.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\hmac.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\hostip.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\hostip4.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\hostip6.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\hsts.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http1.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http2.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http_aws_sigv4.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http_chunks.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http_digest.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http_negotiate.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http_ntlm.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\http_proxy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\httpsrr.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\idn.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\if2ip.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\imap.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\ldap.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\llist.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\macos.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\md4.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\md5.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\memdebug.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\mime.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\mprintf.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\mqtt.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\multi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\multi_ev.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\multi_ntfy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\netrc.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\noproxy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\openldap.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\parsedate.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\pingpong.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\pop3.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\progress.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\psl.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\rand.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\ratelimit.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\request.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\rtsp.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\select.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\sendf.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\setopt.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\sha256.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\slist.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\smb.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\smtp.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\socketpair.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\socks.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\socks_gssapi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\socks_sspi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\splay.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\strcase.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\strequal.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\strerror.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\system_win32.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\telnet.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\tftp.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\transfer.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\uint-bset.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\uint-hash.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\uint-spbset.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\uint-table.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\url.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\urlapi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\version.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\ws.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cleartext.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cram.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\digest.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\digest_sspi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\gsasl.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\krb5_gssapi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\krb5_sspi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\ntlm.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\ntlm_sspi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\oauth2.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\spnego_gssapi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\spnego_sspi.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\vauth.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\apple.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\cipher_suite.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\gtls.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\hostcheck.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\keylog.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\mbedtls.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\openssl.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\rustls.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\schannel.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\schannel_verify.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\vtls.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\vtls_scache.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\vtls_spack.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\wolfssl.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\x509asn1.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_ngtcp2.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\curl_quiche.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\vquic.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\vquic-tls.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\libssh.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\libssh2.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\vssh.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\base64.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\basename.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\dynbuf.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\fopen.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\inet_ntop.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\inet_pton.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\multibyte.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\nonblock.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\snprintf.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\strcopy.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\strdup.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\strerr.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\strparse.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\timediff.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\timeval.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\version_win32.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\wait.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\warnless.obj" />
+    <Object Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.dir\$(Configuration)\winapi.obj" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\ZERO_CHECK.vcxproj">
+      <Project>{FFC9F754-B57A-3F66-9CBD-98033BA8DC7D}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_object.vcxproj">
+      <Project>{CEA94F56-BD31-3F24-9F1B-C260B8466D94}</Project>
+      <Name>libcurl_object</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

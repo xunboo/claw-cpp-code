@@ -1,0 +1,14 @@
+/build/.vs
+*.filters
+*.dir
+/build/_deps/curl-build/CMakeFiles
+/build/_deps/curl-build/*/CMakeFiles
+/build/_deps/curl-build/*.dir
+/build/_deps/curl-build/docs/*/*.dir
+/build/_deps/curl-build/docs/x64
+/build/_deps/curl-build/docs/libcurl/opts
+/build/_deps/curl-build/docs/libcurl
+/build/src/compat-harness/CMakeFiles
+*.stamp
+*.depend
+/build/_deps/tl_expected-build/CMakeFiles

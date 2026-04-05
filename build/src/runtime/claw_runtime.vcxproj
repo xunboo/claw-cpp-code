@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0D1DBB3F-08E4-310C-894F-E0ED4EC29A51}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>claw_runtime</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">claw_runtime.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">claw_runtime</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">claw_runtime.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">claw_runtime</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">claw_runtime.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">claw_runtime</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">claw_runtime.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">claw_runtime</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Workspace\claude\claw-cpp-code\src\runtime\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/runtime/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/runtime/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindThreads.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\src\runtime\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/runtime/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/runtime/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindThreads.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\src\runtime\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/runtime/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/runtime/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindThreads.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\src\runtime\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/runtime/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/runtime/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.31\Modules\FindThreads.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\src\runtime\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\bash.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\bash_validation.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\bootstrap.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\compact.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\config.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\conversation.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\file_ops.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\green_contract.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\hooks.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\json_value.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\lane_events.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\lsp_client.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\mcp.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\mcp_client.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\mcp_lifecycle_hardened.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\mcp_stdio.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\mcp_tool_bridge.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\oauth.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\permissions.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\permission_enforcer.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\plugin_lifecycle.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\policy_engine.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\prompt.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\recovery_recipes.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\remote.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\sandbox.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\session.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\session_control.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\sse.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\stale_branch.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\summary_compression.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\task_packet.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\task_registry.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\team_cron_registry.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\trust_resolver.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\usage.cpp" />
+    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\runtime\src\worker_boot.cpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\bash.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\bash_validation.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\bootstrap.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\compact.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\config.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\conversation.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\file_ops.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\green_contract.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\hooks.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\json_value.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\lane_events.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\lsp_client.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\mcp.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\mcp_client.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\mcp_lifecycle_hardened.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\mcp_stdio.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\mcp_tool_bridge.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\oauth.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\permissions.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\permission_enforcer.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\plugin_lifecycle.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\policy_engine.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\prompt.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\recovery_recipes.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\remote.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\sandbox.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\session.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\session_control.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\sse.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\stale_branch.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\summary_compression.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\task_packet.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\task_registry.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\team_cron_registry.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\trust_resolver.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\usage.hpp" />
+    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\src\runtime\include\worker_boot.hpp" />
+    <Natvis Include="C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\nlohmann_json.natvis">
+    </Natvis>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\ZERO_CHECK.vcxproj">
+      <Project>{FFC9F754-B57A-3F66-9CBD-98033BA8DC7D}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
