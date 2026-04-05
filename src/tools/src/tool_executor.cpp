@@ -6,6 +6,7 @@
 #include "web_tools.hpp"
 
 #include <nlohmann/json.hpp>
+#include <set>
 #include <string>
 #include <filesystem>
 #include <mutex>
@@ -126,32 +127,82 @@ run_bash(const json& input) {
 
 static tl::expected<std::string, std::string>
 run_read_file(const json& input) {
-    auto path = fs::path(input.value("file_path", std::string{}));
+    // Rust ReadFileInput: path, offset, limit
+    auto path = fs::path(input.value("path", std::string{}));
+    std::optional<std::size_t> max_bytes;
+    if (input.contains("limit")) {
+        auto limit = input["limit"].get<std::size_t>();
+        // offset + limit approximation for max_bytes
+        auto offset = input.value("offset", std::size_t{0});
+        max_bytes = offset + limit;
+    }
     auto ws = workspace_root();
-    auto r = claw::runtime::read_file(path, ws);
+    auto r = claw::runtime::read_file(path, ws, max_bytes);
     if (!r) return tl::unexpected(r.error());
-    return json{{"content", *r}}.dump(2);
+
+    // Apply offset if provided (skip first N lines)
+    std::string content = *r;
+    if (input.contains("offset")) {
+        auto offset = input["offset"].get<std::size_t>();
+        std::size_t pos = 0;
+        for (std::size_t i = 0; i < offset && pos < content.size(); ++i) {
+            pos = content.find('\n', pos);
+            if (pos != std::string::npos) ++pos;
+            else { pos = content.size(); break; }
+        }
+        content = content.substr(pos);
+    }
+
+    return json{{"content", content}}.dump(2);
 }
 
 static tl::expected<std::string, std::string>
 run_write_file(const json& input) {
-    auto path = fs::path(input.value("file_path", std::string{}));
+    // Rust WriteFileInput: path, content
+    auto path = fs::path(input.value("path", std::string{}));
     auto content = input.value("content", std::string{});
     auto ws = workspace_root();
     auto r = claw::runtime::write_file(path, content, ws);
     if (!r) return tl::unexpected(r.error());
-    return json{{"result", "ok"}}.dump(2);
+    return json{
+        {"path", path.string()},
+        {"bytes_written", content.size()},
+        {"result", "ok"}
+    }.dump(2);
 }
 
 static tl::expected<std::string, std::string>
 run_edit_file(const json& input) {
-    auto path = fs::path(input.value("file_path", std::string{}));
+    // Rust EditFileInput: path, old_string, new_string, replace_all
+    auto path = fs::path(input.value("path", std::string{}));
     auto old_string = input.value("old_string", std::string{});
     auto new_string = input.value("new_string", std::string{});
+    // replace_all: if true, replace all occurrences (not just first)
+    bool replace_all = input.value("replace_all", false);
     auto ws = workspace_root();
+
+    if (replace_all) {
+        // Read file, replace all, write back
+        auto file_content = claw::runtime::read_file(path, ws);
+        if (!file_content) return tl::unexpected(file_content.error());
+        std::string modified = *file_content;
+        std::size_t count = 0;
+        std::size_t pos = 0;
+        while ((pos = modified.find(old_string, pos)) != std::string::npos) {
+            modified.replace(pos, old_string.size(), new_string);
+            pos += new_string.size();
+            ++count;
+        }
+        if (count == 0)
+            return tl::unexpected(std::string("old_string not found in file"));
+        auto wr = claw::runtime::write_file(path, modified, ws);
+        if (!wr) return tl::unexpected(wr.error());
+        return json{{"path", path.string()}, {"replacements", count}}.dump(2);
+    }
+
     auto r = claw::runtime::edit_file(path, old_string, new_string, ws);
     if (!r) return tl::unexpected(r.error());
-    return json{{"result", "ok"}}.dump(2);
+    return json{{"path", path.string()}, {"replacements", 1}}.dump(2);
 }
 
 static tl::expected<std::string, std::string>
@@ -169,28 +220,64 @@ run_glob_search(const json& input) {
 
 static tl::expected<std::string, std::string>
 run_grep_search(const json& input) {
+    // Rust GrepSearchInput: pattern, path, glob, output_mode, -B, -A, -C, context, -n, -i, type,
+    //   head_limit, offset, multiline
     auto pattern = input.value("pattern", std::string{});
     auto dir = input.contains("path")
         ? fs::path(input["path"].get<std::string>())
         : workspace_root();
-    bool use_regex = input.value("use_regex", true);
+    bool case_insensitive = input.value("-i", false);
+    bool use_regex = !case_insensitive; // regex by default unless -i
     std::optional<std::string_view> file_glob;
     std::string glob_str;
     if (input.contains("glob")) {
         glob_str = input["glob"].get<std::string>();
         file_glob = glob_str;
+    } else if (input.contains("type")) {
+        // Map type filter to glob (e.g., "py" -> "*.py")
+        glob_str = "*." + input["type"].get<std::string>();
+        file_glob = glob_str;
     }
+
     auto r = claw::runtime::grep_search(dir, pattern, use_regex, file_glob);
     if (!r) return tl::unexpected(r.error());
-    json matches = json::array();
-    for (auto& m : *r) {
-        matches.push_back({
-            {"file", m.file.string()},
-            {"line_number", m.line_number},
-            {"line_content", m.line_content}
-        });
+
+    // Apply head_limit
+    std::size_t head_limit = input.value("head_limit", std::size_t{250});
+    std::size_t offset = input.value("offset", std::size_t{0});
+    auto output_mode = input.value("output_mode", std::string{"files_with_matches"});
+
+    json result_json;
+    if (output_mode == "count") {
+        result_json = json{{"count", r->size()}};
+    } else if (output_mode == "files_with_matches") {
+        // Deduplicate files
+        std::set<std::string> seen;
+        json files = json::array();
+        std::size_t idx = 0;
+        for (auto& m : *r) {
+            auto ps = m.file.string();
+            if (seen.insert(ps).second) {
+                if (idx >= offset && files.size() < head_limit)
+                    files.push_back(ps);
+                ++idx;
+            }
+        }
+        result_json = json{{"files", files}};
+    } else {
+        // "content" mode — return matching lines
+        json matches = json::array();
+        for (std::size_t i = offset; i < r->size() && matches.size() < head_limit; ++i) {
+            auto& m = (*r)[i];
+            matches.push_back({
+                {"file", m.file.string()},
+                {"line_number", m.line_number},
+                {"line_content", m.line_content}
+            });
+        }
+        result_json = json{{"matches", matches}};
     }
-    return json{{"matches", matches}}.dump(2);
+    return result_json.dump(2);
 }
 
 // ── Tool dispatch: PowerShell (Windows) ──────────────────────────────────
@@ -306,7 +393,9 @@ run_task_list(const json& /*input*/) {
     for (auto& t : tasks)
         arr.push_back({{"task_id", t.task_id}, {"prompt", t.prompt},
                         {"status", std::string(claw::runtime::task_status_name(t.status))},
-                        {"task_packet", nullptr}});
+                        {"task_packet", nullptr},
+                        {"updated_at", t.updated_at},
+                        {"team_id", t.team_id ? json(*t.team_id) : json(nullptr)}});
     return json{{"tasks", arr}, {"count", tasks.size()}}.dump(2);
 }
 
@@ -398,9 +487,9 @@ run_worker_observe(const json& input) {
 
 static tl::expected<std::string, std::string>
 run_worker_resolve_trust(const json& input) {
+    // Rust: WorkerIdInput { worker_id } — always resolves trust (approves)
     auto id = input.value("worker_id", std::string{});
-    bool approved = input.value("approved", true);
-    auto r = global_worker_registry().resolve_trust(id, approved);
+    auto r = global_worker_registry().resolve_trust(id, true);
     if (!r) return tl::unexpected(r.error());
     return worker_to_json(*r).dump(2);
 }
@@ -621,8 +710,16 @@ run_mcp_auth(const json& input) {
         case claw::runtime::McpConnectionStatus::Error:        status_str = "error"; break;
         default:                                               status_str = "disconnected"; break;
     }
+    json server_info = {
+        {"name", state->server_name},
+        {"status", status_str},
+        {"tools", state->tools.size()},
+        {"resources", state->resources.size()}
+    };
+    if (state->last_error) server_info["last_error"] = *state->last_error;
     return json{
         {"server", server}, {"status", status_str},
+        {"server_info", server_info},
         {"tool_count", state->tools.size()},
         {"resource_count", state->resources.size()}
     }.dump(2);

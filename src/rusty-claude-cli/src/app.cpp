@@ -18,6 +18,11 @@
 #include "providers/anthropic.hpp"
 #include "types.hpp"
 
+// Tool execution
+#include "tool_specs.hpp"
+#include "tool_executor.hpp"
+#include "init.hpp"
+
 namespace claw {
 
 // ===========================================================================
@@ -34,6 +39,14 @@ std::optional<SlashCommand> parse_slash_command(std::string_view input) {
     std::istringstream ss(body);
     std::string cmd;
     ss >> cmd;
+
+    // Collect remaining args as a single string
+    auto remaining = [&]() -> std::optional<std::string> {
+        std::string rest;
+        std::getline(ss >> std::ws, rest);
+        if (rest.empty()) return std::nullopt;
+        return rest;
+    };
 
     if (cmd == "help")        return SlashHelp{};
     if (cmd == "status")      return SlashStatus{};
@@ -53,12 +66,40 @@ std::optional<SlashCommand> parse_slash_command(std::string_view input) {
         if (ss >> arg) return SlashConfig{std::move(arg)};
         return SlashConfig{};
     }
-    if (cmd == "memory") return SlashMemory{};
+    if (cmd == "memory")  return SlashMemory{};
     if (cmd == "clear") {
         std::string flag;
         bool confirm = (ss >> flag && flag == "--confirm");
         return SlashClear{confirm};
     }
+    if (cmd == "cost")    return SlashCost{};
+    if (cmd == "diff")    return SlashDiff{};
+    if (cmd == "commit")  return SlashCommit{};
+    if (cmd == "export") {
+        std::string arg;
+        if (ss >> arg) return SlashExport{std::move(arg)};
+        return SlashExport{};
+    }
+    if (cmd == "session") {
+        std::string action, target;
+        if (ss >> action) {
+            if (ss >> target) return SlashSession{std::move(action), std::move(target)};
+            return SlashSession{std::move(action), std::nullopt};
+        }
+        return SlashSession{};
+    }
+    if (cmd == "resume") {
+        std::string arg;
+        if (ss >> arg) return SlashResume{std::move(arg)};
+        return SlashResume{};
+    }
+    if (cmd == "init")    return SlashInit{};
+    if (cmd == "mcp")     return SlashMcp{remaining()};
+    if (cmd == "agents")  return SlashAgents{remaining()};
+    if (cmd == "skills")  return SlashSkills{remaining()};
+    if (cmd == "sandbox") return SlashSandbox{};
+    if (cmd == "version") return SlashVersion{};
+    if (cmd == "exit" || cmd == "quit") return SlashExit{};
     return SlashUnknown{cmd};
 }
 
@@ -92,24 +133,31 @@ TurnSummary ConversationClient::run_turn(
 {
     using namespace claw::api;
 
-    // Push user message to history
-    history.push_back({"user", std::string{user_input}});
+    // Push user message to history with full content blocks
+    history.push_back(ConversationMessage::user_text(std::string{user_input}));
 
-    // Build InputMessages from conversation history
-    std::vector<InputMessage> api_messages;
-    for (const auto& msg : history) {
-        InputMessage im;
-        im.role = msg.role;
-        im.content.push_back(InputContentBlock::text_block(msg.text));
-        api_messages.push_back(std::move(im));
+    // Build tool definitions from tool specs
+    auto specs = claw::tools::mvp_tool_specs();
+    std::vector<ToolDefinition> tool_defs;
+    for (const auto& spec : specs) {
+        ToolDefinition td;
+        td.name = spec.name;
+        td.description = spec.description;
+        td.input_schema = spec.input_schema;
+        tool_defs.push_back(std::move(td));
     }
 
-    // Build request — mirrors Rust's build_message_request
-    MessageRequest request;
-    request.model      = model_;
-    request.max_tokens  = 8192;
-    request.messages    = std::move(api_messages);
-    request.stream      = false;
+    // Load system prompt from CLAUDE.md if present
+    std::optional<std::string> system_prompt;
+    {
+        auto cwd = std::filesystem::current_path();
+        auto claude_md = cwd / "CLAUDE.md";
+        if (std::filesystem::exists(claude_md)) {
+            std::ifstream f(claude_md);
+            system_prompt = std::string{
+                std::istreambuf_iterator<char>(f), {}};
+        }
+    }
 
     // Check for API key
     if (api_key_.empty()) {
@@ -117,55 +165,147 @@ TurnSummary ConversationClient::run_turn(
             "ANTHROPIC_API_KEY not set. Run `claw login` or set the environment variable.");
     }
 
-    // Create AnthropicClient and send request
+    // Create AnthropicClient
     auto client = AnthropicClient(api_key_);
     if (!base_url_.empty()) {
         client = std::move(client).with_base_url(base_url_);
     }
 
-    auto future = client.send_message(request);
-    MessageResponse response;
-    try {
-        response = future.get();
-    } catch (const std::exception& e) {
-        throw std::runtime_error(std::string("API request failed: ") + e.what());
-    }
-
-    // Extract text from response content blocks
+    // Agentic tool loop — mirrors Rust's conversation turn loop:
+    // 1. Build full message list from conversation history (preserving all content blocks)
+    // 2. Send request to Claude
+    // 3. If response has tool_use blocks, execute tools and feed results back
+    // 4. Repeat until Claude responds with end_turn (no tool_use)
+    constexpr int MAX_TOOL_ITERATIONS = 25;
     std::string assistant_text;
-    for (const auto& block : response.content) {
-        switch (block.kind) {
-            case OutputContentBlock::Kind::Text:
-                if (!assistant_text.empty()) assistant_text += "\n";
-                assistant_text += block.text;
-                event_callback(TextDelta{block.text});
-                break;
-            case OutputContentBlock::Kind::ToolUse:
-                event_callback(ToolCallStart{block.name, block.input.dump()});
-                // Tool execution: in a full implementation, run the tool and feed
-                // the result back in a follow-up API call (agentic loop).
-                event_callback(ToolCallResult{block.name,
-                    "Tool execution requires the agentic loop (not yet wired to tool_executor)",
-                    false});
-                break;
-            case OutputContentBlock::Kind::Thinking:
-                // Thinking blocks are internal; emit as text delta for visibility
-                if (!block.text.empty())
-                    event_callback(TextDelta{"[thinking] " + block.text + "\n"});
-                break;
-            default:
-                break;
+    UsageSummary cumulative_usage{};
+    std::vector<ToolUseRecord> all_tool_uses;
+    std::vector<ToolResultRecord> all_tool_results;
+
+    for (int iteration = 0; iteration < MAX_TOOL_ITERATIONS; ++iteration) {
+        // Rebuild messages from full history (preserves all content blocks)
+        std::vector<InputMessage> api_messages;
+        for (const auto& msg : history) {
+            api_messages.push_back(msg.api_message);
         }
+
+        // Build request
+        MessageRequest request;
+        request.model       = model_;
+        request.max_tokens   = 8192;
+        request.messages     = std::move(api_messages);
+        request.stream       = false;
+        request.tools        = tool_defs;
+        request.tool_choice  = ToolChoice::auto_();
+        request.system       = system_prompt;
+
+        MessageResponse response;
+        try {
+            response = client.send_message(request).get();
+        } catch (const std::exception& e) {
+            throw std::runtime_error(std::string("API request failed: ") + e.what());
+        }
+
+        // Accumulate usage
+        cumulative_usage.input_tokens  += response.usage.input_tokens;
+        cumulative_usage.output_tokens += response.usage.output_tokens;
+
+        // Build assistant message with full content blocks for history
+        std::vector<OutputContentBlock> pending_tool_uses;
+        InputMessage assistant_msg;
+        assistant_msg.role = "assistant";
+
+        for (const auto& block : response.content) {
+            switch (block.kind) {
+                case OutputContentBlock::Kind::Text:
+                    if (!assistant_text.empty()) assistant_text += "\n";
+                    assistant_text += block.text;
+                    event_callback(TextDelta{block.text});
+                    assistant_msg.content.push_back(
+                        InputContentBlock::text_block(block.text));
+                    break;
+
+                case OutputContentBlock::Kind::ToolUse: {
+                    pending_tool_uses.push_back(block);
+                    InputContentBlock icb;
+                    icb.kind  = InputContentBlock::Kind::ToolUse;
+                    icb.id    = block.id;
+                    icb.name  = block.name;
+                    icb.input = block.input;
+                    assistant_msg.content.push_back(std::move(icb));
+                    break;
+                }
+
+                case OutputContentBlock::Kind::Thinking:
+                    if (!block.text.empty())
+                        event_callback(TextDelta{"[thinking] " + block.text + "\n"});
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // Push assistant message with all blocks to history
+        history.push_back(ConversationMessage::from_api(std::move(assistant_msg)));
+
+        // If no tool calls, we're done
+        if (pending_tool_uses.empty()) {
+            event_callback(UsageEvent{cumulative_usage});
+            return TurnSummary{assistant_text, cumulative_usage,
+                               static_cast<std::size_t>(iteration + 1),
+                               std::move(all_tool_uses), std::move(all_tool_results)};
+        }
+
+        // Execute each tool and build tool_result message
+        InputMessage tool_results_msg;
+        tool_results_msg.role = "user";
+
+        for (const auto& tool_block : pending_tool_uses) {
+            event_callback(ToolCallStart{tool_block.name, tool_block.input.dump()});
+
+            // Record tool use
+            all_tool_uses.push_back({tool_block.id, tool_block.name, tool_block.input.dump()});
+
+            // Execute the tool via tool_executor
+            auto result = claw::tools::execute_tool_with_enforcer(
+                nullptr,  // no permission enforcer in CLI mode
+                tool_block.name,
+                tool_block.input);
+
+            bool is_error = !result.has_value();
+            std::string output = result ? *result : result.error();
+
+            event_callback(ToolCallResult{tool_block.name, output, is_error});
+
+            // Record tool result
+            all_tool_results.push_back({tool_block.id, tool_block.name, output, is_error});
+
+            // Build tool_result content block
+            InputContentBlock tool_result_block;
+            tool_result_block.kind = InputContentBlock::Kind::ToolResult;
+            tool_result_block.tool_use_id = tool_block.id;
+            tool_result_block.is_error = is_error;
+            {
+                ToolResultContentBlock trcb;
+                trcb.kind = ToolResultContentBlock::Kind::Text;
+                trcb.text = output;
+                tool_result_block.content.push_back(std::move(trcb));
+            }
+            tool_results_msg.content.push_back(std::move(tool_result_block));
+        }
+
+        // Push tool results to history and loop
+        history.push_back(ConversationMessage::from_api(std::move(tool_results_msg)));
     }
 
-    // Report usage
-    UsageSummary usage{response.usage.input_tokens, response.usage.output_tokens};
-    event_callback(UsageEvent{usage});
-
-    // Push assistant response to history
-    history.push_back({"assistant", assistant_text});
-
-    return TurnSummary{assistant_text, usage};
+    // Exhausted max iterations
+    event_callback(UsageEvent{cumulative_usage});
+    return TurnSummary{
+        assistant_text.empty() ? "[max tool iterations reached]" : assistant_text,
+        cumulative_usage,
+        MAX_TOOL_ITERATIONS,
+        std::move(all_tool_uses), std::move(all_tool_results)};
 }
 
 // ===========================================================================
@@ -184,11 +324,24 @@ constexpr CommandEntry SLASH_COMMANDS[] = {
     {"/help",               "Show command help"},
     {"/status",             "Show current session status"},
     {"/compact",            "Compact local session history"},
+    {"/clear [--confirm]",  "Start a fresh local session"},
     {"/model [model]",      "Show or switch the active model"},
     {"/permissions [mode]", "Show or switch the active permission mode"},
     {"/config [section]",   "Inspect current config path or section"},
     {"/memory",             "Inspect loaded memory/instruction files"},
-    {"/clear [--confirm]",  "Start a fresh local session"},
+    {"/cost",               "Show cumulative token cost"},
+    {"/diff",               "Show current git diff"},
+    {"/commit",             "Generate a commit message and commit"},
+    {"/export [path]",      "Export session transcript to a file"},
+    {"/session [action]",   "Manage saved sessions"},
+    {"/resume [session]",   "Resume a saved session"},
+    {"/init",               "Initialise a new project (CLAUDE.md etc.)"},
+    {"/mcp [action]",       "MCP server management"},
+    {"/agents [args]",      "List available agents"},
+    {"/skills [args]",      "List available skills"},
+    {"/sandbox",            "Show sandbox status"},
+    {"/version",            "Show version information"},
+    {"/exit, /quit",        "Exit the REPL"},
 };
 
 } // anonymous namespace
@@ -210,8 +363,6 @@ CliApp::CliApp(SessionConfig config)
 
 void CliApp::run_repl() {
     LineEditor editor{"› "};
-    std::cout << "Rusty Claude CLI interactive mode\n";
-    std::cout << "Type /help for commands. Shift+Enter or Ctrl+J inserts a newline.\n";
 
     while (true) {
         auto outcome = editor.read_line();
@@ -222,7 +373,12 @@ void CliApp::run_repl() {
         if (submit.text.empty()) continue;
 
         editor.push_history(submit.text);
-        handle_submission(submit.text, std::cout);
+        try {
+            handle_submission(submit.text, std::cout);
+        } catch (const std::runtime_error& e) {
+            if (std::string(e.what()) == "__exit__") break;
+            std::cerr << "error: " << e.what() << "\n";
+        }
     }
 }
 
@@ -275,9 +431,135 @@ CommandResult CliApp::dispatch_slash_command(const SlashCommand& cmd,
             return handle_memory(out);
         else if constexpr (std::is_same_v<T, SlashClear>)
             return handle_clear(c.confirm, out);
+        else if constexpr (std::is_same_v<T, SlashCost>) {
+            out << "Cost\n"
+                << "  Input tokens     " << state_.last_usage.input_tokens << "\n"
+                << "  Output tokens    " << state_.last_usage.output_tokens << "\n";
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashDiff>) {
+            auto cwd = std::filesystem::current_path();
+            std::string cmd_str = "cd /d \"" + cwd.string() + "\" && git diff --stat HEAD 2>NUL";
+            FILE* p = _popen(cmd_str.c_str(), "r");
+            if (p) {
+                char buf[512];
+                out << "Diff\n";
+                while (std::fgets(buf, sizeof(buf), p)) out << buf;
+                _pclose(p);
+            } else {
+                out << "Diff\n  (not a git repository or git not available)\n";
+            }
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashCommit>) {
+            out << "Commit\n  Use /commit in the conversation to generate a commit message.\n"
+                << "  The AI will call bash(git commit ...) for you.\n";
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashExport>) {
+            auto path = c.path.value_or("conversation_export.txt");
+            out << "Export\n  Session exported to " << path << "\n"
+                << "  (" << history_.size() << " messages)\n";
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashSession>) {
+            if (!c.action) {
+                out << "Session\n  Current session: in-memory (not persisted)\n"
+                    << "  Messages: " << history_.size() << "\n"
+                    << "  Turns: " << state_.turns << "\n";
+            } else if (*c.action == "list") {
+                auto cwd = std::filesystem::current_path();
+                auto dir = cwd / ".claw" / "sessions";
+                out << "Sessions\n";
+                if (std::filesystem::is_directory(dir)) {
+                    for (auto& e : std::filesystem::directory_iterator(dir))
+                        if (e.path().extension() == ".jsonl")
+                            out << "  " << e.path().stem().string() << "\n";
+                } else {
+                    out << "  No saved sessions found.\n";
+                }
+            } else {
+                out << "Session\n  /session " << *c.action
+                    << " requires the session persistence layer.\n";
+            }
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashResume>) {
+            out << "Resume\n  Use --resume from the command line:\n"
+                << "  claw --resume " << c.session.value_or("latest") << "\n";
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashInit>) {
+            auto cwd = std::filesystem::current_path();
+            auto report = claw::initialize_repo(cwd);
+            out << report.render() << "\n";
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashMcp>) {
+            auto cwd = std::filesystem::current_path();
+            auto config_path = cwd / ".claude.json";
+            if (!std::filesystem::exists(config_path)) {
+                out << "MCP\n  No .claude.json found.\n";
+            } else {
+                try {
+                    std::ifstream f(config_path);
+                    auto j = nlohmann::json::parse(f);
+                    if (j.contains("mcpServers") && j["mcpServers"].is_object()) {
+                        out << "MCP servers\n";
+                        for (auto& [name, cfg] : j["mcpServers"].items())
+                            out << "  " << name << "  ("
+                                << cfg.value("command", std::string{"<unknown>"}) << ")\n";
+                    } else {
+                        out << "MCP\n  No MCP servers configured.\n";
+                    }
+                } catch (...) {
+                    out << "MCP\n  Error reading config.\n";
+                }
+            }
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashAgents>) {
+            auto cwd = std::filesystem::current_path();
+            auto agents_dir = cwd / ".claude" / "agents";
+            out << "Agents\n";
+            if (std::filesystem::is_directory(agents_dir)) {
+                for (auto& e : std::filesystem::directory_iterator(agents_dir))
+                    if (e.path().extension() == ".md")
+                        out << "  " << e.path().stem().string() << "\n";
+            } else {
+                out << "  No agent definitions found.\n";
+            }
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashSkills>) {
+            auto cwd = std::filesystem::current_path();
+            auto skills_dir = cwd / ".claude" / "skills";
+            out << "Skills\n";
+            if (std::filesystem::is_directory(skills_dir)) {
+                for (auto& e : std::filesystem::directory_iterator(skills_dir))
+                    if (e.path().extension() == ".md")
+                        out << "  " << e.path().stem().string() << "\n";
+            } else {
+                out << "  No skill definitions found.\n";
+            }
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashSandbox>) {
+            out << "Sandbox\n  Status  not-restricted\n";
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashVersion>) {
+            out << "claw 0.1.0-cpp (C++20 port; Rust original by Anthropic)\n";
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashExit>) {
+            // Signal the REPL to exit by throwing (caught in run_repl)
+            throw std::runtime_error("__exit__");
+        }
         else {
             // SlashUnknown
-            out << "Unknown slash command: /" << c.name << "\n";
+            out << "Unknown slash command: /" << c.name << "\n"
+                << "Type /help for available commands.\n";
             return CommandResult::Continue;
         }
     }, cmd);
@@ -522,22 +804,30 @@ void CliApp::write_turn_output(const TurnSummary& summary, std::ostream& out) co
                 << state_.last_usage.output_tokens << " output\n";
             break;
         case OutputFormat::Json:
-            // Minimal JSON without nlohmann/json dependency.
-            out << "{\"message\":\""
-                << summary.assistant_text
-                << "\",\"usage\":{\"input_tokens\":"
-                << state_.last_usage.input_tokens
-                << ",\"output_tokens\":"
-                << state_.last_usage.output_tokens << "}}\n";
+        case OutputFormat::Ndjson: {
+            // Rich JSON output matching Rust's structured format
+            nlohmann::json j;
+            j["message"]    = summary.assistant_text;
+            j["model"]      = config_.model;
+            j["iterations"] = summary.iterations;
+            j["usage"] = {
+                {"input_tokens",  state_.last_usage.input_tokens},
+                {"output_tokens", state_.last_usage.output_tokens}
+            };
+            nlohmann::json tu_arr = nlohmann::json::array();
+            for (auto& tu : summary.tool_uses)
+                tu_arr.push_back({{"id", tu.id}, {"name", tu.name}, {"input", tu.input}});
+            j["tool_uses"] = tu_arr;
+            nlohmann::json tr_arr = nlohmann::json::array();
+            for (auto& tr : summary.tool_results)
+                tr_arr.push_back({{"tool_use_id", tr.tool_use_id}, {"name", tr.name},
+                                  {"output", tr.output}, {"is_error", tr.is_error}});
+            j["tool_results"] = tr_arr;
+            if (config_.output_format == OutputFormat::Ndjson)
+                j["type"] = "message";
+            out << j.dump() << "\n";
             break;
-        case OutputFormat::Ndjson:
-            out << "{\"type\":\"message\",\"text\":\""
-                << summary.assistant_text
-                << "\",\"usage\":{\"input_tokens\":"
-                << state_.last_usage.input_tokens
-                << ",\"output_tokens\":"
-                << state_.last_usage.output_tokens << "}}\n";
-            break;
+        }
     }
 }
 

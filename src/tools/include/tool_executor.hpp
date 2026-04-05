@@ -7,10 +7,8 @@
 #include <set>
 #include <string>
 
-namespace claw {
-namespace runtime {
-struct PermissionEnforcer;
-}
+namespace claw::runtime {
+class PermissionEnforcer;
 }
 
 namespace claw::tools {
@@ -23,14 +21,14 @@ namespace claw::tools {
 /// Same but with an optional permission enforcer applied first.
 [[nodiscard]] tl::expected<std::string, std::string>
     execute_tool_with_enforcer(
-        const runtime::PermissionEnforcer* enforcer,
+        const claw::runtime::PermissionEnforcer* enforcer,
         const std::string& name,
         const json& input);
 
 /// Check permission via enforcer; returns Err(reason) if denied.
 [[nodiscard]] tl::expected<void, std::string>
     enforce_permission_check(
-        const runtime::PermissionEnforcer& enforcer,
+        const claw::runtime::PermissionEnforcer& enforcer,
         const std::string& tool_name,
         const json& input);
 

@@ -5,6 +5,7 @@
 #include "args.hpp"
 #include "input.hpp"
 #include "render.hpp"
+#include "types.hpp"  // InputMessage, InputContentBlock, ToolResultContentBlock
 
 #include <filesystem>
 #include <iosfwd>
@@ -23,18 +24,49 @@ struct UsageSummary {
     uint64_t output_tokens{0};
 };
 
+// ---- ToolUseRecord / ToolResultRecord ----
+/// Records of tool interactions for structured output.
+struct ToolUseRecord {
+    std::string id;
+    std::string name;
+    std::string input;
+};
+struct ToolResultRecord {
+    std::string tool_use_id;
+    std::string name;
+    std::string output;
+    bool is_error{false};
+};
+
 // ---- TurnSummary ----
-/// Minimal mirror of runtime::TurnSummary.
+/// Mirrors Rust TurnSummary.
 struct TurnSummary {
     std::string assistant_text;
     UsageSummary usage;
+    std::size_t iterations{1};
+    std::vector<ToolUseRecord> tool_uses;
+    std::vector<ToolResultRecord> tool_results;
 };
 
 // ---- ConversationMessage ----
-/// Minimal mirror of runtime::ConversationMessage.
+/// Rich message with full content blocks — mirrors Rust ConversationMessage.
+/// Stores API-level InputMessage directly so tool_use/tool_result blocks
+/// survive across turns in the conversation history.
 struct ConversationMessage {
-    std::string role; // "user" | "assistant"
-    std::string text;
+    claw::api::InputMessage api_message;
+
+    /// Convenience: user text message
+    static ConversationMessage user_text(std::string text) {
+        ConversationMessage m;
+        m.api_message = claw::api::InputMessage::user_text(std::move(text));
+        return m;
+    }
+    /// Convenience: wrap a pre-built InputMessage
+    static ConversationMessage from_api(claw::api::InputMessage msg) {
+        ConversationMessage m;
+        m.api_message = std::move(msg);
+        return m;
+    }
 };
 
 // ---- StreamEvent ----
@@ -76,20 +108,36 @@ enum class CommandResult { Continue };
 // ---- SlashCommand ----
 /// Mirrors Rust's SlashCommand enum.
 
-struct SlashHelp   {};
-struct SlashStatus {};
-struct SlashCompact{};
-struct SlashModel  { std::optional<std::string> model; };
+struct SlashHelp        {};
+struct SlashStatus      {};
+struct SlashCompact     {};
+struct SlashModel       { std::optional<std::string> model; };
 struct SlashPermissions { std::optional<std::string> mode; };
-struct SlashConfig { std::optional<std::string> section; };
-struct SlashMemory {};
-struct SlashClear  { bool confirm{false}; };
-struct SlashUnknown{ std::string name; };
+struct SlashConfig      { std::optional<std::string> section; };
+struct SlashMemory      {};
+struct SlashClear       { bool confirm{false}; };
+struct SlashCost        {};
+struct SlashDiff        {};
+struct SlashCommit      {};
+struct SlashExport      { std::optional<std::string> path; };
+struct SlashSession     { std::optional<std::string> action; std::optional<std::string> target; };
+struct SlashResume      { std::optional<std::string> session; };
+struct SlashInit        {};
+struct SlashMcp         { std::optional<std::string> args; };
+struct SlashAgents      { std::optional<std::string> args; };
+struct SlashSkills      { std::optional<std::string> args; };
+struct SlashSandbox     {};
+struct SlashVersion     {};
+struct SlashExit        {};
+struct SlashUnknown     { std::string name; };
 
 using SlashCommand = std::variant<
     SlashHelp, SlashStatus, SlashCompact,
     SlashModel, SlashPermissions, SlashConfig,
-    SlashMemory, SlashClear, SlashUnknown>;
+    SlashMemory, SlashClear, SlashCost, SlashDiff,
+    SlashCommit, SlashExport, SlashSession, SlashResume,
+    SlashInit, SlashMcp, SlashAgents, SlashSkills,
+    SlashSandbox, SlashVersion, SlashExit, SlashUnknown>;
 
 /// Parse a text string as a slash command.
 /// Returns nullopt when the string does not start with '/'.
