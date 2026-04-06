@@ -34,6 +34,7 @@ find_package(Threads REQUIRED)
 set(RUNTIME_HEADERS
     include/bash.hpp
     include/bash_validation.hpp
+    include/branch_lock.hpp
     include/bootstrap.hpp
     include/compact.hpp
     include/config.hpp
@@ -74,6 +75,7 @@ set(RUNTIME_HEADERS
 set(RUNTIME_SOURCES
     src/bash.cpp
     src/bash_validation.cpp
+    src/branch_lock.cpp
     src/bootstrap.cpp
     src/compact.cpp
     src/config.cpp

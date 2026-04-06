@@ -495,10 +495,20 @@ materialize_source(const PluginInstallSource& source,
             return s.path;
         } else {
             // Git clone --depth 1
+            if (s.url.find_first_of("\"&|;$<>\n\r`'") != std::string::npos) {
+                return tl::unexpected(PluginError::command_failed(
+                    std::format("invalid or dangerous characters in git url `{}`", s.url)));
+            }
+
             auto dest = temp_root / std::format("plugin-{}", unix_time_ms());
-            std::string cmd = std::format(
-                "git clone --depth 1 {} {}",
+            std::string inner = std::format(
+                "git clone --depth 1 \"{}\" \"{}\"",
                 s.url, dest.string());
+#ifdef _WIN32
+            std::string cmd = "\"" + inner + "\"";
+#else
+            std::string cmd = inner;
+#endif
             int ret = std::system(cmd.c_str());  // NOLINT(cert-env33-c)
             if (ret != 0)
                 return tl::unexpected(PluginError::command_failed(

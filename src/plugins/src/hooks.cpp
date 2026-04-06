@@ -166,8 +166,10 @@ ProcResult spawn_shell(std::string_view command,
     SetHandleInformation(so_rd, HANDLE_FLAG_INHERIT, 0);
     SetHandleInformation(se_rd, HANDLE_FLAG_INHERIT, 0);
 
-    // cmd /C <command>  — mirrors Rust shell_command() on Windows
-    std::string cmdline = std::format("cmd /C {}", command);
+    // cmd /C <command> — mirrors Rust shell_command() on Windows.
+    // The command is a shell command string, so we pass it to cmd.exe for interpretation.
+    // We do NOT escape it as a single argument — that would break compound commands.
+    std::string cmdline = std::format("cmd /C \"{}\"", command);
 
     // Build environment block: current env + extras
     std::string env_block;

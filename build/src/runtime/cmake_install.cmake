@@ -48,6 +48,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/claw_runtime" TYPE FILE FILES
     "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/bash.hpp"
     "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/bash_validation.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/branch_lock.hpp"
     "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/bootstrap.hpp"
     "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/compact.hpp"
     "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/config.hpp"

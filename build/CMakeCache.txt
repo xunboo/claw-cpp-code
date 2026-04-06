@@ -582,9 +582,6 @@ EXPECTED_BUILD_PACKAGE:BOOL=ON
 //Create a DEB
 EXPECTED_BUILD_PACKAGE_DEB:BOOL=ON
 
-//Enable tl::expected tests
-EXPECTED_BUILD_TESTS:BOOL=OFF
-
 //Directory under which to collect all populated content
 FETCHCONTENT_BASE_DIR:PATH=C:/Projects/GitHub/craw-cpp-code/build/_deps
 
@@ -804,6 +801,15 @@ claw-telemetry_IS_TOP_LEVEL:STATIC=OFF
 claw-telemetry_SOURCE_DIR:STATIC=C:/Projects/GitHub/craw-cpp-code/src/telemetry
 
 //Value Computed by CMake
+claw-utils_BINARY_DIR:STATIC=C:/Projects/GitHub/craw-cpp-code/build/src/utils
+
+//Value Computed by CMake
+claw-utils_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+claw-utils_SOURCE_DIR:STATIC=C:/Projects/GitHub/craw-cpp-code/src/utils
+
+//Value Computed by CMake
 claw_BINARY_DIR:STATIC=C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli
 
 //Value Computed by CMake
@@ -903,8 +909,6 @@ CMAKE_CACHE_PATCH_VERSION:INTERNAL=6
 CMAKE_COMMAND:INTERNAL=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe
 //Path to cpack program executable.
 CMAKE_CPACK_COMMAND:INTERNAL=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cpack.exe
-//ADVANCED property for variable: CMAKE_CTEST_COMMAND
-CMAKE_CTEST_COMMAND-ADVANCED:INTERNAL=1
 //Path to ctest program executable.
 CMAKE_CTEST_COMMAND:INTERNAL=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe
 //ADVANCED property for variable: CMAKE_CXX_FLAGS
@@ -1009,7 +1013,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=17
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=18
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib
@@ -1193,6 +1197,8 @@ CYGWIN_BAT-ADVANCED:INTERNAL=1
 DART_TESTING_TIMEOUT-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ENABLE_IPV6
 ENABLE_IPV6-ADVANCED:INTERNAL=1
+//Enable tl::expected tests
+EXPECTED_BUILD_TESTS:INTERNAL=OFF
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GITCOMMAND

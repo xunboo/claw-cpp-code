@@ -1,11 +1,12 @@
-﻿#pragma once
+#pragma once
 
 #include <chrono>
 #include <memory>
+#include <optional>
+#include <vector>
 #include <stdexcept>
 #include <string>
 #include <string_view>
-#include <vector>
 
 namespace claw::api {
 
@@ -15,6 +16,7 @@ class ApiError : public std::exception {
 public:
     enum class Kind {
         MissingCredentials,
+        ContextWindowExceeded,
         ExpiredOAuthToken,
         Auth,
         InvalidApiKeyEnv,
@@ -31,6 +33,12 @@ public:
     [[nodiscard]] static ApiError missing_credentials(
         std::string_view provider,
         std::vector<std::string_view> env_vars);
+    [[nodiscard]] static ApiError context_window_exceeded(
+        std::string model,
+        uint32_t estimated_input_tokens,
+        uint32_t requested_output_tokens,
+        uint32_t estimated_total_tokens,
+        uint32_t context_window_tokens);
     [[nodiscard]] static ApiError expired_oauth_token();
     [[nodiscard]] static ApiError auth(std::string message);
     [[nodiscard]] static ApiError invalid_api_key_env(std::string detail);
@@ -43,7 +51,8 @@ public:
                                       std::string error_type,
                                       std::string message,
                                       std::string body,
-                                      bool retryable);
+                                      bool retryable,
+                                      std::optional<std::string> request_id = std::nullopt);
     [[nodiscard]] static ApiError retries_exhausted(
         uint32_t attempts,
         std::unique_ptr<ApiError> last_error);
@@ -56,6 +65,9 @@ public:
     [[nodiscard]] Kind kind() const noexcept { return kind_; }
     [[nodiscard]] bool is_retryable() const noexcept;
     [[nodiscard]] const char* what() const noexcept override;
+    [[nodiscard]] std::optional<std::string> request_id() const noexcept;
+    [[nodiscard]] const char* safe_failure_class() const noexcept;
+    [[nodiscard]] bool is_generic_fatal_wrapper() const noexcept;
 
     // Accessors for specific variant fields
     [[nodiscard]] std::string_view provider() const noexcept { return provider_; }
@@ -83,6 +95,12 @@ private:
     int http_status_{0};
     std::string error_type_;
     std::string body_;
+    std::optional<std::string> request_id_;
+    std::string model_;
+    uint32_t estimated_input_tokens_{0};
+    uint32_t requested_output_tokens_{0};
+    uint32_t estimated_total_tokens_{0};
+    uint32_t context_window_tokens_{0};
     bool retryable_{false};
     bool http_is_connect_{false};
     bool http_is_timeout_{false};

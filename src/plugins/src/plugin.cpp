@@ -104,7 +104,9 @@ ProcResult run_lifecycle_proc(const std::string& command,
     si.hStdError   = se_wr;
     si.dwFlags     = STARTF_USESTDHANDLES;
 
-    std::string cmdline = "cmd /C \"" + command + "\"";
+    // cmd /C "<command>" — mirrors Rust shell_command() on Windows.
+    // The command is a shell command string, so we pass it to cmd.exe for interpretation.
+    std::string cmdline = std::format("cmd /C \"{}\"", command);
     std::string cwd_str = cwd ? cwd->string() : "";
 
     PROCESS_INFORMATION pi{};

@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // sse.cpp  -  SSE parser implementation
 // ---------------------------------------------------------------------------
 
@@ -22,11 +22,9 @@ std::optional<std::string> SseParser::next_frame() {
     };
 
     std::optional<std::pair<size_t,size_t>> found;
-    if (auto p = find_sep("\r\n\r\n"); p) found = p;
-    else if (auto p2 = find_sep("\n\n"); p2) {
-        // Prefer \n\n if it appears before any \r\n\r\n
-        if (!found || p2->first < found->first) found = p2;
-    }
+    if (auto p = find_sep("\n\n"); p) found = p;
+    else if (auto p2 = find_sep("\r\n\r\n"); p2) found = p2;
+
     if (!found) return std::nullopt;
 
     auto [pos, sep_len] = *found;
@@ -91,13 +89,14 @@ std::optional<StreamEvent> parse_frame(std::string_view frame_view) {
         if (line.front() == ':') continue;  // comment
         if (line.substr(0, 6) == "event:") {
             auto name = line.substr(6);
-            while (!name.empty() && name.front()==' ') name.remove_prefix(1);
+            while (!name.empty() && (name.front()==' '||name.front()=='\t'||name.front()=='\n'||name.front()=='\r')) name.remove_prefix(1);
+            while (!name.empty() && (name.back()==' '||name.back()=='\t'||name.back()=='\n'||name.back()=='\r')) name.remove_suffix(1);
             event_name = name;
             continue;
         }
         if (line.substr(0, 5) == "data:") {
             auto data = line.substr(5);
-            if (!data.empty() && data.front()==' ') data.remove_prefix(1);
+            while (!data.empty() && (data.front()==' '||data.front()=='\t'||data.front()=='\n'||data.front()=='\r')) data.remove_prefix(1);
             data_lines.push_back(data);
         }
     }
@@ -118,8 +117,10 @@ std::optional<StreamEvent> parse_frame(std::string_view frame_view) {
         StreamEvent evt;
         from_json(j, evt);
         return evt;
-    } catch (...) {
-        return std::nullopt;
+    } catch (const nlohmann::json::exception& e) {
+        throw ApiError::json(e.what());
+    } catch (const std::exception& e) {
+        throw ApiError::json(e.what());
     }
 }
 

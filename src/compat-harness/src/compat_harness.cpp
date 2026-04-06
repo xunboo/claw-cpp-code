@@ -1,4 +1,4 @@
-﻿//
+//
 // compat_harness.cpp
 // C++20 port of crates/compat-harness/src/lib.rs
 //
@@ -180,10 +180,10 @@ upstream_repo_candidates(const std::filesystem::path& primary_root) {
 
     auto current = primary_root;
     for (int depth = 0; depth < 4; ++depth) {
+        candidates.push_back(current / "claw-code");
+        candidates.push_back(current / "clawd-code");
         auto parent = current.parent_path();
         if (parent == current) break;
-        candidates.push_back(parent / "claw-code");
-        candidates.push_back(parent / "clawd-code");
         current = parent;
     }
 

@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // types.cpp  -  JSON serialisation / deserialisation for all message types
 // ---------------------------------------------------------------------------
 
@@ -32,7 +32,8 @@ void from_json(const nlohmann::json& j, ToolChoice& tc) {
     auto t = j.at("type").get<std::string>();
     if (t=="auto") tc.kind=ToolChoice::Kind::Auto;
     else if(t=="any") tc.kind=ToolChoice::Kind::Any;
-    else { tc.kind=ToolChoice::Kind::Tool; j.at("name").get_to(tc.name); }
+    else if(t=="tool") { tc.kind=ToolChoice::Kind::Tool; j.at("name").get_to(tc.name); }
+    else throw std::invalid_argument("Invalid ToolChoice type: " + t);
 }
 
 // ToolResultContentBlock
@@ -43,7 +44,8 @@ void to_json(nlohmann::json& j, const ToolResultContentBlock& b) {
 void from_json(const nlohmann::json& j, ToolResultContentBlock& b) {
     auto t=j.at("type").get<std::string>();
     if(t=="text"){b.kind=ToolResultContentBlock::Kind::Text;j.at("text").get_to(b.text);}
-    else{b.kind=ToolResultContentBlock::Kind::Json;j.at("value").get_to(b.value);}
+    else if(t=="json"){b.kind=ToolResultContentBlock::Kind::Json;j.at("value").get_to(b.value);}
+    else throw std::invalid_argument("Invalid ToolResultContentBlock type: " + t);
 }
 
 // InputContentBlock
@@ -61,6 +63,7 @@ void from_json(const nlohmann::json& j, InputContentBlock& b) {
     if(t=="text"){b.kind=InputContentBlock::Kind::Text;j.at("text").get_to(b.text);}
     else if(t=="tool_use"){b.kind=InputContentBlock::Kind::ToolUse;j.at("id").get_to(b.id);j.at("name").get_to(b.name);j.at("input").get_to(b.input);}
     else if(t=="tool_result"){b.kind=InputContentBlock::Kind::ToolResult;j.at("tool_use_id").get_to(b.tool_use_id);j.at("content").get_to(b.content);b.is_error=j.value("is_error",false);}
+    else throw std::invalid_argument("Invalid InputContentBlock type: " + t);
 }
 
 // InputMessage
@@ -124,6 +127,7 @@ void from_json(const nlohmann::json& j,OutputContentBlock& b){
     else if(t=="tool_use"){b.kind=OutputContentBlock::Kind::ToolUse;j.at("id").get_to(b.id);j.at("name").get_to(b.name);j.at("input").get_to(b.input);}
     else if(t=="thinking"){b.kind=OutputContentBlock::Kind::Thinking;b.text=j.value("thinking",std::string{});if(j.contains("signature")&&!j["signature"].is_null())b.signature=j["signature"].get<std::string>();}
     else if(t=="redacted_thinking"){b.kind=OutputContentBlock::Kind::RedactedThinking;j.at("data").get_to(b.data);}
+    else throw std::invalid_argument("Invalid OutputContentBlock type: " + t);
 }
 
 // MessageResponse
@@ -157,6 +161,7 @@ void from_json(const nlohmann::json& j,ContentBlockDelta& d){
     else if(t=="input_json_delta"){d.kind=ContentBlockDelta::Kind::InputJsonDelta;j.at("partial_json").get_to(d.partial_json);}
     else if(t=="thinking_delta"){d.kind=ContentBlockDelta::Kind::ThinkingDelta;j.at("thinking").get_to(d.text);}
     else if(t=="signature_delta"){d.kind=ContentBlockDelta::Kind::SignatureDelta;j.at("signature").get_to(d.text);}
+    else throw std::invalid_argument("Invalid ContentBlockDelta type: " + t);
 }
 
 // StreamEvent
@@ -174,6 +179,7 @@ void from_json(const nlohmann::json& j,StreamEvent& e){
     else if(t=="content_block_delta"){e.kind=StreamEvent::Kind::ContentBlockDelta;j.at("index").get_to(e.content_block_delta.index);j.at("delta").get_to(e.content_block_delta.delta);}
     else if(t=="content_block_stop"){e.kind=StreamEvent::Kind::ContentBlockStop;j.at("index").get_to(e.content_block_stop.index);}
     else if(t=="message_stop"){e.kind=StreamEvent::Kind::MessageStop;}
+    else throw std::invalid_argument("Invalid StreamEvent type: " + t);
 }
 void to_json(nlohmann::json& j,const StreamEvent& e){
     switch(e.kind){

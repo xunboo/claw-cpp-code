@@ -105,6 +105,7 @@ find_package(Threads REQUIRED)
 # ===========================================================================
 
 # Leaf libraries (no inter-crate deps)
+add_subdirectory(utils)
 add_subdirectory(telemetry)
 add_subdirectory(compat-harness)
 
@@ -136,6 +137,13 @@ endif()
 foreach(_tgt claw_runtime claw_plugins claw_tools commands claw_api claw_telemetry compat-harness claw_lib)
     if(TARGET ${_tgt})
         target_link_libraries(${_tgt} PUBLIC tl::expected)
+    endif()
+endforeach()
+
+# utils (header-only shared utilities) for targets that use escape_win32_arg / is_safe_git_ref
+foreach(_tgt claw_runtime claw_plugins)
+    if(TARGET ${_tgt})
+        target_link_libraries(${_tgt} PUBLIC claw_utils)
     endif()
 endforeach()
 

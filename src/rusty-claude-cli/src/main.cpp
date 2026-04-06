@@ -15,6 +15,7 @@
 #include "prompt.hpp"
 #include "bootstrap.hpp"
 #include "compat_harness.hpp"
+#include "bash.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -508,38 +509,25 @@ CliAction parse_args(const std::vector<std::string>& args) {
 // Git helpers (mirrors Rust's git helper functions)
 // ===========================================================================
 
-/// Run git with the given args in `cwd` and return stdout on success.
 std::optional<std::string>
 run_git_capture_in(const std::filesystem::path& cwd,
                    const std::vector<std::string>& git_args) {
+    claw::runtime::BashCommandInput input;
+    input.cwd = cwd.string();
+    input.command = "git";
+    for (auto& a : git_args) {
+        input.command += " '";
+        input.command += a;
+        input.command += "'";
+    }
 #ifdef _WIN32
-    std::string cmd = "git";
-    for (auto& a : git_args) cmd += " " + a;
-    cmd += " 2>NUL";
-    // Use popen on Windows.
-    // Change directory first via SetCurrentDirectory is not thread-safe;
-    // we embed the cwd by cd-ing in the command.
-    std::string full_cmd = "cd /d \"" + cwd.string() + "\" && " + cmd;
-    FILE* p = _popen(full_cmd.c_str(), "r");
-    if (!p) return std::nullopt;
+    input.command += " 2>NUL";
 #else
-    // Build a command string for popen with explicit cd.
-    std::string cmd = "git";
-    for (auto& a : git_args) { cmd += " '"; cmd += a; cmd += "'"; }
-    cmd = "cd '" + cwd.string() + "' && " + cmd + " 2>/dev/null";
-    FILE* p = popen(cmd.c_str(), "r");
-    if (!p) return std::nullopt;
+    input.command += " 2>/dev/null";
 #endif
-    std::string result;
-    char buf[512];
-    while (std::fgets(buf, sizeof(buf), p)) result += buf;
-#ifdef _WIN32
-    int rc = _pclose(p);
-#else
-    int rc = pclose(p);
-#endif
-    if (rc != 0) return std::nullopt;
-    return result;
+    auto result = claw::runtime::execute_bash(input);
+    if (!result || result->exit_code != 0) return std::nullopt;
+    return result->stdout_output;
 }
 
 /// Mirrors Rust's resolve_git_branch_for.
@@ -932,13 +920,17 @@ std::vector<std::string> slash_command_completion_candidates() {
 // ===========================================================================
 
 void open_browser(const std::string& url) {
+    claw::runtime::BashCommandInput input;
 #ifdef _WIN32
     ShellExecuteA(nullptr, "open", url.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+    return;
 #elif defined(__APPLE__)
-    std::system(("open '" + url + "' &").c_str());
+    input.command = "open \"$CLAWD_URL\"";
 #else
-    std::system(("xdg-open '" + url + "' &").c_str());
+    input.command = "xdg-open \"$CLAWD_URL\"";
 #endif
+    input.extra_env.push_back("CLAWD_URL=" + url);
+    (void)claw::runtime::execute_bash(input);
 }
 
 // ===========================================================================

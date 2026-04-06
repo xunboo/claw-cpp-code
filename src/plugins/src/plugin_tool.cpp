@@ -1,6 +1,7 @@
 #include "plugin_tool.hpp"
 
 #include <format>
+#include "win32_arg_escape.hpp"
 
 #ifdef _WIN32
 #  include <windows.h>
@@ -67,9 +68,8 @@ ProcResult run_process(const std::string& cmd,
     SetHandleInformation(so_rd, HANDLE_FLAG_INHERIT, 0);
     SetHandleInformation(se_rd, HANDLE_FLAG_INHERIT, 0);
 
-    // Build command line: cmd /C "<cmd>" [args...]
-    std::string cmdline = "cmd /C \"" + cmd + "\"";
-    for (auto& a : extra_args) cmdline += " \"" + a + "\"";
+    std::string cmdline = claw::util::escape_win32_arg(cmd);
+    for (auto& a : extra_args) cmdline += " " + claw::util::escape_win32_arg(a);
 
     // Build environment block (inherit current + extras)
     std::string env_block;

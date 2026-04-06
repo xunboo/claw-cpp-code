@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -101,10 +101,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -117,7 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -141,10 +141,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -157,7 +157,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -181,10 +181,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -197,7 +197,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -220,10 +220,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\utils\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>

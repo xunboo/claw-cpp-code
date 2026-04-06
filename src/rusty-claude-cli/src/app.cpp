@@ -22,6 +22,7 @@
 #include "tool_specs.hpp"
 #include "tool_executor.hpp"
 #include "init.hpp"
+#include "bash.hpp"
 
 namespace claw {
 
@@ -439,15 +440,15 @@ CommandResult CliApp::dispatch_slash_command(const SlashCommand& cmd,
         }
         else if constexpr (std::is_same_v<T, SlashDiff>) {
             auto cwd = std::filesystem::current_path();
-            std::string cmd_str = "cd /d \"" + cwd.string() + "\" && git diff --stat HEAD 2>NUL";
-            FILE* p = _popen(cmd_str.c_str(), "r");
-            if (p) {
-                char buf[512];
-                out << "Diff\n";
-                while (std::fgets(buf, sizeof(buf), p)) out << buf;
-                _pclose(p);
+            claw::runtime::BashCommandInput input;
+            input.cwd = cwd.string();
+            input.command = "git diff --stat HEAD 2>NUL || git diff --stat HEAD 2>/dev/null";
+            auto result = claw::runtime::execute_bash(input);
+            out << "Diff\n";
+            if (result && result->exit_code == 0) {
+                out << result->stdout_output;
             } else {
-                out << "Diff\n  (not a git repository or git not available)\n";
+                out << "  (not a git repository or git not available)\n";
             }
             return CommandResult::Continue;
         }

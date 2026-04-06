@@ -12,6 +12,7 @@
 
 #include "mcp_stdio.hpp"
 #include "mcp.hpp"
+#include "win32_arg_escape.hpp"
 #include <format>
 #include <sstream>
 #include <cstring>
@@ -333,11 +334,10 @@ spawn_process_win32(const std::string& command,
     SetHandleInformation(stdout_read,  HANDLE_FLAG_INHERIT, 0);
 
     // Build command line
-    std::string cmdline = "\"" + command + "\"";
+    std::string cmdline = claw::util::escape_win32_arg(command);
     for (const auto& a : args) {
-        cmdline += " \"";
-        cmdline += a;
-        cmdline += "\"";
+        cmdline += " ";
+        cmdline += claw::util::escape_win32_arg(a);
     }
 
     // Build environment block (null-separated, double-null terminated)

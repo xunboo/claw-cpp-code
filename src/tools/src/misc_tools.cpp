@@ -13,6 +13,7 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <thread>
+#include "bash.hpp"
 
 namespace claw::tools {
 
@@ -806,38 +807,27 @@ tl::expected<ReplOutput, std::string> execute_repl(ReplInput input) {
 
     auto t0 = std::chrono::steady_clock::now();
 
-    // Run via system; capture output via redirection
-    auto out_tmp = fs::temp_directory_path() / "clawd-repl-out.tmp";
-    auto err_tmp = fs::temp_directory_path() / "clawd-repl-err.tmp";
-    std::string cmd = interp + " " + tmp.string() +
-                      " >" + out_tmp.string() + " 2>" + err_tmp.string();
-    int rc = std::system(cmd.c_str());
+    claw::runtime::BashCommandInput bash_in;
+    bash_in.command = interp + " " + tmp.string();
+    auto result = claw::runtime::execute_bash(bash_in);
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - t0).count();
 
-    auto read_file = [](const fs::path& p) -> std::string {
-        std::ifstream f(p);
-        return std::string(std::istreambuf_iterator<char>(f),
-                           std::istreambuf_iterator<char>());
-    };
-
-    auto stdout_text = read_file(out_tmp);
-    auto stderr_text = read_file(err_tmp);
-
     // cleanup
     std::error_code ec;
     fs::remove(tmp, ec);
-    fs::remove(out_tmp, ec);
-    fs::remove(err_tmp, ec);
+
+    int exit_code = result ? result->exit_code : 1;
+    std::string stdout_text = result ? result->stdout_output : "";
+    std::string stderr_text = result ? result->stderr_output : "";
+    if (!result) {
+        stderr_text += "\nFailed to invoke execute_bash.";
+    }
 
     return ReplOutput{
         input.language, stdout_text, stderr_text,
-#ifdef _WIN32
-        static_cast<int>(rc),
-#else
-        WIFEXITED(rc) ? WEXITSTATUS(rc) : rc,
-#endif
+        exit_code,
         static_cast<uint64_t>(duration)
     };
 }

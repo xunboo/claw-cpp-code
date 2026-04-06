@@ -1,5 +1,6 @@
 #include "stale_branch.hpp"
 #include "bash.hpp"
+#include "git_ref_validation.hpp"
 #include <format>
 #include <charconv>
 #include <sstream>
@@ -21,6 +22,8 @@ std::string format_missing_fixes(const std::vector<std::string>& missing_fixes) 
 
 std::size_t rev_list_count(const std::string& a, const std::string& b,
                             const std::string& repo_dir) {
+    if (!claw::util::is_safe_git_ref(a) || !claw::util::is_safe_git_ref(b)) return 0;
+
     BashCommandInput input;
     input.cwd = repo_dir;
     input.command = std::format("git rev-list --count {}..{} 2>/dev/null || echo 0", b, a);
@@ -39,6 +42,8 @@ std::size_t rev_list_count(const std::string& a, const std::string& b,
 std::vector<std::string> missing_fix_subjects(const std::string& main_ref,
                                                const std::string& branch,
                                                const std::string& repo_dir) {
+    if (!claw::util::is_safe_git_ref(main_ref) || !claw::util::is_safe_git_ref(branch)) return {};
+
     BashCommandInput input;
     input.cwd = repo_dir;
     input.command = std::format(
