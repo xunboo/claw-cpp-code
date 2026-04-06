@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{07C17F18-6E88-30A9-BDC4-4B6084DCADF9}</ProjectGuid>
+    <ProjectGuid>{49535C26-19A1-332C-BA8E-339CE033FDAC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -76,7 +76,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -86,7 +86,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -105,11 +105,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\docs\examples\CMakeLists.txt">
+    <CustomBuild Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\docs\examples\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -117,12 +117,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -130,12 +130,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -143,12 +143,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/docs/examples/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/docs/examples/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -156,8 +156,8 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\docs\examples\Makefile.inc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
@@ -165,470 +165,470 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\ZERO_CHECK.vcxproj">
-      <Project>{FFC9F754-B57A-3F66-9CBD-98033BA8DC7D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\ZERO_CHECK.vcxproj">
+      <Project>{8DAD9773-012C-3AEF-B5BC-2EDB6150B7FB}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-10-at-a-time.vcxproj">
-      <Project>{88891930-6782-3F15-B14E-A63A388EFF5B}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-10-at-a-time.vcxproj">
+      <Project>{8C88FDA1-89C1-3C5C-94BE-04D20AEED2B7}</Project>
       <Name>curl-example-10-at-a-time</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-address-scope.vcxproj">
-      <Project>{C01FFA17-FFC7-32BE-8D17-CEAA3879155E}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-address-scope.vcxproj">
+      <Project>{56BC732C-E748-353A-AF87-49CC58261E2F}</Project>
       <Name>curl-example-address-scope</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-altsvc.vcxproj">
-      <Project>{1575A752-C566-323F-8016-A440A6DB4902}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-altsvc.vcxproj">
+      <Project>{A2F508C4-41F6-399A-ABE2-9EE2C453387D}</Project>
       <Name>curl-example-altsvc</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-anyauthput.vcxproj">
-      <Project>{D26CE64C-259E-3F34-85C9-41A500F45BF2}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-anyauthput.vcxproj">
+      <Project>{F0A2A905-1BAD-3AF7-A3EF-CE50FD585E03}</Project>
       <Name>curl-example-anyauthput</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-block_ip.vcxproj">
-      <Project>{DA5AC2ED-05C6-3432-90C2-79146EC69E46}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-block_ip.vcxproj">
+      <Project>{71074645-8661-3DB6-888E-5D0CBBD2FE24}</Project>
       <Name>curl-example-block_ip</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-certinfo.vcxproj">
-      <Project>{99E0C6E1-D177-38E2-AFE6-A88AD4FDE293}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-certinfo.vcxproj">
+      <Project>{21397818-B0D1-3E6D-9E1E-6CD626BA901F}</Project>
       <Name>curl-example-certinfo</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-chkspeed.vcxproj">
-      <Project>{7BB686DE-9A05-368E-B1EB-6394EF4627DF}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-chkspeed.vcxproj">
+      <Project>{5AF4E8BA-BFCC-3128-BD31-CFE1ADB92078}</Project>
       <Name>curl-example-chkspeed</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-connect-to.vcxproj">
-      <Project>{DDD9E882-CC61-35AA-BE51-89429034454D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-connect-to.vcxproj">
+      <Project>{51AC6AB3-AB66-38D9-815E-8D04C0FBC591}</Project>
       <Name>curl-example-connect-to</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-cookie_interface.vcxproj">
-      <Project>{96D81FF6-22A7-39A2-8BF8-7A22B2D7691D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-cookie_interface.vcxproj">
+      <Project>{20CBA075-BC1D-329B-A35D-F1180BF6D1E4}</Project>
       <Name>curl-example-cookie_interface</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-debug.vcxproj">
-      <Project>{636DC1FB-F7DD-38D5-8D70-41BFE181C913}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-debug.vcxproj">
+      <Project>{489BB420-4224-3001-BD73-5F86C918A5CA}</Project>
       <Name>curl-example-debug</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-default-scheme.vcxproj">
-      <Project>{A2614AAF-7140-322B-B7C1-29BBF2FC8938}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-default-scheme.vcxproj">
+      <Project>{7934DF02-F2C2-332A-8C05-D344C018B436}</Project>
       <Name>curl-example-default-scheme</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-externalsocket.vcxproj">
-      <Project>{81686F37-3E5E-3432-90D5-E396F710D4A8}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-externalsocket.vcxproj">
+      <Project>{D105FB4A-C121-3649-A95E-B4ED98E40172}</Project>
       <Name>curl-example-externalsocket</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-fileupload.vcxproj">
-      <Project>{61C6B49F-AFE6-3861-ABC9-EFA6922BC2E2}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-fileupload.vcxproj">
+      <Project>{3105E6FD-F96E-3338-A3ED-68A7466D9782}</Project>
       <Name>curl-example-fileupload</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftp-delete.vcxproj">
-      <Project>{21EE2121-BAB5-3FEE-A5EC-C1B2A944F9D2}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftp-delete.vcxproj">
+      <Project>{9E3B4D06-F817-3F38-8C37-FFA726AB8574}</Project>
       <Name>curl-example-ftp-delete</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftp-wildcard.vcxproj">
-      <Project>{89FF7D7F-8D7E-32A8-BA3F-61FF24602355}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftp-wildcard.vcxproj">
+      <Project>{32066B7F-DA1F-3B73-9DB3-ED32C8C7FA00}</Project>
       <Name>curl-example-ftp-wildcard</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpget.vcxproj">
-      <Project>{1CD04371-C79D-366E-9DEB-04E930FAC0CE}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpget.vcxproj">
+      <Project>{53C4DCA6-F87D-317F-9DB0-DE5044CA3C94}</Project>
       <Name>curl-example-ftpget</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpgetinfo.vcxproj">
-      <Project>{A52E5109-BBE5-34AE-B878-92389B4F5B00}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpgetinfo.vcxproj">
+      <Project>{6A1697AA-45BC-362B-9FC6-8301E63023C6}</Project>
       <Name>curl-example-ftpgetinfo</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpgetresp.vcxproj">
-      <Project>{F25B64CA-B073-3E7C-A6E8-61238E492AB3}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpgetresp.vcxproj">
+      <Project>{884E37CB-3283-36D4-AC05-F7B6130F7984}</Project>
       <Name>curl-example-ftpgetresp</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpsget.vcxproj">
-      <Project>{36AF6214-BA18-3246-82D0-A83D42269052}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpsget.vcxproj">
+      <Project>{BBD75490-93EB-35ED-AFEB-E491A8CA3C8E}</Project>
       <Name>curl-example-ftpsget</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpupload.vcxproj">
-      <Project>{D886CC92-787E-3E36-A3B1-DA649BA6CC50}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpupload.vcxproj">
+      <Project>{3F82032C-C777-3CE1-BCDB-79F4D7A2F4E5}</Project>
       <Name>curl-example-ftpupload</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpuploadfrommem.vcxproj">
-      <Project>{3963EEBF-B9EF-3BAC-AA64-4FC6B3724E14}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpuploadfrommem.vcxproj">
+      <Project>{701E3B4B-40DA-3336-AD0A-1B13829D2483}</Project>
       <Name>curl-example-ftpuploadfrommem</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpuploadresume.vcxproj">
-      <Project>{8E4683C5-05F8-3D31-8E8A-209948E68EE0}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ftpuploadresume.vcxproj">
+      <Project>{68697ABA-6DFB-327A-8A0C-271A76094EA3}</Project>
       <Name>curl-example-ftpuploadresume</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getinfo.vcxproj">
-      <Project>{A3DF5969-D201-3964-9FA2-E0B861305670}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getinfo.vcxproj">
+      <Project>{4FE80795-FC49-39CE-9F4A-EE5867AEFFAA}</Project>
       <Name>curl-example-getinfo</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getinmemory.vcxproj">
-      <Project>{DEC0D034-EC7F-3F38-AEBB-9CCADF0C5A24}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getinmemory.vcxproj">
+      <Project>{36F14434-22BE-316F-A9B3-4A5F1CC958BD}</Project>
       <Name>curl-example-getinmemory</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getredirect.vcxproj">
-      <Project>{AB7D58CA-060C-3612-9EED-E219505EC943}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getredirect.vcxproj">
+      <Project>{97BCC3FC-1E68-3412-B0B4-04039AB8CEED}</Project>
       <Name>curl-example-getredirect</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getreferrer.vcxproj">
-      <Project>{6BB5670F-FFC1-3E07-B20A-6F884955A7AC}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-getreferrer.vcxproj">
+      <Project>{D3D5DB24-BCE6-3444-BE9B-EA83862683AF}</Project>
       <Name>curl-example-getreferrer</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-headerapi.vcxproj">
-      <Project>{407C8C63-F1C9-3A54-B1F0-B2A4CE170493}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-headerapi.vcxproj">
+      <Project>{FD59ADE3-0936-3CBA-8EF0-0C72ACC5DBB1}</Project>
       <Name>curl-example-headerapi</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-hsts-preload.vcxproj">
-      <Project>{18C0E572-D327-319B-9360-F37B6668D68B}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-hsts-preload.vcxproj">
+      <Project>{56DE9E76-7352-32C9-A488-7A215D600E69}</Project>
       <Name>curl-example-hsts-preload</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http-options.vcxproj">
-      <Project>{9DE0AEA8-EADD-394A-94CE-A7418894853B}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http-options.vcxproj">
+      <Project>{34C2CE40-22D0-3885-A0D8-BD3C524D3C25}</Project>
       <Name>curl-example-http-options</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http-post.vcxproj">
-      <Project>{8392C05C-AFD5-341A-ABA5-03650D6BAA19}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http-post.vcxproj">
+      <Project>{68A249F6-22C1-3BA2-BB11-7682AC39A32B}</Project>
       <Name>curl-example-http-post</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-download.vcxproj">
-      <Project>{3C874248-1BD9-3F1F-A515-C42610C28954}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-download.vcxproj">
+      <Project>{21FDF6D6-88E0-358C-A2C0-EF83EF86E328}</Project>
       <Name>curl-example-http2-download</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-pushinmemory.vcxproj">
-      <Project>{2BA712F8-9809-3592-99F3-D266E310AE21}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-pushinmemory.vcxproj">
+      <Project>{08A37B77-5D9B-32EC-AD76-13850CB2AB5F}</Project>
       <Name>curl-example-http2-pushinmemory</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-serverpush.vcxproj">
-      <Project>{AB3506F9-7C1E-3020-B2D4-26C6074499A2}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-serverpush.vcxproj">
+      <Project>{9AE9E0EE-3FAB-381D-842B-3734641AB581}</Project>
       <Name>curl-example-http2-serverpush</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-upload.vcxproj">
-      <Project>{884272E4-EF2F-365A-918C-60E114C85819}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http2-upload.vcxproj">
+      <Project>{15C8D2A8-675B-3D24-BFCE-28724A4F8C7F}</Project>
       <Name>curl-example-http2-upload</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http3.vcxproj">
-      <Project>{A7AB729C-BF4A-3EA5-9A5E-5766EA8F899B}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http3.vcxproj">
+      <Project>{97DAAF3C-38C7-3F40-8B59-F085005A1BA2}</Project>
       <Name>curl-example-http3</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http3-present.vcxproj">
-      <Project>{DF045CAF-E990-3FD5-A281-4E78C53B0163}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-http3-present.vcxproj">
+      <Project>{5B6A063B-D7A9-3E9B-9C7D-57DD45B0C466}</Project>
       <Name>curl-example-http3-present</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-httpcustomheader.vcxproj">
-      <Project>{63BB4C6E-6072-3FAD-85E4-788AD6E39B37}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-httpcustomheader.vcxproj">
+      <Project>{5C52D533-F62A-3C97-9753-1E67D2CFF99E}</Project>
       <Name>curl-example-httpcustomheader</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-httpput.vcxproj">
-      <Project>{1E539770-5A46-318D-BA43-6D8120B82BDE}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-httpput.vcxproj">
+      <Project>{361822D4-D567-315A-B9B7-9BEF74A6DF48}</Project>
       <Name>curl-example-httpput</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-httpput-postfields.vcxproj">
-      <Project>{3B7F1F15-3197-3174-98B9-78EEB7774828}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-httpput-postfields.vcxproj">
+      <Project>{D8117436-D86F-3C10-9615-2EA18D984852}</Project>
       <Name>curl-example-httpput-postfields</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-https.vcxproj">
-      <Project>{DB883911-FAA9-3C89-8885-0525210F6B61}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-https.vcxproj">
+      <Project>{F58A61AB-E817-32D3-9D44-0351AD325ED6}</Project>
       <Name>curl-example-https</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-append.vcxproj">
-      <Project>{D484DB23-A1E5-3EE6-AB2F-FC5B90EAEC0F}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-append.vcxproj">
+      <Project>{40E05CC6-AC52-3A89-8060-9CF50F526370}</Project>
       <Name>curl-example-imap-append</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-authzid.vcxproj">
-      <Project>{444DA468-6D73-3519-959F-57B5BC84E8FB}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-authzid.vcxproj">
+      <Project>{CA15A4C4-2D9C-3E92-AD11-CB7F5AD6250B}</Project>
       <Name>curl-example-imap-authzid</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-copy.vcxproj">
-      <Project>{EF4623C7-223E-3B04-8379-809BAB5B1068}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-copy.vcxproj">
+      <Project>{A0D83DFB-9F98-3B15-B229-239813BEA729}</Project>
       <Name>curl-example-imap-copy</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-create.vcxproj">
-      <Project>{5438B9B5-D642-3894-851B-5CE1215B2E5E}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-create.vcxproj">
+      <Project>{DC8FD884-C7E5-347C-A2E2-DC6CBF2760E2}</Project>
       <Name>curl-example-imap-create</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-delete.vcxproj">
-      <Project>{007B6D55-3476-394C-B4BC-1CE07B4E0F28}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-delete.vcxproj">
+      <Project>{61028CA9-ED86-3EF3-896A-B91985EBB236}</Project>
       <Name>curl-example-imap-delete</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-examine.vcxproj">
-      <Project>{491072CC-BBE8-3A32-B720-DEF5EC15FA0A}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-examine.vcxproj">
+      <Project>{FBC2785B-B3D6-3F2A-96D2-4AF9CC8AC820}</Project>
       <Name>curl-example-imap-examine</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-fetch.vcxproj">
-      <Project>{A75CA0E1-6CBC-3B55-91FE-84E39E236869}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-fetch.vcxproj">
+      <Project>{2431A81C-AC47-3923-9AF9-328B582D0BAB}</Project>
       <Name>curl-example-imap-fetch</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-list.vcxproj">
-      <Project>{43EBF8BC-0C67-3C54-8B34-52244E2B901F}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-list.vcxproj">
+      <Project>{73B4227D-9A10-32A2-A846-848AC2852F7A}</Project>
       <Name>curl-example-imap-list</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-lsub.vcxproj">
-      <Project>{803E29BA-C6AF-3ADA-9BC4-79B4E9E75C94}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-lsub.vcxproj">
+      <Project>{B3B3D3FA-2253-3B68-A09C-57067E726EF6}</Project>
       <Name>curl-example-imap-lsub</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-multi.vcxproj">
-      <Project>{E6EC6BB2-85E1-388C-AEA8-37F4B7293822}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-multi.vcxproj">
+      <Project>{CAC4C27D-A35B-3D81-AE9F-59CF2B36AE93}</Project>
       <Name>curl-example-imap-multi</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-noop.vcxproj">
-      <Project>{74C79B93-508F-3330-A9E0-AB23E1808EDC}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-noop.vcxproj">
+      <Project>{F2AACB92-07E5-3362-84B0-358FB73FDC64}</Project>
       <Name>curl-example-imap-noop</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-search.vcxproj">
-      <Project>{55B72165-065A-33A1-AFFB-3BFC0AD56BA1}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-search.vcxproj">
+      <Project>{D4523B5A-917D-3FFD-89BC-EEE56731535B}</Project>
       <Name>curl-example-imap-search</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-ssl.vcxproj">
-      <Project>{E1D45ED4-F6CE-3283-8E08-EEFCE9962677}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-ssl.vcxproj">
+      <Project>{5C032CC9-4B12-3166-8F37-94CAF33F18CA}</Project>
       <Name>curl-example-imap-ssl</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-store.vcxproj">
-      <Project>{C0DD1E0D-EA1E-343C-A947-A184686716FD}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-store.vcxproj">
+      <Project>{D75AAA56-FA74-334C-B07A-BE44EBAB0817}</Project>
       <Name>curl-example-imap-store</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-tls.vcxproj">
-      <Project>{20DED683-18C1-345B-96C9-E27F264D79C9}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-imap-tls.vcxproj">
+      <Project>{F12BB053-D08B-36F0-AFBA-CB07F97931A7}</Project>
       <Name>curl-example-imap-tls</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-interface.vcxproj">
-      <Project>{EF9F2C6E-445E-3E5D-8EC0-D366CEECA332}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-interface.vcxproj">
+      <Project>{E551E8EF-F2B2-3E1A-8AB9-4829C1224523}</Project>
       <Name>curl-example-interface</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ipv6.vcxproj">
-      <Project>{862B05D2-C826-30A3-8203-A5777EE40DA5}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-ipv6.vcxproj">
+      <Project>{42249F47-1A0D-30A5-B99D-874501D80EE1}</Project>
       <Name>curl-example-ipv6</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-keepalive.vcxproj">
-      <Project>{CDABC333-7804-3654-BAB4-CEDE0AD9FB33}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-keepalive.vcxproj">
+      <Project>{CE134465-894F-3F21-9629-3C598019A87E}</Project>
       <Name>curl-example-keepalive</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-localport.vcxproj">
-      <Project>{9A47696C-8C76-310A-BF49-BFE27619DC15}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-localport.vcxproj">
+      <Project>{0F67CB56-0831-3B49-ACF8-1A3A31DCD74B}</Project>
       <Name>curl-example-localport</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-log_failed_transfers.vcxproj">
-      <Project>{9831E138-0029-36C8-B8D5-6EA6815D3122}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-log_failed_transfers.vcxproj">
+      <Project>{086326C9-6E7A-3C88-8156-2F739DB4B196}</Project>
       <Name>curl-example-log_failed_transfers</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-maxconnects.vcxproj">
-      <Project>{5160BF40-20E4-3886-ABF5-11BF611C5394}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-maxconnects.vcxproj">
+      <Project>{987D6BDE-CB77-373F-9BCB-3156B7892A00}</Project>
       <Name>curl-example-maxconnects</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-app.vcxproj">
-      <Project>{B007FB69-DA2A-3EA1-9478-CE63FABBCD64}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-app.vcxproj">
+      <Project>{52961ADD-4E84-34F7-A4D4-EEA77C9B3CD7}</Project>
       <Name>curl-example-multi-app</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-debugcallback.vcxproj">
-      <Project>{55A5CC4D-990D-3A08-930C-8BD2C8D3001D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-debugcallback.vcxproj">
+      <Project>{90B98603-3714-3CA3-B67D-055EC33348A3}</Project>
       <Name>curl-example-multi-debugcallback</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-double.vcxproj">
-      <Project>{590A8018-6225-3524-8EBD-51A2B367FEB6}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-double.vcxproj">
+      <Project>{C7495A8C-E5DE-3BA8-968B-5A39BB5E5C65}</Project>
       <Name>curl-example-multi-double</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-formadd.vcxproj">
-      <Project>{1C3FB23E-CB18-3EE7-B20B-A67AE98BE710}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-formadd.vcxproj">
+      <Project>{0AE17C3A-E183-3945-ABFF-3C509BA78D6E}</Project>
       <Name>curl-example-multi-formadd</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-legacy.vcxproj">
-      <Project>{62A900B7-A72B-3139-BC26-B241F8E55208}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-legacy.vcxproj">
+      <Project>{BDD5D250-0A79-3299-A635-89A087CE2BA2}</Project>
       <Name>curl-example-multi-legacy</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-post.vcxproj">
-      <Project>{B891DE19-A3F1-3CB2-92A2-6F1A4EEC92C5}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-post.vcxproj">
+      <Project>{5602128C-802B-396F-9BE1-AA6B0BDEADB4}</Project>
       <Name>curl-example-multi-post</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-single.vcxproj">
-      <Project>{21AF2474-FD24-3B05-B1C8-4BCE95CAED79}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-multi-single.vcxproj">
+      <Project>{5D7BBA8E-243D-34AD-A031-40AB15B1D341}</Project>
       <Name>curl-example-multi-single</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-netrc.vcxproj">
-      <Project>{B82393B0-E268-348A-850A-B57D400080AA}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-netrc.vcxproj">
+      <Project>{D3F0634C-E1AC-3308-8402-B27865263AB9}</Project>
       <Name>curl-example-netrc</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-parseurl.vcxproj">
-      <Project>{FA8D6A77-3934-34E1-83B0-E064E3FF8CCC}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-parseurl.vcxproj">
+      <Project>{339CC9BF-B53E-309B-9F9F-5E3FF6ED94FE}</Project>
       <Name>curl-example-parseurl</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-persistent.vcxproj">
-      <Project>{C835C612-7546-3496-80B4-F6DD23F077C9}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-persistent.vcxproj">
+      <Project>{561C1C5D-7535-3D30-A04F-C30188193229}</Project>
       <Name>curl-example-persistent</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-authzid.vcxproj">
-      <Project>{231AC2FC-E298-39DC-A001-D915A839F3E6}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-authzid.vcxproj">
+      <Project>{0D0CE633-6E67-3A7A-AF71-40EAE9BAD94C}</Project>
       <Name>curl-example-pop3-authzid</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-dele.vcxproj">
-      <Project>{968C0432-DD82-37BC-A6AD-33F08635E607}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-dele.vcxproj">
+      <Project>{68683DCB-2D90-3034-A9A5-13569AD454A3}</Project>
       <Name>curl-example-pop3-dele</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-list.vcxproj">
-      <Project>{945CBA36-ACFA-3A58-B9A9-3BAC86CB71E3}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-list.vcxproj">
+      <Project>{43077FDF-7190-3108-BD88-D66657FB5580}</Project>
       <Name>curl-example-pop3-list</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-multi.vcxproj">
-      <Project>{EB36BE0F-2CD2-3200-8936-A65431195BD7}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-multi.vcxproj">
+      <Project>{1A7D98C7-9324-3DCE-8339-1637B6DED18B}</Project>
       <Name>curl-example-pop3-multi</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-noop.vcxproj">
-      <Project>{019DA135-C784-3B22-A8C0-58AFDF0B9379}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-noop.vcxproj">
+      <Project>{C4147934-01C3-3B7F-98C4-5B45B3ECB6C0}</Project>
       <Name>curl-example-pop3-noop</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-retr.vcxproj">
-      <Project>{64DA0568-B20D-34F7-8AAD-7ED7326C557F}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-retr.vcxproj">
+      <Project>{EF0F756F-48AE-3CEC-9F63-F7B14F2D0BC0}</Project>
       <Name>curl-example-pop3-retr</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-ssl.vcxproj">
-      <Project>{C96111EB-824F-3B32-BD7B-E9489295AE1D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-ssl.vcxproj">
+      <Project>{CD44BD5F-7B02-32F4-8929-1D2052CC2E78}</Project>
       <Name>curl-example-pop3-ssl</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-stat.vcxproj">
-      <Project>{A7B419D5-8863-348A-97D9-A0D8D603AEB1}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-stat.vcxproj">
+      <Project>{29C53033-B914-3282-B079-C13F2FBE9ABD}</Project>
       <Name>curl-example-pop3-stat</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-tls.vcxproj">
-      <Project>{5C65ACA0-07E5-3C4A-A579-3D0B5890474A}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-tls.vcxproj">
+      <Project>{446F8BA7-57D1-39D1-AD8D-4B915BFD6B0C}</Project>
       <Name>curl-example-pop3-tls</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-top.vcxproj">
-      <Project>{A458CF33-8E68-3E67-9BE1-F1596034D799}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-top.vcxproj">
+      <Project>{87EE2FE4-6DD3-3BD9-8C39-64859049D99A}</Project>
       <Name>curl-example-pop3-top</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-uidl.vcxproj">
-      <Project>{179FFFE8-F6D8-3EB4-B3F7-2505BDC75EDE}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-pop3-uidl.vcxproj">
+      <Project>{BD04D554-0F7C-3017-9EE1-206C82FD8617}</Project>
       <Name>curl-example-pop3-uidl</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-post-callback.vcxproj">
-      <Project>{C95D1A1D-E2A3-3504-B00D-8D44B05F5457}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-post-callback.vcxproj">
+      <Project>{C10DEB23-4D4E-3750-B465-C0B53D45E7DE}</Project>
       <Name>curl-example-post-callback</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-postinmemory.vcxproj">
-      <Project>{40542C76-E012-3856-AEF9-48FC3E351BE7}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-postinmemory.vcxproj">
+      <Project>{967FAC88-72C3-3975-8C44-7A44071DCB58}</Project>
       <Name>curl-example-postinmemory</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-postit2.vcxproj">
-      <Project>{13820365-99E5-365F-B479-EAEA2B46D0D7}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-postit2.vcxproj">
+      <Project>{44E78C03-831A-3ABD-B2AE-8F6463AA0A88}</Project>
       <Name>curl-example-postit2</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-postit2-formadd.vcxproj">
-      <Project>{48A56925-B99F-38C5-BF72-7925ADE758ED}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-postit2-formadd.vcxproj">
+      <Project>{5D7BB0BC-B04F-368E-AC3E-7F69C5DC064E}</Project>
       <Name>curl-example-postit2-formadd</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-progressfunc.vcxproj">
-      <Project>{6A57BEAB-C530-33E6-88BD-4E899B2252CC}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-progressfunc.vcxproj">
+      <Project>{01031E25-F4EC-32DC-8A9B-BE7290BABE70}</Project>
       <Name>curl-example-progressfunc</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-protofeats.vcxproj">
-      <Project>{93D19867-CFB6-304E-B2EA-C1D7D13CD57E}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-protofeats.vcxproj">
+      <Project>{5C881A68-40B5-3FBA-81D7-712DBA55597A}</Project>
       <Name>curl-example-protofeats</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-range.vcxproj">
-      <Project>{14A2A484-7A0A-315C-921C-2E8E840E9918}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-range.vcxproj">
+      <Project>{8EFCFE18-E7AC-39B6-89A6-A910B6290E97}</Project>
       <Name>curl-example-range</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-resolve.vcxproj">
-      <Project>{CF3631D0-6DC7-3330-BE0D-F1D320254EC9}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-resolve.vcxproj">
+      <Project>{C8202AE5-13DB-3564-A4F8-977FB1F93539}</Project>
       <Name>curl-example-resolve</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-rtsp-options.vcxproj">
-      <Project>{D5D8C657-D07D-3638-AAD4-566C2A63DFA5}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-rtsp-options.vcxproj">
+      <Project>{65119CC3-176A-3A6D-A2D8-9E9DBFEBF892}</Project>
       <Name>curl-example-rtsp-options</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sendrecv.vcxproj">
-      <Project>{C5CFD55F-B40E-3DB7-8FD0-8512145E4A87}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sendrecv.vcxproj">
+      <Project>{5CB5F500-113F-39BA-8200-E3472843DBFF}</Project>
       <Name>curl-example-sendrecv</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sepheaders.vcxproj">
-      <Project>{6A058530-48E8-32AF-BE36-78D317284F23}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sepheaders.vcxproj">
+      <Project>{5597E1CC-9D6A-3932-BBA6-EEA555454C2E}</Project>
       <Name>curl-example-sepheaders</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sftpget.vcxproj">
-      <Project>{DAB0087D-8098-3B80-9F93-108BA4EB25EA}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sftpget.vcxproj">
+      <Project>{835446A0-538D-34B2-9639-DAC3735ED4B4}</Project>
       <Name>curl-example-sftpget</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sftpuploadresume.vcxproj">
-      <Project>{6533FF4D-B7F0-3AC5-AB46-E7234D7AD7A7}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sftpuploadresume.vcxproj">
+      <Project>{D224D9C9-0EF7-3E29-8665-5209793002D0}</Project>
       <Name>curl-example-sftpuploadresume</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-shared-connection-cache.vcxproj">
-      <Project>{36B6AFAD-7AE9-359F-AF8E-1DFD93AD05C2}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-shared-connection-cache.vcxproj">
+      <Project>{97FFA7C5-9019-3B32-BCE2-7003CDD87E21}</Project>
       <Name>curl-example-shared-connection-cache</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-simple.vcxproj">
-      <Project>{DD89C0AE-BE0A-3EF2-866F-FBC1F3FB84C1}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-simple.vcxproj">
+      <Project>{944A327A-C4A0-3D3E-BCC0-4E8A76C7D5DC}</Project>
       <Name>curl-example-simple</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-simplepost.vcxproj">
-      <Project>{A97E5769-22A4-3E5E-AB0E-B7CC929D28D3}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-simplepost.vcxproj">
+      <Project>{873CE095-B035-3499-9AAC-6E1288AF097E}</Project>
       <Name>curl-example-simplepost</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-simplessl.vcxproj">
-      <Project>{BC7388AF-D391-3F22-A025-8F410ABC2CA8}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-simplessl.vcxproj">
+      <Project>{7C72190C-C31C-3C9A-9C92-50070BB29B7D}</Project>
       <Name>curl-example-simplessl</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-authzid.vcxproj">
-      <Project>{B8E4F9F7-883C-3DCF-A9C8-24066A91189D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-authzid.vcxproj">
+      <Project>{AC888615-FB7B-3E51-9860-3807D678E588}</Project>
       <Name>curl-example-smtp-authzid</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-expn.vcxproj">
-      <Project>{1EDD6149-C955-3797-B679-31B53A032D38}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-expn.vcxproj">
+      <Project>{39C7F1DD-A529-37ED-B76B-92BE1C7E0986}</Project>
       <Name>curl-example-smtp-expn</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-mail.vcxproj">
-      <Project>{7F8B300C-8A0E-3AFF-B3DF-8FB45CF40B77}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-mail.vcxproj">
+      <Project>{6463CA11-E91C-312C-A45C-1C9EF95FFA5E}</Project>
       <Name>curl-example-smtp-mail</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-mime.vcxproj">
-      <Project>{1233984A-13D1-3235-8C31-4B73301869F4}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-mime.vcxproj">
+      <Project>{C237D1E7-7FA1-33F0-AC53-3B1B40AD9CD5}</Project>
       <Name>curl-example-smtp-mime</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-multi.vcxproj">
-      <Project>{12D7B86E-A64B-32A1-9BD2-50C072523DB5}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-multi.vcxproj">
+      <Project>{35FAFA15-B623-313D-8177-BF5296D57715}</Project>
       <Name>curl-example-smtp-multi</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-ssl.vcxproj">
-      <Project>{E935CFFF-FD10-34DB-8165-9E0617A14864}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-ssl.vcxproj">
+      <Project>{DE4626C5-F6B2-3375-9DEF-C01F3635C8EF}</Project>
       <Name>curl-example-smtp-ssl</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-tls.vcxproj">
-      <Project>{5FD6D3B1-8395-3ABD-BBFF-BF112697678D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-tls.vcxproj">
+      <Project>{A08ECD53-3F47-3EE0-B086-0ADF7DE2EDE4}</Project>
       <Name>curl-example-smtp-tls</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-vrfy.vcxproj">
-      <Project>{E790258E-13ED-3FA9-A8A3-431EFEEF2644}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-smtp-vrfy.vcxproj">
+      <Project>{3B03EE0D-FEB5-3767-A230-66F4C1C637C0}</Project>
       <Name>curl-example-smtp-vrfy</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sslbackend.vcxproj">
-      <Project>{A2C1FEAE-CF2D-381B-BDCA-0357296DEDA0}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-sslbackend.vcxproj">
+      <Project>{6C0DCB40-277B-3B8F-A65B-E4271235BE51}</Project>
       <Name>curl-example-sslbackend</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-synctime.vcxproj">
-      <Project>{1F564030-952C-3961-BB2C-E20981B16B3E}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-synctime.vcxproj">
+      <Project>{97B7663E-78D9-3AA4-941D-62C016361995}</Project>
       <Name>curl-example-synctime</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-unixsocket.vcxproj">
-      <Project>{94598F1A-D7BE-300B-89D0-225736E336CC}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-unixsocket.vcxproj">
+      <Project>{05EED893-33DF-3EB4-9258-7F17E465D8AC}</Project>
       <Name>curl-example-unixsocket</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-url2file.vcxproj">
-      <Project>{769B0EAD-753C-36A2-88DE-14131FB292A0}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-url2file.vcxproj">
+      <Project>{AC6812A9-9FC1-3A79-B369-759DA9014190}</Project>
       <Name>curl-example-url2file</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-urlapi.vcxproj">
-      <Project>{D4F4EFB1-F0E1-3300-BFD6-E5BCD0752F85}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-urlapi.vcxproj">
+      <Project>{D28DC1CE-C2C2-3560-9BB7-3905CCE9AA60}</Project>
       <Name>curl-example-urlapi</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-websocket.vcxproj">
-      <Project>{6E6A741B-9899-35A5-8B85-CAD5FC98896C}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-websocket.vcxproj">
+      <Project>{436C77B7-F345-3AF8-89D3-F8EB021F2372}</Project>
       <Name>curl-example-websocket</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-websocket-cb.vcxproj">
-      <Project>{976BA648-CF07-39F5-A559-53CF208A758D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-websocket-cb.vcxproj">
+      <Project>{20EF6B37-6584-3137-99BC-C4DEED42D7E2}</Project>
       <Name>curl-example-websocket-cb</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-websocket-updown.vcxproj">
-      <Project>{B5DE755B-9659-3CEC-9D8F-E84927F28993}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\docs\examples\curl-example-websocket-updown.vcxproj">
+      <Project>{B13C9F21-CDE7-3969-B0AC-247D2C94F68A}</Project>
       <Name>curl-example-websocket-updown</Name>
     </ProjectReference>
   </ItemGroup>

@@ -51,7 +51,7 @@ add_library(CURL::libcurl_static STATIC IMPORTED)
 
 set_target_properties(CURL::libcurl_static PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "CURL_STATICLIB"
-  INTERFACE_INCLUDE_DIRECTORIES "C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/include"
   INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:wldap32>;\$<LINK_ONLY:bcrypt>;\$<LINK_ONLY:advapi32>;\$<LINK_ONLY:crypt32>;\$<LINK_ONLY:secur32>;\$<LINK_ONLY:ws2_32>;\$<LINK_ONLY:iphlpapi>"
 )
 
@@ -59,28 +59,28 @@ set_target_properties(CURL::libcurl_static PROPERTIES
 set_property(TARGET CURL::libcurl_static APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(CURL::libcurl_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C"
-  IMPORTED_LOCATION_DEBUG "C:/Workspace/claude/claw-cpp-code/build/lib/Debug/libcurl-d.lib"
+  IMPORTED_LOCATION_DEBUG "C:/Projects/GitHub/craw-cpp-code/build/lib/Debug/libcurl-d.lib"
   )
 
 # Import target "CURL::libcurl_static" for configuration "Release"
 set_property(TARGET CURL::libcurl_static APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(CURL::libcurl_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
-  IMPORTED_LOCATION_RELEASE "C:/Workspace/claude/claw-cpp-code/build/lib/Release/libcurl.lib"
+  IMPORTED_LOCATION_RELEASE "C:/Projects/GitHub/craw-cpp-code/build/lib/Release/libcurl.lib"
   )
 
 # Import target "CURL::libcurl_static" for configuration "MinSizeRel"
 set_property(TARGET CURL::libcurl_static APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(CURL::libcurl_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_MINSIZEREL "C"
-  IMPORTED_LOCATION_MINSIZEREL "C:/Workspace/claude/claw-cpp-code/build/lib/MinSizeRel/libcurl.lib"
+  IMPORTED_LOCATION_MINSIZEREL "C:/Projects/GitHub/craw-cpp-code/build/lib/MinSizeRel/libcurl.lib"
   )
 
 # Import target "CURL::libcurl_static" for configuration "RelWithDebInfo"
 set_property(TARGET CURL::libcurl_static APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(CURL::libcurl_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELWITHDEBINFO "C"
-  IMPORTED_LOCATION_RELWITHDEBINFO "C:/Workspace/claude/claw-cpp-code/build/lib/RelWithDebInfo/libcurl.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "C:/Projects/GitHub/craw-cpp-code/build/lib/RelWithDebInfo/libcurl.lib"
   )
 
 # This file does not depend on other imported targets which have

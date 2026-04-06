@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{75A41AD8-57BC-3373-8BDE-2CF911DC9F6F}</ProjectGuid>
+    <ProjectGuid>{8746BC90-5FB3-3253-A9AD-B29FA420E809}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -59,25 +59,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\bin\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\GitHub\craw-cpp-code\build\bin\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_init.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_init</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\bin\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\GitHub\craw-cpp-code\build\bin\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_init.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_init</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\bin\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\GitHub\craw-cpp-code\build\bin\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_init.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_init</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\bin\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\GitHub\craw-cpp-code\build\bin\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_init.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_init</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -108,10 +108,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -124,8 +124,8 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Workspace/claude/claw-cpp-code/build/lib/Debug/test_init.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Workspace/claude/claw-cpp-code/build/bin/Debug/test_init.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Projects/GitHub/craw-cpp-code/build/lib/Debug/test_init.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/GitHub/craw-cpp-code/build/bin/Debug/test_init.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -134,7 +134,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -157,10 +157,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -173,8 +173,8 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Workspace/claude/claw-cpp-code/build/lib/Release/test_init.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Workspace/claude/claw-cpp-code/build/bin/Release/test_init.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Projects/GitHub/craw-cpp-code/build/lib/Release/test_init.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/GitHub/craw-cpp-code/build/bin/Release/test_init.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -183,7 +183,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -206,10 +206,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -222,8 +222,8 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Workspace/claude/claw-cpp-code/build/lib/MinSizeRel/test_init.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Workspace/claude/claw-cpp-code/build/bin/MinSizeRel/test_init.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Projects/GitHub/craw-cpp-code/build/lib/MinSizeRel/test_init.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/GitHub/craw-cpp-code/build/bin/MinSizeRel/test_init.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -232,7 +232,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -254,10 +254,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;CURL_STATICLIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\include;C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\tl_expected-src\include;C:\Workspace\claude\claw-cpp-code\src\api\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\src\runtime\include;C:\Workspace\claude\claw-cpp-code\src\telemetry\include;C:\Workspace\claude\claw-cpp-code\src\plugins\include;C:\Workspace\claude\claw-cpp-code\src\tools\include;C:\Workspace\claude\claw-cpp-code\src\commands\include;C:\Workspace\claude\claw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\tl_expected-src\include;C:\Projects\GitHub\craw-cpp-code\src\api\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\src\runtime\include;C:\Projects\GitHub\craw-cpp-code\src\telemetry\include;C:\Projects\GitHub\craw-cpp-code\src\plugins\include;C:\Projects\GitHub\craw-cpp-code\src\tools\include;C:\Projects\GitHub\craw-cpp-code\src\commands\include;C:\Projects\GitHub\craw-cpp-code\src\compat-harness\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -270,8 +270,8 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Workspace/claude/claw-cpp-code/build/lib/RelWithDebInfo/test_init.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Workspace/claude/claw-cpp-code/build/bin/RelWithDebInfo/test_init.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Projects/GitHub/craw-cpp-code/build/lib/RelWithDebInfo/test_init.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/GitHub/craw-cpp-code/build/bin/RelWithDebInfo/test_init.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -279,11 +279,11 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\CMakeLists.txt">
+    <CustomBuild Include="C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -292,11 +292,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -305,11 +305,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -318,11 +318,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -331,57 +331,57 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\tests\test_init.cpp" />
-    <Natvis Include="C:\Workspace\claude\claw-cpp-code\build\_deps\nlohmann_json-src\nlohmann_json.natvis">
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\tests\test_init.cpp" />
+    <Natvis Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\ZERO_CHECK.vcxproj">
-      <Project>{FFC9F754-B57A-3F66-9CBD-98033BA8DC7D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\ZERO_CHECK.vcxproj">
+      <Project>{8DAD9773-012C-3AEF-B5BC-2EDB6150B7FB}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\api\claw_api.vcxproj">
-      <Project>{3A0531F4-F9BC-34BD-846A-03B41A80A22C}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\api\claw_api.vcxproj">
+      <Project>{842A7522-80CF-3F3E-A992-9E7DA5A7750C}</Project>
       <Name>claw_api</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\claw_lib.vcxproj">
-      <Project>{F0DD8B91-2DCA-3F91-8278-C7DEDE74EAA8}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\claw_lib.vcxproj">
+      <Project>{396B85AF-328F-3E55-8F9A-797E1EF3811C}</Project>
       <Name>claw_lib</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\plugins\claw_plugins.vcxproj">
-      <Project>{08DE2499-7C4C-3FCE-9B07-3D7CB69C6325}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\plugins\claw_plugins.vcxproj">
+      <Project>{E7AB05D2-6586-3500-A1FC-9B9C2252A378}</Project>
       <Name>claw_plugins</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\runtime\claw_runtime.vcxproj">
-      <Project>{0D1DBB3F-08E4-310C-894F-E0ED4EC29A51}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\runtime\claw_runtime.vcxproj">
+      <Project>{E3542DC0-41C2-3648-BE2D-BD01BE5F2622}</Project>
       <Name>claw_runtime</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\telemetry\claw_telemetry.vcxproj">
-      <Project>{98DE088D-1E8D-3BA8-B0B8-10EAA7BCEAA8}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\telemetry\claw_telemetry.vcxproj">
+      <Project>{28E3A842-BB7C-3E06-A86C-A7A83B296441}</Project>
       <Name>claw_telemetry</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\tools\claw_tools.vcxproj">
-      <Project>{9A9E7F66-5554-351B-BD4D-8EF64967C97C}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\tools\claw_tools.vcxproj">
+      <Project>{3ED214D0-BD1F-3A9B-A231-B584C86FA4FE}</Project>
       <Name>claw_tools</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\commands\commands.vcxproj">
-      <Project>{6F32A534-62A9-36BF-A1F8-C528028F0613}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\commands\commands.vcxproj">
+      <Project>{87041360-A33B-3522-9ED8-37519270D7CF}</Project>
       <Name>commands</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\compat-harness\compat-harness.vcxproj">
-      <Project>{A50670CA-E0D4-3CBF-9030-D2DAB8722F15}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\compat-harness\compat-harness.vcxproj">
+      <Project>{67D7F52B-6883-3E46-8F54-CDB846238C22}</Project>
       <Name>compat-harness</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\libcurl_static.vcxproj">
-      <Project>{2466DD69-7E4A-3F8D-AD0B-B9889C773135}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\libcurl_static.vcxproj">
+      <Project>{6EFFBAD0-1DC8-37EF-818A-4343FEA67D42}</Project>
       <Name>libcurl_static</Name>
     </ProjectReference>
   </ItemGroup>

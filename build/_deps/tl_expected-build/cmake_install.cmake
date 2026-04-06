@@ -1,4 +1,4 @@
-# Install script for directory: C:/Workspace/claude/claw-cpp-code/build/_deps/tl_expected-src
+# Install script for directory: C:/Projects/GitHub/craw-cpp-code/build/_deps/tl_expected-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -36,7 +36,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/tl-expected/tl-expected-targets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/tl-expected/tl-expected-targets.cmake"
-         "C:/Workspace/claude/claw-cpp-code/build/_deps/tl_expected-build/CMakeFiles/Export/87ab3b79c05c3e5cf1b578a5d7faadcc/tl-expected-targets.cmake")
+         "C:/Projects/GitHub/craw-cpp-code/build/_deps/tl_expected-build/CMakeFiles/Export/87ab3b79c05c3e5cf1b578a5d7faadcc/tl-expected-targets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/tl-expected/tl-expected-targets-*.cmake")
       if(_cmake_old_config_files)
@@ -49,23 +49,23 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/tl-expected" TYPE FILE FILES "C:/Workspace/claude/claw-cpp-code/build/_deps/tl_expected-build/CMakeFiles/Export/87ab3b79c05c3e5cf1b578a5d7faadcc/tl-expected-targets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/tl-expected" TYPE FILE FILES "C:/Projects/GitHub/craw-cpp-code/build/_deps/tl_expected-build/CMakeFiles/Export/87ab3b79c05c3e5cf1b578a5d7faadcc/tl-expected-targets.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/tl-expected" TYPE FILE FILES
-    "C:/Workspace/claude/claw-cpp-code/build/_deps/tl_expected-build/tl-expected-config-version.cmake"
-    "C:/Workspace/claude/claw-cpp-code/build/_deps/tl_expected-build/tl-expected-config.cmake"
+    "C:/Projects/GitHub/craw-cpp-code/build/_deps/tl_expected-build/tl-expected-config-version.cmake"
+    "C:/Projects/GitHub/craw-cpp-code/build/_deps/tl_expected-build/tl-expected-config.cmake"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/Workspace/claude/claw-cpp-code/build/_deps/tl_expected-src/include/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/Projects/GitHub/craw-cpp-code/build/_deps/tl_expected-src/include/")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Workspace/claude/claw-cpp-code/build/_deps/tl_expected-build/install_local_manifest.txt"
+  file(WRITE "C:/Projects/GitHub/craw-cpp-code/build/_deps/tl_expected-build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

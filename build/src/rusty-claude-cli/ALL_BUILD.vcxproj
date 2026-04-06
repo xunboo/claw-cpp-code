@@ -25,7 +25,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{820EE858-3C4C-31A6-A9E4-0FE28E752E94}</ProjectGuid>
+    <ProjectGuid>{E082F7D6-3DE2-38C8-97F7-FFDF847BB26A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -108,11 +108,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Workspace\claude\claw-cpp-code\src\rusty-claude-cli\CMakeLists.txt">
+    <CustomBuild Include="C:\Projects\GitHub\craw-cpp-code\src\rusty-claude-cli\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -121,11 +121,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -134,11 +134,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -147,11 +147,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/src/rusty-claude-cli/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/src/rusty-claude-cli/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -160,7 +160,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
@@ -168,30 +168,30 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\ZERO_CHECK.vcxproj">
-      <Project>{FFC9F754-B57A-3F66-9CBD-98033BA8DC7D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\ZERO_CHECK.vcxproj">
+      <Project>{8DAD9773-012C-3AEF-B5BC-2EDB6150B7FB}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\claw.vcxproj">
-      <Project>{2C54DE91-5042-3D84-8C47-CE07666D9D6D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\claw.vcxproj">
+      <Project>{625FCC8C-5502-31BC-B155-73068FD8F9E0}</Project>
       <Name>claw</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\claw_lib.vcxproj">
-      <Project>{F0DD8B91-2DCA-3F91-8278-C7DEDE74EAA8}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\claw_lib.vcxproj">
+      <Project>{396B85AF-328F-3E55-8F9A-797E1EF3811C}</Project>
       <Name>claw_lib</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\test_args.vcxproj">
-      <Project>{BD4D9926-418D-3653-97D4-3C1498EA0368}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\test_args.vcxproj">
+      <Project>{B6C6F432-B43C-3E90-8026-190FFFF8BACA}</Project>
       <Name>test_args</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\test_init.vcxproj">
-      <Project>{75A41AD8-57BC-3373-8BDE-2CF911DC9F6F}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\test_init.vcxproj">
+      <Project>{8746BC90-5FB3-3253-A9AD-B29FA420E809}</Project>
       <Name>test_init</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\src\rusty-claude-cli\test_render.vcxproj">
-      <Project>{77D96CCA-12CF-3C90-A474-72C4169DF915}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\src\rusty-claude-cli\test_render.vcxproj">
+      <Project>{0B36B5D7-AF33-30CC-BA18-12E2E4D971C6}</Project>
       <Name>test_render</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src
+# Install script for directory: C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,27 +34,22 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/docs/cmake_install.cmake")
+  include("C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/scripts/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/scripts/cmake_install.cmake")
+  include("C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/lib/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/docs/examples/cmake_install.cmake")
+  include("C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/docs/examples/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/install_local_manifest.txt"
+  file(WRITE "C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

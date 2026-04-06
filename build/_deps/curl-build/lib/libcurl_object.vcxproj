@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CEA94F56-BD31-3F24-9F1B-C260B8466D94}</ProjectGuid>
+    <ProjectGuid>{C4FAE9F0-9531-346E-8D29-E574FC3BD206}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -101,10 +101,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -117,7 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -141,10 +141,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -157,7 +157,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -181,10 +181,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -197,7 +197,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -220,10 +220,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;CURL_HIDDEN_SYMBOLS;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;HAVE_CONFIG_H;BUILDING_LIBCURL;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\include;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\include;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -235,11 +235,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\CMakeLists.txt">
+    <CustomBuild Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -247,12 +247,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -260,12 +260,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -273,12 +273,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Workspace/claude/claw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-src/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Workspace/claude/claw-cpp-code -BC:/Workspace/claude/claw-cpp-code/build --check-stamp-file C:/Workspace/claude/claw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Projects/GitHub/craw-cpp-code -BC:/Projects/GitHub/craw-cpp-code/build --check-stamp-file C:/Projects/GitHub/craw-cpp-code/build/_deps/curl-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -286,367 +286,367 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\Makefile.inc.cmake;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\Makefile.inc;C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_config-cmake.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\altsvc.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\amigaos.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\arpa_telnet.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\asyn.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\bufq.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\bufref.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-h1-proxy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-h2-proxy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-haproxy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-https-connect.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-ip-happy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-socket.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cfilters.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\conncache.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cshutdn.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\connect.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\content_encoding.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cookie.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_addrinfo.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_ctype.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_endian.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_fnmatch.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_fopen.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_get_line.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_gethostname.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_gssapi.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_hmac.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_ldap.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_md4.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_md5.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_memrchr.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_ntlm_core.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_printf.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_range.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_rtmp.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_sasl.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_setup.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_sha256.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_sha512_256.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_share.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_sspi.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_threads.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_trc.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cw-out.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cw-pause.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\dict.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\doh.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\dynhds.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\easy_lock.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\easyif.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\easyoptions.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\escape.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\fake_addrinfo.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\file.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\fileinfo.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\formdata.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ftp.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ftplistparser.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\functypes.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\getinfo.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\gopher.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hash.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\headers.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hostip.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hsts.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http1.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http2.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_aws_sigv4.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_chunks.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_digest.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_negotiate.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_ntlm.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_proxy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\httpsrr.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\idn.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\if2ip.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\imap.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\llist.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\macos.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\mime.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\mqtt.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\multihandle.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\multi_ev.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\multi_ntfy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\multiif.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\netrc.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\noproxy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\parsedate.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\pingpong.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\pop3.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\progress.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\psl.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\rand.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ratelimit.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\request.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\rtsp.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\select.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\sendf.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\setopt.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\setup-os400.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\setup-vms.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\setup-win32.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\sigpipe.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\slist.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\smb.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\smtp.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\sockaddr.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\socketpair.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\socks.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\splay.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\strcase.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\strerror.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\system_win32.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\telnet.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\tftp.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\transfer.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-bset.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-hash.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-spbset.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-table.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\url.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\urlapi-int.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\urldata.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ws.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\digest.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\vauth.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\apple.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\cipher_suite.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\gtls.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\hostcheck.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\keylog.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\mbedtls.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\openssl.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\rustls.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\schannel.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\schannel_int.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\vtls.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_int.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_scache.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_spack.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\wolfssl.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\x509asn1.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\curl_ngtcp2.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\curl_quiche.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\vquic.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\vquic_int.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\vquic-tls.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vssh\vssh.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vssh\ssh.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\base64.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\basename.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\curlx.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\dynbuf.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\fopen.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\inet_ntop.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\inet_pton.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\multibyte.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\nonblock.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\snprintf.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strcopy.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strdup.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strerr.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strparse.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\timediff.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\timeval.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\version_win32.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\wait.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\warnless.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\winapi.h" />
-    <ClInclude Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-build\lib\curl_config.h" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\altsvc.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\amigaos.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\asyn-ares.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\asyn-base.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\asyn-thrdd.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\bufq.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\bufref.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-h1-proxy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-h2-proxy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-haproxy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-https-connect.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-ip-happy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cf-socket.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cfilters.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\conncache.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\connect.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\content_encoding.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cookie.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cshutdn.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_addrinfo.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_endian.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_fnmatch.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_fopen.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_get_line.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_gethostname.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_gssapi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_memrchr.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_ntlm_core.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_range.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_rtmp.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_sasl.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_sha512_256.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_share.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_sspi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_threads.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curl_trc.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cw-out.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\cw-pause.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\dict.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\doh.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\dynhds.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\easy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\easygetopt.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\easyoptions.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\escape.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\fake_addrinfo.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\file.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\fileinfo.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\formdata.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ftp.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ftplistparser.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\getenv.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\getinfo.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\gopher.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hash.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\headers.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hmac.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hostip.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hostip4.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hostip6.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\hsts.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http1.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http2.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_aws_sigv4.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_chunks.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_digest.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_negotiate.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_ntlm.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\http_proxy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\httpsrr.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\idn.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\if2ip.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\imap.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ldap.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\llist.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\macos.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\md4.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\md5.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\memdebug.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\mime.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\mprintf.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\mqtt.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\multi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\multi_ev.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\multi_ntfy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\netrc.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\noproxy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\openldap.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\parsedate.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\pingpong.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\pop3.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\progress.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\psl.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\rand.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ratelimit.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\request.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\rtsp.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\select.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\sendf.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\setopt.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\sha256.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\slist.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\smb.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\smtp.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\socketpair.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\socks.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\socks_gssapi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\socks_sspi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\splay.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\strcase.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\strequal.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\strerror.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\system_win32.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\telnet.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\tftp.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\transfer.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-bset.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-hash.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-spbset.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\uint-table.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\url.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\urlapi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\version.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\ws.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\cleartext.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\cram.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\digest.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\digest_sspi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\gsasl.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\krb5_gssapi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\krb5_sspi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\ntlm.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\ntlm_sspi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\oauth2.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\spnego_gssapi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\spnego_sspi.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vauth\vauth.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\apple.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\cipher_suite.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\gtls.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\hostcheck.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\keylog.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\mbedtls.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\openssl.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\rustls.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\schannel.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\schannel_verify.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\vtls.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_scache.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_spack.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\wolfssl.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vtls\x509asn1.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\curl_ngtcp2.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\curl_quiche.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\vquic.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vquic\vquic-tls.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vssh\libssh.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vssh\libssh2.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\vssh\vssh.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\base64.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\basename.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\dynbuf.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\fopen.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\inet_ntop.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\inet_pton.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\multibyte.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\nonblock.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\snprintf.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strcopy.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strdup.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strerr.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\strparse.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\timediff.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\timeval.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\version_win32.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\wait.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\warnless.c" />
-    <ClCompile Include="C:\Workspace\claude\claw-cpp-code\build\_deps\curl-src\lib\curlx\winapi.c" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\altsvc.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\amigaos.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\arpa_telnet.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\asyn.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\bufq.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\bufref.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-h1-proxy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-h2-proxy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-haproxy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-https-connect.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-ip-happy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-socket.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cfilters.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\conncache.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cshutdn.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\connect.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\content_encoding.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cookie.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_addrinfo.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_ctype.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_endian.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_fnmatch.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_fopen.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_get_line.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_gethostname.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_gssapi.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_hmac.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_ldap.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_md4.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_md5.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_memrchr.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_ntlm_core.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_printf.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_range.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_rtmp.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_sasl.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_setup.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_sha256.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_sha512_256.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_share.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_sspi.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_threads.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_trc.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cw-out.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cw-pause.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\dict.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\doh.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\dynhds.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\easy_lock.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\easyif.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\easyoptions.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\escape.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\fake_addrinfo.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\file.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\fileinfo.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\formdata.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ftp.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ftplistparser.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\functypes.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\getinfo.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\gopher.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hash.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\headers.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hostip.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hsts.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http1.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http2.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_aws_sigv4.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_chunks.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_digest.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_negotiate.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_ntlm.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_proxy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\httpsrr.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\idn.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\if2ip.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\imap.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\llist.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\macos.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\mime.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\mqtt.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\multihandle.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\multi_ev.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\multi_ntfy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\multiif.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\netrc.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\noproxy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\parsedate.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\pingpong.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\pop3.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\progress.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\psl.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\rand.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ratelimit.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\request.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\rtsp.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\select.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\sendf.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\setopt.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\setup-os400.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\setup-vms.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\setup-win32.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\sigpipe.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\slist.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\smb.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\smtp.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\sockaddr.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\socketpair.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\socks.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\splay.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\strcase.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\strerror.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\system_win32.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\telnet.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\tftp.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\transfer.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-bset.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-hash.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-spbset.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-table.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\url.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\urlapi-int.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\urldata.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ws.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\digest.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\vauth.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\apple.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\cipher_suite.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\gtls.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\hostcheck.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\keylog.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\mbedtls.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\openssl.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\rustls.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\schannel.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\schannel_int.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\vtls.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_int.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_scache.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_spack.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\wolfssl.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\x509asn1.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\curl_ngtcp2.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\curl_quiche.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\vquic.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\vquic_int.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\vquic-tls.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vssh\vssh.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vssh\ssh.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\base64.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\basename.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\curlx.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\dynbuf.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\fopen.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\inet_ntop.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\inet_pton.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\multibyte.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\nonblock.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\snprintf.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strcopy.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strdup.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strerr.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strparse.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\timediff.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\timeval.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\version_win32.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\wait.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\warnless.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\winapi.h" />
+    <ClInclude Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-build\lib\curl_config.h" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\altsvc.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\amigaos.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\asyn-ares.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\asyn-base.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\asyn-thrdd.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\bufq.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\bufref.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-h1-proxy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-h2-proxy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-haproxy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-https-connect.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-ip-happy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cf-socket.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cfilters.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\conncache.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\connect.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\content_encoding.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cookie.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cshutdn.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_addrinfo.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_endian.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_fnmatch.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_fopen.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_get_line.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_gethostname.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_gssapi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_memrchr.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_ntlm_core.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_range.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_rtmp.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_sasl.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_sha512_256.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_share.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_sspi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_threads.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curl_trc.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cw-out.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\cw-pause.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\dict.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\doh.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\dynhds.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\easy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\easygetopt.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\easyoptions.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\escape.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\fake_addrinfo.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\file.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\fileinfo.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\formdata.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ftp.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ftplistparser.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\getenv.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\getinfo.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\gopher.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hash.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\headers.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hmac.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hostip.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hostip4.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hostip6.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\hsts.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http1.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http2.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_aws_sigv4.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_chunks.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_digest.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_negotiate.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_ntlm.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\http_proxy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\httpsrr.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\idn.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\if2ip.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\imap.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ldap.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\llist.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\macos.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\md4.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\md5.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\memdebug.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\mime.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\mprintf.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\mqtt.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\multi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\multi_ev.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\multi_ntfy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\netrc.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\noproxy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\openldap.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\parsedate.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\pingpong.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\pop3.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\progress.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\psl.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\rand.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ratelimit.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\request.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\rtsp.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\select.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\sendf.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\setopt.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\sha256.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\slist.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\smb.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\smtp.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\socketpair.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\socks.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\socks_gssapi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\socks_sspi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\splay.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\strcase.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\strequal.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\strerror.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\system_win32.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\telnet.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\tftp.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\transfer.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-bset.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-hash.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-spbset.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\uint-table.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\url.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\urlapi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\version.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\ws.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\cleartext.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\cram.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\digest.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\digest_sspi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\gsasl.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\krb5_gssapi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\krb5_sspi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\ntlm.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\ntlm_sspi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\oauth2.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\spnego_gssapi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\spnego_sspi.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vauth\vauth.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\apple.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\cipher_suite.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\gtls.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\hostcheck.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\keylog.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\mbedtls.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\openssl.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\rustls.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\schannel.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\schannel_verify.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\vtls.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_scache.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\vtls_spack.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\wolfssl.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vtls\x509asn1.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\curl_ngtcp2.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\curl_quiche.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\vquic.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vquic\vquic-tls.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vssh\libssh.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vssh\libssh2.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\vssh\vssh.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\base64.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\basename.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\dynbuf.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\fopen.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\inet_ntop.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\inet_pton.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\multibyte.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\nonblock.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\snprintf.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strcopy.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strdup.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strerr.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\strparse.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\timediff.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\timeval.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\version_win32.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\wait.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\warnless.c" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\curl-src\lib\curlx\winapi.c" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Workspace\claude\claw-cpp-code\build\ZERO_CHECK.vcxproj">
-      <Project>{FFC9F754-B57A-3F66-9CBD-98033BA8DC7D}</Project>
+    <ProjectReference Include="C:\Projects\GitHub\craw-cpp-code\build\ZERO_CHECK.vcxproj">
+      <Project>{8DAD9773-012C-3AEF-B5BC-2EDB6150B7FB}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

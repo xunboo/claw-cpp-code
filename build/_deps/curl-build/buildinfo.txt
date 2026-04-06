@@ -11,5 +11,5 @@ buildinfo.target.cpu: AMD64
 buildinfo.target.os: Windows
 buildinfo.target.flags: WIN32 MSVC-1944
 buildinfo.compiler: MSVC
-buildinfo.compiler.version: 19.44.35222.0
+buildinfo.compiler.version: 19.44.35224.0
 buildinfo.sysroot: 

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Workspace/claude/claw-cpp-code/src/runtime
+# Install script for directory: C:/Projects/GitHub/craw-cpp-code/src/runtime
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,61 +34,61 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Workspace/claude/claw-cpp-code/build/lib/Debug/claw_runtime.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Projects/GitHub/craw-cpp-code/build/lib/Debug/claw_runtime.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Workspace/claude/claw-cpp-code/build/lib/Release/claw_runtime.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Projects/GitHub/craw-cpp-code/build/lib/Release/claw_runtime.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Workspace/claude/claw-cpp-code/build/lib/MinSizeRel/claw_runtime.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Projects/GitHub/craw-cpp-code/build/lib/MinSizeRel/claw_runtime.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Workspace/claude/claw-cpp-code/build/lib/RelWithDebInfo/claw_runtime.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Projects/GitHub/craw-cpp-code/build/lib/RelWithDebInfo/claw_runtime.lib")
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/claw_runtime" TYPE FILE FILES
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/bash.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/bash_validation.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/bootstrap.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/compact.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/config.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/conversation.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/file_ops.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/green_contract.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/hooks.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/json_value.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/lane_events.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/lsp_client.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/mcp.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/mcp_client.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/mcp_lifecycle_hardened.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/mcp_stdio.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/mcp_tool_bridge.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/oauth.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/permissions.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/permission_enforcer.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/plugin_lifecycle.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/policy_engine.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/prompt.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/recovery_recipes.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/remote.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/sandbox.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/session.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/session_control.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/sse.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/stale_branch.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/summary_compression.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/task_packet.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/task_registry.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/team_cron_registry.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/trust_resolver.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/usage.hpp"
-    "C:/Workspace/claude/claw-cpp-code/src/runtime/include/worker_boot.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/bash.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/bash_validation.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/bootstrap.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/compact.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/config.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/conversation.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/file_ops.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/green_contract.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/hooks.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/json_value.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/lane_events.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/lsp_client.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/mcp.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/mcp_client.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/mcp_lifecycle_hardened.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/mcp_stdio.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/mcp_tool_bridge.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/oauth.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/permissions.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/permission_enforcer.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/plugin_lifecycle.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/policy_engine.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/prompt.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/recovery_recipes.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/remote.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/sandbox.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/session.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/session_control.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/sse.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/stale_branch.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/summary_compression.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/task_packet.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/task_registry.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/team_cron_registry.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/trust_resolver.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/usage.hpp"
+    "C:/Projects/GitHub/craw-cpp-code/src/runtime/include/worker_boot.hpp"
     )
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Workspace/claude/claw-cpp-code/build/src/runtime/install_local_manifest.txt"
+  file(WRITE "C:/Projects/GitHub/craw-cpp-code/build/src/runtime/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
