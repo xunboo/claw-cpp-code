@@ -34,7 +34,7 @@ static uint64_t current_time_millis() {
     return static_cast<uint64_t>(duration_cast<milliseconds>(now).count());
 }
 
-static std::string generate_session_id() {
+std::string generate_session_id() {
     uint64_t millis  = current_time_millis();
     uint64_t counter = s_session_id_counter.fetch_add(1, std::memory_order_relaxed);
     return std::format("session-{}-{}", millis, counter);
@@ -306,15 +306,14 @@ static std::string render_snapshot(const Session& session, const SessionSnapshot
 // rotating if the existing file is over the size limit, then cleans old logs.
 
 tl::expected<void, std::string> Session::persist(const fs::path& path) const {
-    // Build meta from what the C++ Session carries.
-    // session_id, created_at_ms, updated_at_ms are not on the C++ struct
-    // (the C++ header is simpler than the Rust one), so we generate them here
-    // or embed them as best effort.
+    // Build meta from the Session's own fields (mirrors Rust's meta_record).
     SessionSnapshot meta;
     meta.version        = SESSION_VERSION;
     meta.session_id     = id.empty() ? generate_session_id() : id;
-    meta.created_at_ms  = current_time_millis();
+    meta.created_at_ms  = (created_at_ms != 0) ? created_at_ms : current_time_millis();
     meta.updated_at_ms  = current_time_millis();
+    // Update the session's updated_at_ms timestamp (Rust calls touch())
+    updated_at_ms = meta.updated_at_ms;
 
     if (parent_session_id.has_value()) {
         meta.has_fork                 = true;
@@ -331,6 +330,52 @@ tl::expected<void, std::string> Session::persist(const fs::path& path) const {
     // Clean up old rotated logs
     if (auto r = cleanup_rotated_logs(path); !r) return r;
 
+    // After a full snapshot, all messages are now on disk.
+    persisted_count_ = messages.size();
+
+    return {};
+}
+
+// ─── Session::append_new_messages ────────────────────────────────────────────
+// Mirrors Rust's append_persisted_message: only appends JSONL lines for
+// messages added since the last persist/append.  Falls back to full persist()
+// when the file doesn't exist or is empty (bootstrap).
+
+tl::expected<void, std::string> Session::append_new_messages(const fs::path& path) {
+    // Nothing new to write.
+    if (persisted_count_ >= messages.size()) return {};
+
+    // Bootstrap: file missing or empty → write full snapshot instead.
+    {
+        std::error_code ec;
+        auto sz = fs::file_size(path, ec);
+        if (ec || sz == 0) {
+            return persist(path);  // persist() sets persisted_count_
+        }
+    }
+
+    // Rotate if the file has grown past the threshold.
+    // After rotation the old file is gone, so fall back to full snapshot.
+    {
+        std::error_code ec;
+        auto sz = fs::file_size(path, ec);
+        if (!ec && sz >= ROTATE_AFTER_BYTES) {
+            if (auto r = rotate_session_file_if_needed(path); !r) return r;
+            if (auto r = cleanup_rotated_logs(path); !r) return r;
+            return persist(path);
+        }
+    }
+
+    // Append only the new messages.
+    std::ofstream out(path, std::ios::binary | std::ios::app);
+    if (!out) return tl::unexpected(std::format("cannot open session file for append: {}", path.string()));
+
+    for (std::size_t i = persisted_count_; i < messages.size(); ++i) {
+        out << make_message_record(messages[i]).dump() << '\n';
+    }
+    if (!out) return tl::unexpected(std::format("write failed appending to: {}", path.string()));
+
+    persisted_count_ = messages.size();
     return {};
 }
 
@@ -374,6 +419,7 @@ tl::expected<Session, std::string> Session::load(const fs::path& path) {
                     for (const auto& m : j["messages"]) {
                         session.messages.push_back(message_from_json(m));
                     }
+                    session.mark_all_persisted();
                     return session;
                 }
                 // Falls through to JSONL parsing if not a legacy object.
@@ -421,6 +467,8 @@ tl::expected<Session, std::string> Session::load(const fs::path& path) {
         std::string type = j["type"].get<std::string>();
         if (type == "session_meta") {
             session.id = j.value("session_id", generate_session_id());
+            session.created_at_ms = j.value("created_at_ms", uint64_t{0});
+            session.updated_at_ms = j.value("updated_at_ms", uint64_t{0});
             if (j.contains("model") && j["model"].is_string()) {
                 session.model = j["model"].get<std::string>();
             }
@@ -457,22 +505,27 @@ tl::expected<Session, std::string> Session::load(const fs::path& path) {
         session.id = generate_session_id();
     }
 
+    session.mark_all_persisted();
     return session;
 }
 
 // ─── Session::fork ────────────────────────────────────────────────────────────
 // Creates a child session sharing all messages. Mirrors Rust Session::fork.
 
-Session Session::fork(std::string new_id) const {
+Session Session::fork(std::string fork_branch_name) const {
+    auto now = current_time_millis();
     Session child;
-    child.id                = std::move(new_id);
+    child.id                = generate_session_id();
     child.model             = model;
     child.system_prompt     = system_prompt;
     child.messages          = messages;
-    child.parent_session_id = id;
-    // branch_name is not inherited; it belongs to the fork's own metadata
-    // (Rust fork takes an Option<branch_name> argument; here the caller sets it).
-    child.branch_name       = branch_name;
+    child.parent_session_id = id;               // lineage: parent is this session
+    child.created_at_ms     = now;
+    child.updated_at_ms     = now;
+    // branch_name belongs to the fork's own metadata (Rust takes Option<String>).
+    child.branch_name       = fork_branch_name.empty()
+                                  ? std::nullopt
+                                  : std::optional<std::string>{std::move(fork_branch_name)};
     return child;
 }
 

@@ -9,6 +9,7 @@
 
 #include <filesystem>
 #include <iosfwd>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -16,6 +17,10 @@
 #include <vector>
 
 namespace claw {
+
+// Opaque handle for the runtime session (avoids including session.hpp here,
+// which would collide with commands' runtime_types.hpp namespace).
+struct SessionImpl;
 
 // ---- UsageSummary ----
 /// Minimal mirror of runtime::UsageSummary.
@@ -88,6 +93,7 @@ struct SessionConfig {
     PermissionMode permission_mode{PermissionMode::DangerFullAccess};
     std::optional<std::filesystem::path> config;
     OutputFormat output_format{OutputFormat::Text};
+    std::filesystem::path project_root;  // project root for session storage
 };
 
 // ---- SessionState ----
@@ -173,6 +179,7 @@ private:
 class CliApp {
 public:
     explicit CliApp(SessionConfig config);
+    ~CliApp();  // defined in app.cpp (unique_ptr to incomplete type)
 
     /// Run the interactive REPL.
     void run_repl();
@@ -186,12 +193,26 @@ public:
     /// Print help to `out` (static -- no instance state needed).
     static CommandResult handle_help(std::ostream& out);
 
+    /// Load a session from a JSONL file and populate conversation history.
+    /// Returns true on success, false on failure.
+    bool load_session_from_path(const std::filesystem::path& path);
+
+    /// Full snapshot persist (mirrors Rust's persist_session → save_to_path).
+    void persist_session();
+
+    /// Incremental append persist (mirrors Rust's push_message → append).
+    void persist_session_incremental();
+
 private:
+    void sync_runtime_session();
+
     SessionConfig config_;
     TerminalRenderer renderer_;
     SessionState state_;
     ConversationClient client_;
     std::vector<ConversationMessage> history_;
+    std::unique_ptr<SessionImpl> session_impl_;  // PIMPL — wraps claw::runtime::Session
+    std::filesystem::path session_path_;          // .claw/sessions/<id>.jsonl
 
     CommandResult dispatch_slash_command(const SlashCommand& cmd, std::ostream& out);
     CommandResult handle_status(std::ostream& out);

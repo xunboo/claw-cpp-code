@@ -51,19 +51,41 @@ struct Session {
     std::vector<ConversationMessage> messages;
     std::optional<std::string> parent_session_id;
     std::optional<std::string> branch_name;
+    uint64_t created_at_ms{0};           // set once at creation, never changes
+    mutable uint64_t updated_at_ms{0};  // updated on each touch/persist
 
     Session() = default;
     explicit Session(std::string id_) : id(std::move(id_)) {}
 
-    // Serialize all messages to JSONL, appending to path; rotates if size exceeds limit
+    /// Full JSONL snapshot: writes all messages atomically (rotates if needed).
+    /// Used for bootstrap (first save) and after file rotation.
     [[nodiscard]] tl::expected<void, std::string> persist(const std::filesystem::path& path) const;
 
-    // Load a session from a JSONL file
+    /// Incremental append: only writes messages added since the last persist/append.
+    /// Falls back to full persist() if the file doesn't exist or is empty.
+    /// Mirrors Rust's append_persisted_message logic.
+    [[nodiscard]] tl::expected<void, std::string> append_new_messages(const std::filesystem::path& path);
+
+    /// Load a session from a JSONL file
     [[nodiscard]] static tl::expected<Session, std::string> load(const std::filesystem::path& path);
 
-    // Fork: create a child session sharing parent's messages
-    [[nodiscard]] Session fork(std::string new_id) const;
+    /// Fork: create a child session sharing parent's messages.
+    /// Generates a new session_id internally (mirrors Rust).
+    [[nodiscard]] Session fork(std::string fork_branch_name = {}) const;
+
+    /// Number of messages already persisted to disk.
+    [[nodiscard]] std::size_t persisted_count() const noexcept { return persisted_count_; }
+
+    /// Mark all current messages as persisted (called after full persist).
+    void mark_all_persisted() noexcept { persisted_count_ = messages.size(); }
+
+private:
+    mutable std::size_t persisted_count_{0};
 };
+
+/// Generate a unique session ID (format: "session-{millis}-{counter}").
+/// Mirrors Rust's generate_session_id().
+[[nodiscard]] std::string generate_session_id();
 
 // JSON serialization helpers
 [[nodiscard]] nlohmann::json content_block_to_json(const ContentBlock& block);

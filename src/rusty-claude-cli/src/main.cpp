@@ -1057,6 +1057,7 @@ void run_repl_action(const std::string& model, PermissionMode pm) {
     SessionConfig cfg;
     cfg.model            = model;
     cfg.permission_mode  = pm;
+    cfg.project_root     = std::filesystem::current_path();
 
     // Print startup banner (mirrors Rust's LiveCli::startup_banner).
     auto cwd = std::filesystem::current_path();
@@ -1144,17 +1145,24 @@ void resume_session_action(const std::filesystem::path& session_path,
     std::cout << format_resume_report(
         resolved.string(), session_r->messages.size(), 0) << "\n";
 
+    // Create CLI app with loaded session and enter REPL
+    SessionConfig cfg;
+    cfg.model = session_r->model.empty() ? std::string(DEFAULT_MODEL) : session_r->model;
+    cfg.permission_mode = PermissionMode::DangerFullAccess;
+    cfg.project_root = std::filesystem::current_path();
+    CliApp app{cfg};
+    app.load_session_from_path(resolved);
+
     // Dispatch slash commands if provided
     if (!commands.empty()) {
-        SessionConfig cfg;
-        cfg.model = session_r->model.empty() ? std::string(DEFAULT_MODEL) : session_r->model;
-        cfg.permission_mode = PermissionMode::DangerFullAccess;
-        CliApp app{cfg};
         for (auto& cmd : commands) {
             std::cout << "  > " << cmd << "\n";
             app.handle_submission(cmd, std::cout);
         }
     }
+
+    // Enter REPL with restored history
+    app.run_repl();
 }
 
 void dump_manifests() {

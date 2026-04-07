@@ -2,6 +2,7 @@
 // input.hpp -- C++20 port of input.rs
 // Line-editor with slash-command completion: LineEditor, ReadOutcome
 
+#include <filesystem>
 #include <functional>
 #include <optional>
 #include <set>
@@ -43,6 +44,12 @@ public:
     /// Read one logical line from the terminal.
     /// Falls back to a simple stdin read when not connected to a TTY.
     [[nodiscard]] ReadOutcome read_line();
+
+    /// Load input history from a file (one entry per line). Silently ignored on error.
+    void load_history(const std::filesystem::path& path);
+
+    /// Save input history to a file (one entry per line). Silently ignored on error.
+    void save_history(const std::filesystem::path& path, std::size_t max_entries = 500) const;
 
 private:
     std::string prompt_;

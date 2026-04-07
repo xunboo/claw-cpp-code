@@ -7,6 +7,7 @@
 #include <format>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -18,14 +19,26 @@
 #include "providers/anthropic.hpp"
 #include "types.hpp"
 
-// Tool execution
+// Tool execution (must come before session.hpp — namespace runtime vs claw::runtime)
 #include "commands.hpp"
+
+// Runtime session persistence
+#include "session.hpp"
+#include "session_control.hpp"
 #include "tool_specs.hpp"
 #include "tool_executor.hpp"
 #include "init.hpp"
 #include "bash.hpp"
 
 namespace claw {
+
+// ===========================================================================
+// SessionImpl — PIMPL wrapper around claw::runtime::Session
+// ===========================================================================
+
+struct SessionImpl {
+    claw::runtime::Session session;
+};
 
 // ===========================================================================
 // parse_slash_command  (mirrors Rust's SlashCommand::parse)
@@ -359,14 +372,159 @@ CliApp::CliApp(SessionConfig config)
     , renderer_{}
     , state_{config_.model}
     , client_{ConversationClient::from_env(config_.model)}
-{}
+    , session_impl_{std::make_unique<SessionImpl>()}
+{
+    // If project_root was not set, default to cwd
+    if (config_.project_root.empty())
+        config_.project_root = std::filesystem::current_path();
+}
+
+CliApp::~CliApp() = default;
+
+// ===========================================================================
+// Session ↔ CLI history conversion helpers
+// ===========================================================================
+
+bool CliApp::load_session_from_path(const std::filesystem::path& path) {
+    auto loaded = claw::runtime::Session::load(path);
+    if (!loaded || loaded->messages.empty()) return false;
+
+    session_impl_->session = *loaded;
+    session_path_ = path;
+    history_.clear();
+
+    for (const auto& rm : loaded->messages) {
+        claw::api::InputMessage api_msg;
+        api_msg.role = (rm.role == claw::runtime::MessageRole::Assistant)
+                           ? "assistant" : "user";
+
+        for (const auto& block : rm.blocks) {
+            std::visit([&](const auto& b) {
+                using B = std::decay_t<decltype(b)>;
+                if constexpr (std::is_same_v<B, claw::runtime::TextBlock>) {
+                    api_msg.content.push_back(
+                        claw::api::InputContentBlock::text_block(b.text));
+                } else if constexpr (std::is_same_v<B, claw::runtime::ToolUseBlock>) {
+                    claw::api::InputContentBlock icb;
+                    icb.kind  = claw::api::InputContentBlock::Kind::ToolUse;
+                    icb.id    = b.id;
+                    icb.name  = b.name;
+                    icb.input = b.input;
+                    api_msg.content.push_back(std::move(icb));
+                } else if constexpr (std::is_same_v<B, claw::runtime::ToolResultBlock>) {
+                    claw::api::InputContentBlock icb;
+                    icb.kind        = claw::api::InputContentBlock::Kind::ToolResult;
+                    icb.tool_use_id = b.tool_use_id;
+                    icb.content.push_back(claw::api::ToolResultContentBlock{
+                        claw::api::ToolResultContentBlock::Kind::Text, b.content, {}});
+                    icb.is_error    = b.is_error;
+                    api_msg.content.push_back(std::move(icb));
+                }
+                // ThinkingBlock is not round-tripped to API messages
+            }, block);
+        }
+        history_.push_back(ConversationMessage::from_api(std::move(api_msg)));
+    }
+    return true;
+}
+
+// ===========================================================================
+// sync_runtime_session  (append new history_ entries into runtime_session_)
+// ===========================================================================
+
+void CliApp::sync_runtime_session() {
+    // Only convert messages that are new since last sync.
+    while (session_impl_->session.messages.size() < history_.size()) {
+        const auto& cm = history_[session_impl_->session.messages.size()];
+        claw::runtime::ConversationMessage rm;
+        rm.role = (cm.api_message.role == "assistant")
+                      ? claw::runtime::MessageRole::Assistant
+                      : claw::runtime::MessageRole::User;
+
+        for (const auto& block : cm.api_message.content) {
+            switch (block.kind) {
+                case claw::api::InputContentBlock::Kind::Text:
+                    rm.blocks.push_back(claw::runtime::TextBlock{block.text});
+                    break;
+                case claw::api::InputContentBlock::Kind::ToolUse:
+                    rm.blocks.push_back(claw::runtime::ToolUseBlock{
+                        block.id, block.name, block.input});
+                    break;
+                case claw::api::InputContentBlock::Kind::ToolResult: {
+                    std::string content_text;
+                    for (const auto& c : block.content)
+                        content_text += c.text;
+                    rm.blocks.push_back(claw::runtime::ToolResultBlock{
+                        block.tool_use_id, content_text, block.is_error});
+                    break;
+                }
+            }
+        }
+        session_impl_->session.messages.push_back(std::move(rm));
+    }
+}
+
+// ===========================================================================
+// persist_session  (mirrors Rust's LiveCli::persist_session → save_to_path)
+// Full JSONL snapshot.  Called on /exit, /quit, Ctrl+D, and some slash cmds.
+// ===========================================================================
+
+void CliApp::persist_session() {
+    if (session_path_.empty()) return;
+    sync_runtime_session();
+    auto result = session_impl_->session.persist(session_path_);
+    if (!result) {
+        std::cerr << "  warning: failed to save session: "
+                  << result.error() << "\n";
+    }
+}
+
+// ===========================================================================
+// persist_session_incremental  (mirrors Rust's push_message → append)
+// Appends only new messages.  Called after each conversation turn.
+// ===========================================================================
+
+void CliApp::persist_session_incremental() {
+    if (session_path_.empty()) return;
+    sync_runtime_session();
+    auto result = session_impl_->session.append_new_messages(session_path_);
+    if (!result) {
+        std::cerr << "  warning: failed to save session: "
+                  << result.error() << "\n";
+    }
+}
 
 // ===========================================================================
 // run_repl  (mirrors Rust's run_repl)
 // ===========================================================================
 
 void CliApp::run_repl() {
+    // --- Create a NEW session on every fresh start (matches Rust behaviour).
+    //     Skip if a session was already loaded via --resume / load_from_runtime_session. ---
+    if (session_impl_->session.id.empty()) {
+        auto dir_result = claw::runtime::managed_sessions_dir_for(config_.project_root);
+        if (dir_result) {
+            // Mirrors Rust Session::new(): generate ID, set timestamps
+            using namespace std::chrono;
+            auto now_ms = static_cast<uint64_t>(
+                duration_cast<milliseconds>(
+                    system_clock::now().time_since_epoch()).count());
+            session_impl_->session.id = claw::runtime::generate_session_id();
+            session_impl_->session.model = config_.model;
+            session_impl_->session.created_at_ms = now_ms;
+            session_impl_->session.updated_at_ms = now_ms;
+            session_path_ = *dir_result / (session_impl_->session.id + ".jsonl");
+
+            // Persist empty session immediately (matches Rust startup)
+            persist_session();
+        }
+    }
+
     LineEditor editor{"› "};
+
+    // Load input history from .claw/input_history
+    auto history_path = config_.project_root / ".claw" / "input_history";
+    editor.load_history(history_path);
 
     while (true) {
         auto outcome = editor.read_line();
@@ -379,11 +537,19 @@ void CliApp::run_repl() {
         editor.push_history(submit.text);
         try {
             handle_submission(submit.text, std::cout);
+            // Incremental append after each turn (mirrors Rust push_message → append)
+            persist_session_incremental();
         } catch (const std::runtime_error& e) {
             if (std::string(e.what()) == "__exit__") break;
             std::cerr << "error: " << e.what() << "\n";
         }
     }
+
+    // Full snapshot on exit (mirrors Rust's persist_session → save_to_path)
+    persist_session();
+
+    // Save input history to .claw/input_history
+    editor.save_history(history_path);
 }
 
 // ===========================================================================
@@ -468,7 +634,8 @@ CommandResult CliApp::dispatch_slash_command(const SlashCommand& cmd,
         }
         else if constexpr (std::is_same_v<T, SlashSession>) {
             if (!c.action) {
-                out << "Session\n  Current session: in-memory (not persisted)\n"
+                out << "Session\n  ID: " << session_impl_->session.id << "\n"
+                    << "  Auto-save: " << (session_path_.empty() ? "(disabled)" : session_path_.string()) << "\n"
                     << "  Messages: " << history_.size() << "\n"
                     << "  Turns: " << state_.turns << "\n";
             } else if (*c.action == "list") {
@@ -489,8 +656,20 @@ CommandResult CliApp::dispatch_slash_command(const SlashCommand& cmd,
             return CommandResult::Continue;
         }
         else if constexpr (std::is_same_v<T, SlashResume>) {
-            out << "Resume\n  Use --resume from the command line:\n"
-                << "  claw --resume " << c.session.value_or("latest") << "\n";
+            std::string ref = c.session.value_or("latest");
+            auto resolved = claw::runtime::resolve_session_reference_for(
+                config_.project_root, ref);
+            if (!resolved) {
+                out << "  No saved session found for \"" << ref << "\".\n"
+                    << "  Start a conversation first, then /resume latest\n";
+                return CommandResult::Continue;
+            }
+            if (!load_session_from_path(resolved->path)) {
+                out << "  Failed to load session from " << resolved->path.string() << "\n";
+                return CommandResult::Continue;
+            }
+            out << "  Resumed session " << session_impl_->session.id
+                << " (" << history_.size() << " messages)\n";
             return CommandResult::Continue;
         }
         else if constexpr (std::is_same_v<T, SlashInit>) {

@@ -3,6 +3,8 @@
 #include "input.hpp"
 
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <set>
 #include <string>
@@ -11,6 +13,8 @@
 
 #ifdef _WIN32
 #  include <io.h>
+#  include <conio.h>
+#  include <windows.h>
 #  define IS_TERMINAL(fd) (_isatty(fd) != 0)
 #  define STDIN_FD  0
 #  define STDOUT_FD 1
@@ -65,6 +69,28 @@ void LineEditor::set_completions(std::vector<std::string> completions) {
     completions_ = normalize_completions(std::move(completions));
 }
 
+void LineEditor::load_history(const std::filesystem::path& path) {
+    std::ifstream in(path);
+    if (!in) return;
+    std::string line;
+    while (std::getline(in, line)) {
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty()) history_.push_back(std::move(line));
+    }
+}
+
+void LineEditor::save_history(const std::filesystem::path& path, std::size_t max_entries) const {
+    std::error_code ec;
+    if (path.has_parent_path())
+        std::filesystem::create_directories(path.parent_path(), ec);
+    std::ofstream out(path, std::ios::binary);
+    if (!out) return;
+    // Write only the last max_entries
+    std::size_t start = (history_.size() > max_entries) ? history_.size() - max_entries : 0;
+    for (std::size_t i = start; i < history_.size(); ++i)
+        out << history_[i] << '\n';
+}
+
 std::vector<std::string> LineEditor::complete(std::string_view prefix) const {
     // Return all candidates whose stored string starts with `prefix`.
     std::vector<std::string> matches;
@@ -106,8 +132,92 @@ ReadOutcome LineEditor::read_line() {
     // ANSI escape sequences to move the cursor and rewrite the line.
 
 #ifdef _WIN32
-    // Windows: use the simple getline path for now (ConPTY handles most editing).
-    return read_line_fallback();
+    // Windows interactive console: use _getch() for raw key reads with
+    // arrow-key history navigation and tab completion.
+    {
+        std::cout << prompt_ << std::flush;
+
+        std::string buffer;
+        std::size_t hist_idx = history_.size();
+        std::string saved_line;
+
+        auto redraw = [&]() {
+            std::cout << "\r\x1b[2K" << prompt_ << buffer << std::flush;
+        };
+
+        while (true) {
+            int ch = _getch();
+
+            if (ch == 3) { // Ctrl-C
+                bool had_input = !buffer.empty();
+                buffer.clear();
+                std::cout << "\n" << std::flush;
+                return had_input ? ReadOutcome{ReadCancel{}} : ReadOutcome{ReadExit{}};
+            }
+            if (ch == 4 || ch == 26) { // Ctrl-D / Ctrl-Z
+                if (buffer.empty()) {
+                    std::cout << "\n" << std::flush;
+                    return ReadExit{};
+                }
+                std::cout << "\n" << std::flush;
+                return ReadSubmit{std::move(buffer)};
+            }
+            if (ch == '\r' || ch == '\n') {
+                std::cout << "\n" << std::flush;
+                return ReadSubmit{std::move(buffer)};
+            }
+            if (ch == 8 || ch == 127) { // Backspace
+                if (!buffer.empty()) {
+                    buffer.pop_back();
+                    redraw();
+                }
+                continue;
+            }
+            if (ch == 9) { // Tab
+                auto pfx = slash_command_prefix(buffer, buffer.size());
+                if (pfx) {
+                    auto matches = complete(*pfx);
+                    if (matches.size() == 1) {
+                        buffer = matches[0];
+                        redraw();
+                    } else if (!matches.empty()) {
+                        std::cout << "\n";
+                        for (auto& m : matches) std::cout << "  " << m << "\n";
+                        redraw();
+                    }
+                }
+                continue;
+            }
+
+            // Extended key: arrow keys produce 0x00 or 0xE0 prefix then a code
+            if (ch == 0 || ch == 0xE0) {
+                int code = _getch();
+                if (code == 72) { // Up arrow
+                    if (!history_.empty()) {
+                        if (hist_idx == history_.size()) saved_line = buffer;
+                        if (hist_idx > 0) {
+                            --hist_idx;
+                            buffer = history_[hist_idx];
+                            redraw();
+                        }
+                    }
+                } else if (code == 80) { // Down arrow
+                    if (hist_idx < history_.size()) {
+                        ++hist_idx;
+                        buffer = (hist_idx == history_.size()) ? saved_line : history_[hist_idx];
+                        redraw();
+                    }
+                }
+                // Other extended keys (Left/Right/Home/End) ignored
+                continue;
+            }
+
+            if (ch >= 32 && ch < 127) { // Printable ASCII
+                buffer += static_cast<char>(ch);
+                std::cout << static_cast<char>(ch) << std::flush;
+            }
+        }
+    }
 #else
     // POSIX: read raw bytes.  We implement the Rust rustyline behaviour as
     // closely as possible without pulling in an external library.
