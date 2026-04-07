@@ -19,6 +19,7 @@
 #include "types.hpp"
 
 // Tool execution
+#include "commands.hpp"
 #include "tool_specs.hpp"
 #include "tool_executor.hpp"
 #include "init.hpp"
@@ -97,7 +98,8 @@ std::optional<SlashCommand> parse_slash_command(std::string_view input) {
     if (cmd == "init")    return SlashInit{};
     if (cmd == "mcp")     return SlashMcp{remaining()};
     if (cmd == "agents")  return SlashAgents{remaining()};
-    if (cmd == "skills")  return SlashSkills{remaining()};
+    if (cmd == "skills" || cmd == "skill")  return SlashSkills{remaining()};
+    if (cmd == "doctor")  return SlashDoctor{};
     if (cmd == "sandbox") return SlashSandbox{};
     if (cmd == "version") return SlashVersion{};
     if (cmd == "exit" || cmd == "quit") return SlashExit{};
@@ -339,7 +341,8 @@ constexpr CommandEntry SLASH_COMMANDS[] = {
     {"/init",               "Initialise a new project (CLAUDE.md etc.)"},
     {"/mcp [action]",       "MCP server management"},
     {"/agents [args]",      "List available agents"},
-    {"/skills [args]",      "List available skills"},
+    {"/skills [args]",      "List, install, or invoke available skills"},
+    {"/doctor",             "Diagnose setup issues and environment health"},
     {"/sandbox",            "Show sandbox status"},
     {"/version",            "Show version information"},
     {"/exit, /quit",        "Exit the REPL"},
@@ -498,9 +501,11 @@ CommandResult CliApp::dispatch_slash_command(const SlashCommand& cmd,
         }
         else if constexpr (std::is_same_v<T, SlashMcp>) {
             auto cwd = std::filesystem::current_path();
-            auto config_path = cwd / ".claude.json";
+            auto config_path = cwd / ".claw.json";
+            if (!std::filesystem::exists(config_path))
+                config_path = cwd / ".claude.json";
             if (!std::filesystem::exists(config_path)) {
-                out << "MCP\n  No .claude.json found.\n";
+                out << "MCP\n  No .claw.json found.\n";
             } else {
                 try {
                     std::ifstream f(config_path);
@@ -521,7 +526,7 @@ CommandResult CliApp::dispatch_slash_command(const SlashCommand& cmd,
         }
         else if constexpr (std::is_same_v<T, SlashAgents>) {
             auto cwd = std::filesystem::current_path();
-            auto agents_dir = cwd / ".claude" / "agents";
+            auto agents_dir = cwd / ".claw" / "agents";
             out << "Agents\n";
             if (std::filesystem::is_directory(agents_dir)) {
                 for (auto& e : std::filesystem::directory_iterator(agents_dir))
@@ -534,15 +539,40 @@ CommandResult CliApp::dispatch_slash_command(const SlashCommand& cmd,
         }
         else if constexpr (std::is_same_v<T, SlashSkills>) {
             auto cwd = std::filesystem::current_path();
-            auto skills_dir = cwd / ".claude" / "skills";
-            out << "Skills\n";
-            if (std::filesystem::is_directory(skills_dir)) {
-                for (auto& e : std::filesystem::directory_iterator(skills_dir))
-                    if (e.path().extension() == ".md")
-                        out << "  " << e.path().stem().string() << "\n";
+            std::optional<std::string_view> sv_args;
+            if (c.args) sv_args = *c.args;
+            auto dispatch = claw::commands::classify_skills_slash_command(sv_args);
+            if (dispatch.kind == claw::commands::SkillSlashDispatch::Invoke) {
+                // Direct skill invocation -- dispatch as a conversation turn
+                out << "[Skill invocation: " << dispatch.invoke_prompt << "]\n";
+                // In a full implementation this would call self.run_turn(prompt)
             } else {
-                out << "  No skill definitions found.\n";
+                auto result = claw::commands::handle_skills_slash_command(sv_args, cwd);
+                if (result.has_value())
+                    out << result.value() << "\n";
+                else
+                    out << "Error: " << result.error().message() << "\n";
             }
+            return CommandResult::Continue;
+        }
+        else if constexpr (std::is_same_v<T, SlashDoctor>) {
+            // Run doctor report and print results
+            out << "Doctor\n";
+            auto cwd = std::filesystem::current_path();
+            // Check auth
+            if (const char* key = std::getenv("ANTHROPIC_API_KEY"); key && std::string_view(key).size() > 0)
+                out << "  Authentication   OK (ANTHROPIC_API_KEY set)\n";
+            else
+                out << "  Authentication   WARN (ANTHROPIC_API_KEY not set)\n";
+            // Check config
+            bool has_config = std::filesystem::exists(cwd / ".claw.json")
+                           || std::filesystem::exists(cwd / ".claude.json")
+                           || std::filesystem::is_directory(cwd / ".claw")
+                           || std::filesystem::is_directory(cwd / ".claude");
+            if (has_config)
+                out << "  Configuration    OK (project config found)\n";
+            else
+                out << "  Configuration    WARN (no config; run `claw init`)\n";
             return CommandResult::Continue;
         }
         else if constexpr (std::is_same_v<T, SlashSandbox>) {
@@ -663,13 +693,17 @@ CommandResult CliApp::handle_config(std::optional<std::string_view> section,
                                      std::ostream& out) {
     // Mirrors Rust handle_config: show config path or section
     auto cwd = std::filesystem::current_path();
+    auto claw_json = cwd / ".claw.json";
     auto claude_json = cwd / ".claude.json";
-    auto settings_json = cwd / ".claude" / "settings.json";
+    auto claw_settings = cwd / ".claw" / "settings.json";
+    auto claude_settings = cwd / ".claude" / "settings.json";
     auto path_str = config_.config.has_value()
                   ? config_.config->string()
-                  : (std::filesystem::exists(claude_json) ? claude_json.string()
-                     : (std::filesystem::exists(settings_json) ? settings_json.string()
-                        : std::string("<none>")));
+                  : (std::filesystem::exists(claw_json) ? claw_json.string()
+                     : (std::filesystem::exists(claude_json) ? claude_json.string()
+                        : (std::filesystem::exists(claw_settings) ? claw_settings.string()
+                           : (std::filesystem::exists(claude_settings) ? claude_settings.string()
+                              : std::string("<none>")))));
 
     if (!section.has_value()) {
         out << "Config\n"
@@ -706,7 +740,7 @@ CommandResult CliApp::handle_config(std::optional<std::string_view> section,
 // ===========================================================================
 
 CommandResult CliApp::handle_memory(std::ostream& out) {
-    // Mirrors Rust handle_memory: scan for CLAUDE.md and .claude/memory files
+    // Mirrors Rust handle_memory: scan for CLAUDE.md and .claw/memory files
     auto cwd = std::filesystem::current_path();
     out << "Memory\n";
 
@@ -716,8 +750,10 @@ CommandResult CliApp::handle_memory(std::ostream& out) {
     else
         out << "  CLAUDE.md        (not found)\n";
 
-    // Check for .claude/memory directory
-    auto memory_dir = cwd / ".claude" / "memory";
+    // Check for .claw/memory directory (fall back to .claude/memory)
+    auto memory_dir = cwd / ".claw" / "memory";
+    if (!std::filesystem::is_directory(memory_dir))
+        memory_dir = cwd / ".claude" / "memory";
     if (std::filesystem::is_directory(memory_dir)) {
         std::size_t count = 0;
         for (auto& entry : std::filesystem::directory_iterator(memory_dir)) {

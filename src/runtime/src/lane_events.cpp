@@ -1,4 +1,5 @@
 #include "lane_events.hpp"
+#include <map>
 
 namespace claw::runtime {
 
@@ -73,6 +74,23 @@ void to_json(nlohmann::json& j, const LaneEventBlocker& b) {
     };
 }
 
+// ── LaneCommitProvenance JSON ────────────────────────────────────────────────
+
+void to_json(nlohmann::json& j, const LaneCommitProvenance& p) {
+    j = nlohmann::json{
+        {"commit", p.commit},
+        {"branch", p.branch}
+    };
+    if (p.worktree)
+        j["worktree"] = *p.worktree;
+    if (p.canonical_commit)
+        j["canonicalCommit"] = *p.canonical_commit;
+    if (p.superseded_by)
+        j["supersededBy"] = *p.superseded_by;
+    if (!p.lineage.empty())
+        j["lineage"] = p.lineage;
+}
+
 // ── LaneEvent static constructors ────────────────────────────────────────────
 
 LaneEvent LaneEvent::make(LaneEventName event,
@@ -92,6 +110,28 @@ LaneEvent LaneEvent::finished(std::string emitted_at,
                                std::optional<std::string> detail) {
     auto ev = make(LaneEventName::Finished, LaneEventStatus::Completed, std::move(emitted_at));
     ev.detail = std::move(detail);
+    return ev;
+}
+
+LaneEvent LaneEvent::commit_created(std::string emitted_at,
+                                     std::optional<std::string> detail,
+                                     const LaneCommitProvenance& provenance) {
+    auto ev = make(LaneEventName::CommitCreated, LaneEventStatus::Completed, std::move(emitted_at));
+    ev.with_optional_detail(std::move(detail));
+    nlohmann::json prov_json;
+    to_json(prov_json, provenance);
+    ev.with_data(std::move(prov_json));
+    return ev;
+}
+
+LaneEvent LaneEvent::superseded(std::string emitted_at,
+                                 std::optional<std::string> detail,
+                                 const LaneCommitProvenance& provenance) {
+    auto ev = make(LaneEventName::Superseded, LaneEventStatus::Superseded, std::move(emitted_at));
+    ev.with_optional_detail(std::move(detail));
+    nlohmann::json prov_json;
+    to_json(prov_json, provenance);
+    ev.with_data(std::move(prov_json));
     return ev;
 }
 
@@ -147,6 +187,59 @@ void to_json(nlohmann::json& j, const LaneEvent& ev) {
         j["detail"] = *ev.detail;
     if (ev.data)
         j["data"] = *ev.data;
+}
+
+// ── Dedup helper ─────────────────────────────────────────────────────────────
+
+std::vector<LaneEvent> dedupe_superseded_commit_events(
+    const std::vector<LaneEvent>& events) {
+    std::vector<bool> keep(events.size(), true);
+    std::map<std::string, std::size_t> latest_by_key;
+
+    for (std::size_t index = 0; index < events.size(); ++index) {
+        const auto& event = events[index];
+        if (event.event != LaneEventName::CommitCreated) {
+            continue;
+        }
+        if (!event.data.has_value()) {
+            continue;
+        }
+        const auto& data = *event.data;
+
+        // Extract the key: canonicalCommit or commit
+        std::string key;
+        if (data.contains("canonicalCommit") && data["canonicalCommit"].is_string()) {
+            key = data["canonicalCommit"].get<std::string>();
+        } else if (data.contains("commit") && data["commit"].is_string()) {
+            key = data["commit"].get<std::string>();
+        }
+
+        // Check if superseded
+        bool superseded = data.contains("supersededBy")
+                       && data["supersededBy"].is_string();
+        if (superseded) {
+            keep[index] = false;
+            continue;
+        }
+
+        if (!key.empty()) {
+            auto it = latest_by_key.find(key);
+            if (it != latest_by_key.end()) {
+                keep[it->second] = false;
+                it->second = index;
+            } else {
+                latest_by_key.emplace(key, index);
+            }
+        }
+    }
+
+    std::vector<LaneEvent> result;
+    for (std::size_t i = 0; i < events.size(); ++i) {
+        if (keep[i]) {
+            result.push_back(events[i]);
+        }
+    }
+    return result;
 }
 
 } // namespace claw::runtime

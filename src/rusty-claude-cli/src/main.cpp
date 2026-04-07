@@ -10,6 +10,8 @@
 #include "render.hpp"
 
 // Runtime crate headers for full-featured handlers
+#include "commands.hpp"
+#include "error.hpp"
 #include "oauth.hpp"
 #include "session.hpp"
 #include "prompt.hpp"
@@ -98,13 +100,14 @@ struct ActionRepl   {
 struct ActionAgents { std::optional<std::string> args; };
 struct ActionMcp    { std::optional<std::string> args; };
 struct ActionSkills { std::optional<std::string> args; };
+struct ActionDoctor {};
 
 using CliAction = std::variant<
     ActionDumpManifests, ActionBootstrapPlan, ActionPrintSystemPrompt,
     ActionVersion, ActionHelp,
     ActionResumeSession, ActionStatus, ActionSandbox,
     ActionPrompt, ActionLogin, ActionLogout, ActionInit, ActionRepl,
-    ActionAgents, ActionMcp, ActionSkills>;
+    ActionAgents, ActionMcp, ActionSkills, ActionDoctor>;
 
 // ===========================================================================
 // GitWorkspaceSummary (mirrors Rust's GitWorkspaceSummary struct)
@@ -436,6 +439,7 @@ CliAction parse_args(const std::vector<std::string>& args) {
         if (w == "version") return ActionVersion{};
         if (w == "status")  return ActionStatus{model, resolve_permission_mode()};
         if (w == "sandbox") return ActionSandbox{};
+        if (w == "doctor")  return ActionDoctor{};
         if (w == "login")   return ActionLogin{};
         if (w == "logout")  return ActionLogout{};
         if (w == "init")    return ActionInit{};
@@ -826,9 +830,12 @@ std::string render_version_report() {
 
 std::string render_config_report(std::optional<std::string_view> section) {
     auto cwd = std::filesystem::current_path();
+    auto claw_json = cwd / ".claw.json";
     auto claude_json = cwd / ".claude.json";
-    std::string path_str = std::filesystem::exists(claude_json)
-                         ? claude_json.string() : "<not found>";
+    // Prefer .claw.json, fall back to .claude.json for legacy
+    auto config_file = std::filesystem::exists(claw_json) ? claw_json : claude_json;
+    std::string path_str = std::filesystem::exists(config_file)
+                         ? config_file.string() : "<not found>";
     if (!section.has_value())
         return "Config\n  Path  " + path_str;
     return "Config section `" + std::string(*section) +
@@ -1222,11 +1229,11 @@ void print_agents(const std::optional<std::string>& args) {
                      "  help    Show this help\n";
         return;
     }
-    // Scan for agent definition files (.claude/agents/*.md)
-    auto agents_dir = cwd / ".claude" / "agents";
+    // Scan for agent definition files (.claw/agents/*.md)
+    auto agents_dir = cwd / ".claw" / "agents";
     if (!std::filesystem::is_directory(agents_dir)) {
         std::cout << "Agents\n  No agent definitions found.\n"
-                     "  Create agents in .claude/agents/*.md\n";
+                     "  Create agents in .claw/agents/*.md\n";
         return;
     }
     std::cout << "Agents\n";
@@ -1251,10 +1258,12 @@ void print_mcp(const std::optional<std::string>& args) {
                      "  help           Show this help\n";
         return;
     }
-    // Load MCP config from .claude.json or settings
-    auto config_path = cwd / ".claude.json";
+    // Load MCP config from .claw.json (or legacy .claude.json)
+    auto config_path = cwd / ".claw.json";
+    if (!std::filesystem::exists(config_path))
+        config_path = cwd / ".claude.json";
     if (!std::filesystem::exists(config_path)) {
-        std::cout << "MCP\n  No .claude.json found — no MCP servers configured.\n";
+        std::cout << "MCP\n  No .claw.json found — no MCP servers configured.\n";
         return;
     }
     try {
@@ -1277,30 +1286,229 @@ void print_mcp(const std::optional<std::string>& args) {
 void print_skills(const std::optional<std::string>& args) {
     // Mirrors Rust handle_skills_slash_command: discover skill definitions
     auto cwd = std::filesystem::current_path();
-    if (args && (*args == "-h" || *args == "--help" || *args == "help")) {
-        std::cout << "Usage: claw skills [list|install <path>|help]\n"
-                     "  list              List available skills\n"
-                     "  install <path>    Install a skill from a directory\n"
-                     "  help              Show this help\n";
-        return;
+    std::optional<std::string_view> sv_args;
+    if (args) sv_args = *args;
+    auto result = claw::commands::handle_skills_slash_command(sv_args, cwd);
+    if (result.has_value()) {
+        std::cout << result.value() << "\n";
+    } else {
+        std::cerr << "error: " << result.error().message() << "\n";
     }
-    // Scan for skill definition files (.claude/skills/*.md)
-    auto skills_dir = cwd / ".claude" / "skills";
-    if (!std::filesystem::is_directory(skills_dir)) {
-        std::cout << "Skills\n  No skill definitions found.\n"
-                     "  Create skills in .claude/skills/*.md\n";
-        return;
+}
+
+// ===========================================================================
+// Doctor command  (mirrors Rust's run_doctor / DoctorReport)
+// ===========================================================================
+
+enum class DiagnosticLevel : std::uint8_t { Ok, Warn, Fail };
+
+struct DiagnosticCheck {
+    std::string name;
+    DiagnosticLevel level{DiagnosticLevel::Ok};
+    std::string summary;
+    std::vector<std::string> details;
+};
+
+const char* diagnostic_level_label(DiagnosticLevel l) {
+    switch (l) {
+    case DiagnosticLevel::Ok:   return "OK";
+    case DiagnosticLevel::Warn: return "WARN";
+    case DiagnosticLevel::Fail: return "FAIL";
     }
-    std::cout << "Skills\n";
-    std::size_t count = 0;
-    for (auto& entry : std::filesystem::directory_iterator(skills_dir)) {
-        if (entry.path().extension() == ".md") {
-            std::cout << "  " << entry.path().stem().string() << "\n";
-            ++count;
+    return "UNKNOWN";
+}
+
+std::string render_diagnostic_check(const DiagnosticCheck& check) {
+    std::string out = check.name + "\n"
+        "  Status           " + std::string(diagnostic_level_label(check.level)) + "\n"
+        "  Summary          " + check.summary;
+    if (!check.details.empty()) {
+        out += "\n  Details";
+        for (const auto& d : check.details)
+            out += "\n    - " + d;
+    }
+    return out;
+}
+
+struct DoctorReport {
+    std::vector<DiagnosticCheck> checks;
+
+    [[nodiscard]] std::tuple<std::size_t, std::size_t, std::size_t> counts() const {
+        std::size_t ok = 0, warn = 0, fail = 0;
+        for (const auto& c : checks) {
+            switch (c.level) {
+            case DiagnosticLevel::Ok:   ++ok;   break;
+            case DiagnosticLevel::Warn: ++warn; break;
+            case DiagnosticLevel::Fail: ++fail; break;
+            }
         }
+        return {ok, warn, fail};
     }
-    if (count == 0) std::cout << "  (none)\n";
-    std::cout << "\n  " << count << " skill(s) found\n";
+
+    [[nodiscard]] bool has_failures() const {
+        return std::any_of(checks.begin(), checks.end(),
+            [](const auto& c){ return c.level == DiagnosticLevel::Fail; });
+    }
+
+    [[nodiscard]] std::string render() const {
+        auto [ok_count, warn_count, fail_count] = counts();
+        std::vector<std::string> lines = {
+            "Doctor",
+            std::format("Summary\n  OK               {}\n  Warnings         {}\n  Failures         {}",
+                        ok_count, warn_count, fail_count),
+        };
+        for (const auto& c : checks)
+            lines.push_back(render_diagnostic_check(c));
+        std::string out;
+        for (std::size_t i = 0; i < lines.size(); ++i) {
+            if (i) out += "\n\n";
+            out += lines[i];
+        }
+        return out;
+    }
+};
+
+DiagnosticCheck check_auth_health() {
+    DiagnosticCheck check;
+    check.name = "Authentication";
+    if (const char* key = std::getenv("ANTHROPIC_API_KEY"); key && std::string_view(key).size() > 0) {
+        check.level = DiagnosticLevel::Ok;
+        check.summary = "ANTHROPIC_API_KEY is set";
+    } else {
+        check.level = DiagnosticLevel::Warn;
+        check.summary = "ANTHROPIC_API_KEY is not set";
+        check.details.push_back("Set ANTHROPIC_API_KEY to authenticate API calls");
+    }
+    return check;
+}
+
+DiagnosticCheck check_workspace_health() {
+    DiagnosticCheck check;
+    check.name = "Workspace";
+    auto cwd = std::filesystem::current_path();
+    auto git_root = find_git_root_in(cwd);
+    if (git_root) {
+        check.level = DiagnosticLevel::Ok;
+        check.summary = "Git repository detected at " + git_root->string();
+        auto branch = resolve_git_branch_for(cwd);
+        if (branch) check.details.push_back("Branch: " + *branch);
+    } else {
+        check.level = DiagnosticLevel::Warn;
+        check.summary = "Not inside a git repository";
+        check.details.push_back("Git integration (diff, commit, PR) requires a git repository");
+    }
+    return check;
+}
+
+DiagnosticCheck check_config_health() {
+    DiagnosticCheck check;
+    check.name = "Configuration";
+    auto cwd = std::filesystem::current_path();
+    bool has_claw_json = std::filesystem::exists(cwd / ".claw.json");
+    bool has_claude_json = std::filesystem::exists(cwd / ".claude.json");
+    bool has_claw_dir = std::filesystem::is_directory(cwd / ".claw");
+    bool has_claude_dir = std::filesystem::is_directory(cwd / ".claude");
+    if (has_claw_json || has_claude_json || has_claw_dir || has_claude_dir) {
+        check.level = DiagnosticLevel::Ok;
+        check.summary = "Project configuration found";
+        if (has_claw_json)  check.details.push_back(".claw.json present");
+        if (has_claude_json && !has_claw_json)
+            check.details.push_back(".claude.json present (legacy; consider migrating to .claw.json)");
+        if (has_claw_dir)   check.details.push_back(".claw/ directory present");
+        if (has_claude_dir && !has_claw_dir)
+            check.details.push_back(".claude/ directory present (legacy; consider migrating to .claw/)");
+    } else {
+        check.level = DiagnosticLevel::Warn;
+        check.summary = "No project configuration found";
+        check.details.push_back("Run `claw init` to create a starter configuration");
+    }
+    return check;
+}
+
+DiagnosticCheck check_system_health() {
+    DiagnosticCheck check;
+    check.name = "System";
+    check.level = DiagnosticLevel::Ok;
+    check.summary = "C++20 port";
+    check.details.push_back("Version: " + std::string(VERSION_STRING));
+#ifdef _WIN32
+    check.details.push_back("Platform: Windows");
+#elif defined(__APPLE__)
+    check.details.push_back("Platform: macOS");
+#else
+    check.details.push_back("Platform: Linux");
+#endif
+    return check;
+}
+
+DoctorReport render_doctor_report() {
+    return DoctorReport{
+        .checks = {
+            check_auth_health(),
+            check_config_health(),
+            check_workspace_health(),
+            check_system_health(),
+        },
+    };
+}
+
+void run_doctor() {
+    auto report = render_doctor_report();
+    std::cout << report.render() << "\n";
+    if (report.has_failures())
+        throw std::runtime_error("doctor found failing checks");
+}
+
+// ===========================================================================
+// Context window error formatting  (mirrors Rust's format_context_window_blocked_error)
+// ===========================================================================
+
+std::string truncate_for_summary(std::string_view text, std::size_t max_len) {
+    if (text.size() <= max_len) return std::string(text);
+    return std::string(text.substr(0, max_len)) + "...";
+}
+
+std::string format_context_window_blocked_error(std::string_view session_id,
+                                                 const claw::api::ApiError& error) {
+    std::vector<std::string> lines = {
+        "Context window blocked",
+        "  Failure class    context_window_blocked",
+        std::format("  Session          {}", session_id),
+    };
+
+    if (auto rid = error.request_id(); rid.has_value() && !rid->empty())
+        lines.push_back(std::format("  Trace            {}", *rid));
+
+    if (error.kind() == claw::api::ApiError::Kind::ContextWindowExceeded) {
+        lines.push_back(std::format("  Model            {}", error.model()));
+        lines.push_back(std::format("  Input estimate   ~{} tokens (heuristic)", error.estimated_input_tokens()));
+        lines.push_back(std::format("  Requested output {} tokens", error.requested_output_tokens()));
+        lines.push_back(std::format("  Total estimate   ~{} tokens (heuristic)", error.estimated_total_tokens()));
+        lines.push_back(std::format("  Context window   {} tokens", error.context_window_tokens()));
+    } else {
+        auto detail = truncate_for_summary(error.what(), 120);
+        if (!detail.empty())
+            lines.push_back(std::format("  Detail           {}", detail));
+    }
+
+    lines.push_back("");
+    lines.push_back("Recovery");
+    lines.push_back("  Compact          /compact");
+    lines.push_back(std::format("  New session      claw --resume {}", LATEST_SESSION_REF));
+
+    std::string out;
+    for (std::size_t i = 0; i < lines.size(); ++i) {
+        if (i) out += '\n';
+        out += lines[i];
+    }
+    return out;
+}
+
+std::string format_user_visible_api_error(std::string_view session_id,
+                                           const claw::api::ApiError& error) {
+    if (error.is_context_window_failure())
+        return format_context_window_blocked_error(session_id, error);
+    return std::string(error.what());
 }
 
 // ===========================================================================
@@ -1343,6 +1551,8 @@ void dispatch(const CliAction& action) {
             print_mcp(a.args);
         else if constexpr (std::is_same_v<T, ActionSkills>)
             print_skills(a.args);
+        else if constexpr (std::is_same_v<T, ActionDoctor>)
+            run_doctor();
     }, action);
 }
 

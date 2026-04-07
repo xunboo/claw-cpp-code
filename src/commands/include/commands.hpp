@@ -366,6 +366,25 @@ handle_agents_slash_command(std::optional<std::string_view> args,
 handle_skills_slash_command(std::optional<std::string_view> args,
                             const std::filesystem::path&    cwd);
 
+// Skill invocation dispatch -- mirrors Rust's SkillSlashDispatch.
+enum class SkillSlashDispatch : std::uint8_t { Local, Invoke };
+
+struct SkillSlashDispatchResult {
+    SkillSlashDispatch kind{SkillSlashDispatch::Local};
+    std::string        invoke_prompt;  // non-empty only when kind == Invoke
+};
+
+// Classify a /skills slash-command invocation into local (list/help/install)
+// or invoke (direct skill dispatch).
+[[nodiscard]] SkillSlashDispatchResult
+classify_skills_slash_command(std::optional<std::string_view> args);
+
+// Validate that a skill invocation refers to a real skill on disk.
+// Returns Err(message) with available-skills help when the skill is unknown.
+[[nodiscard]] Result<SkillSlashDispatchResult, std::string>
+resolve_skill_invocation(const std::filesystem::path& cwd,
+                         std::optional<std::string_view> args);
+
 [[nodiscard]] Result<std::string, runtime::ConfigError>
 handle_mcp_slash_command(std::optional<std::string_view> args,
                          const std::filesystem::path&    cwd);

@@ -358,6 +358,76 @@ build_plugin_manifest(const std::filesystem::path& root, RawPluginManifest raw) 
     };
 }
 
+// Mirrors Rust detect_claude_code_manifest_contract_gaps().
+std::vector<PluginManifestValidationError>
+detect_claude_code_manifest_contract_gaps(const nlohmann::json& raw_json) {
+    if (!raw_json.is_object()) return {};
+
+    std::vector<PluginManifestValidationError> errors;
+
+    struct FieldCheck {
+        const char* field;
+        const char* detail;
+    };
+    static constexpr FieldCheck field_checks[] = {
+        {"skills",
+         "plugin manifest field `skills` uses the Claude Code plugin contract; "
+         "`claw` does not load plugin-managed skills and instead discovers skills "
+         "from local roots such as `.claw/skills`, `.omc/skills`, `.agents/skills`, "
+         "`~/.omc/skills`, and `~/.claude/skills/omc-learned`."},
+        {"mcpServers",
+         "plugin manifest field `mcpServers` uses the Claude Code plugin contract; "
+         "`claw` does not import MCP servers from plugin manifests."},
+        {"agents",
+         "plugin manifest field `agents` uses the Claude Code plugin contract; "
+         "`claw` does not load plugin-managed agent markdown catalogs from plugin manifests."},
+    };
+
+    for (auto& [field, detail] : field_checks) {
+        if (raw_json.contains(field)) {
+            PluginManifestValidationError e{};
+            e.kind   = PluginManifestValidationErrorKind::UnsupportedManifestContract;
+            e.detail = detail;
+            errors.push_back(std::move(e));
+        }
+    }
+
+    // Check for Claude Code-style directory glob commands (string entries in commands array)
+    if (raw_json.contains("commands") && raw_json["commands"].is_array()) {
+        bool has_string_entry = false;
+        for (auto& item : raw_json["commands"]) {
+            if (item.is_string()) { has_string_entry = true; break; }
+        }
+        if (has_string_entry) {
+            PluginManifestValidationError e{};
+            e.kind   = PluginManifestValidationErrorKind::UnsupportedManifestContract;
+            e.detail = "plugin manifest field `commands` uses Claude Code-style directory globs; "
+                       "`claw` slash dispatch is still built-in and does not load plugin "
+                       "slash command markdown files.";
+            errors.push_back(std::move(e));
+        }
+    }
+
+    // Check for unsupported hook lifecycle names
+    if (raw_json.contains("hooks") && raw_json["hooks"].is_object()) {
+        for (auto& [hook_name, _] : raw_json["hooks"].items()) {
+            if (hook_name != "PreToolUse" &&
+                hook_name != "PostToolUse" &&
+                hook_name != "PostToolUseFailure") {
+                PluginManifestValidationError e{};
+                e.kind   = PluginManifestValidationErrorKind::UnsupportedManifestContract;
+                e.detail = std::format(
+                    "plugin hook `{}` uses the Claude Code lifecycle contract; "
+                    "`claw` plugins currently support only PreToolUse, PostToolUse, "
+                    "and PostToolUseFailure.", hook_name);
+                errors.push_back(std::move(e));
+            }
+        }
+    }
+
+    return errors;
+}
+
 // Mirrors Rust load_manifest_from_path().
 tl::expected<PluginManifest, PluginError>
 load_manifest_from_path(const std::filesystem::path& root,
@@ -368,9 +438,21 @@ load_manifest_from_path(const std::filesystem::path& root,
             "plugin manifest not found at {}: cannot open",
             manifest_path.string())));
     std::string contents((std::istreambuf_iterator<char>(f)), {});
+
+    nlohmann::json raw_json;
+    try {
+        raw_json = nlohmann::json::parse(contents);
+    } catch (std::exception& ex) {
+        return tl::unexpected(PluginError::json(ex.what()));
+    }
+
+    auto compatibility_errors = detect_claude_code_manifest_contract_gaps(raw_json);
+    if (!compatibility_errors.empty())
+        return tl::unexpected(PluginError::manifest_validation(std::move(compatibility_errors)));
+
     RawPluginManifest raw;
     try {
-        raw = nlohmann::json::parse(contents).get<RawPluginManifest>();
+        raw = raw_json.get<RawPluginManifest>();
     } catch (std::exception& ex) {
         return tl::unexpected(PluginError::json(ex.what()));
     }

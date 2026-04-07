@@ -51,6 +51,9 @@ std::string PluginManifestValidationError::to_string() const {
                 "plugin tool `{}` requiredPermission `{}` must be read-only, "
                 "workspace-write, or danger-full-access",
                 tool_name, permission);
+
+        case PluginManifestValidationErrorKind::UnsupportedManifestContract:
+            return detail;
     }
     return {};
 }

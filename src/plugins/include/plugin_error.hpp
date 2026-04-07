@@ -21,6 +21,7 @@ enum class PluginManifestValidationErrorKind {
     PathIsDirectory,
     InvalidToolInputSchema,
     InvalidToolRequiredPermission,
+    UnsupportedManifestContract,
 };
 
 struct PluginManifestValidationError {
@@ -32,6 +33,7 @@ struct PluginManifestValidationError {
     std::string permission;           // InvalidPermission, DuplicatePermission
     std::filesystem::path path;       // MissingPath, PathIsDirectory
     std::string tool_name;            // InvalidToolInputSchema, InvalidToolRequiredPermission
+    std::string detail;               // UnsupportedManifestContract
 
     [[nodiscard]] std::string to_string() const;
 };

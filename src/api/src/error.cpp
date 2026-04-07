@@ -173,13 +173,17 @@ std::optional<std::string> ApiError::request_id() const noexcept {
 
 const char* ApiError::safe_failure_class() const noexcept {
     switch(kind_) {
-        case Kind::RetriesExhausted: return "provider_retry_exhausted";
+        case Kind::RetriesExhausted:
+            if (is_context_window_failure()) return "context_window";
+            if (is_generic_fatal_wrapper()) return "provider_retry_exhausted";
+            return last_error_ ? last_error_->safe_failure_class() : "provider_retry_exhausted";
         case Kind::MissingCredentials:
         case Kind::ExpiredOAuthToken:
         case Kind::Auth:
             return "provider_auth";
         case Kind::Api:
             if (http_status_ == 401 || http_status_ == 403) return "provider_auth";
+            if (is_context_window_failure()) return "context_window";
             if (http_status_ == 429) return "provider_rate_limit";
             if (is_generic_fatal_wrapper()) return "provider_internal";
             return "provider_error";
@@ -197,17 +201,43 @@ const char* ApiError::safe_failure_class() const noexcept {
 }
 
 namespace {
+
+    constexpr std::string_view GENERIC_FATAL_WRAPPER_MARKERS[] = {
+        "something went wrong while processing your request",
+        "please try again, or use /new to start a fresh session",
+    };
+
+    constexpr std::string_view CONTEXT_WINDOW_ERROR_MARKERS[] = {
+        "maximum context length",
+        "context window",
+        "context length",
+        "too many tokens",
+        "prompt is too long",
+        "input is too long",
+        "request is too large",
+    };
+
     bool looks_like_generic_fatal_wrapper(std::string_view text) {
         if (text.empty()) return false;
         std::string lowered(text);
         for (auto& c : lowered) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-        if (lowered.find("something went wrong while processing your request") != std::string::npos ||
-            lowered.find("please try again, or use /new to start a fresh session") != std::string::npos) {
-            return true;
+        for (auto marker : GENERIC_FATAL_WRAPPER_MARKERS) {
+            if (lowered.find(marker) != std::string::npos) return true;
         }
         return false;
     }
-}
+
+    bool looks_like_context_window_error(std::string_view text) {
+        if (text.empty()) return false;
+        std::string lowered(text);
+        for (auto& c : lowered) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto marker : CONTEXT_WINDOW_ERROR_MARKERS) {
+            if (lowered.find(marker) != std::string::npos) return true;
+        }
+        return false;
+    }
+
+} // anonymous namespace
 
 bool ApiError::is_generic_fatal_wrapper() const noexcept {
     switch (kind_) {
@@ -217,6 +247,23 @@ bool ApiError::is_generic_fatal_wrapper() const noexcept {
             return false;
         case Kind::RetriesExhausted:
             return last_error_ && last_error_->is_generic_fatal_wrapper();
+        default:
+            return false;
+    }
+}
+
+bool ApiError::is_context_window_failure() const noexcept {
+    switch (kind_) {
+        case Kind::ContextWindowExceeded:
+            return true;
+        case Kind::Api:
+            if (http_status_ == 400 || http_status_ == 413 || http_status_ == 422) {
+                if (!message_.empty() && looks_like_context_window_error(message_)) return true;
+                if (!body_.empty() && looks_like_context_window_error(body_)) return true;
+            }
+            return false;
+        case Kind::RetriesExhausted:
+            return last_error_ && last_error_->is_context_window_failure();
         default:
             return false;
     }

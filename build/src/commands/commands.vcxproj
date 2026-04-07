@@ -289,6 +289,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\src\commands\src\commands.cpp" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\src\commands\src\runtime_types.cpp" />
+    <ClCompile Include="C:\Projects\GitHub\craw-cpp-code\src\commands\src\plugin_types.cpp" />
     <Natvis Include="C:\Projects\GitHub\craw-cpp-code\build\_deps\nlohmann_json-src\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>

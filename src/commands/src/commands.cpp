@@ -41,6 +41,7 @@ static constexpr const char* ALIAS_PLUGIN[]      = {"plugins", "marketplace"};
 static constexpr const char* ALIAS_APPROVE[]     = {"yes", "y"};
 static constexpr const char* ALIAS_DENY[]        = {"no", "n"};
 static constexpr const char* ALIAS_WORKSPACE[]   = {"cwd"};
+static constexpr const char* ALIAS_SKILL[]       = {"skill"};
 static constexpr const char* ALIAS_EMPTY[]       = {nullptr};  // Shared empty alias list
 
 // ---------------------------------------------------------------------------
@@ -75,7 +76,7 @@ static constexpr SlashCommandSpec SLASH_COMMAND_SPECS[] = {
     {"session",         {ALIAS_EMPTY,     0},  "List, switch, or fork managed local sessions",                                "[list|switch <session-id>|fork [branch-name]]",       false},
     {"plugin",          {ALIAS_PLUGIN,    2},  "Manage Claw Code plugins",                                                    "[list|install <path>|enable <name>|disable <name>|uninstall <id>|update <id>]", false},
     {"agents",          {ALIAS_EMPTY,     0},  "List configured agents",                                                      "[list|help]",                                         true},
-    {"skills",          {ALIAS_EMPTY,     0},  "List or install available skills",                                            "[list|install <path>|help]",                          true},
+    {"skills",          {ALIAS_SKILL,     1},  "List, install, or invoke available skills",                                   "[list|install <path>|help|<skill> [args]]",           true},
     {"doctor",          {ALIAS_EMPTY,     0},  "Diagnose setup issues and environment health",                                nullptr,                                               true},
     {"login",           {ALIAS_EMPTY,     0},  "Log in to the service",                                                       nullptr,                                               false},
     {"logout",          {ALIAS_EMPTY,     0},  "Log out of the current session",                                              nullptr,                                               false},
@@ -612,11 +613,9 @@ parse_skills_args(std::optional<std::string_view> raw_args)
         if (!target.empty())
             return R::ok(std::format("install {}", target));
     }
-    return R::err(command_error(
-        std::format("Unexpected arguments for /skills: {}. "
-                    "Use /skills, /skills list, /skills install <path>, or /skills help.", args),
-        "skills",
-        "/skills [list|install <path>|help]"));
+    // Accept any other args -- the dispatch layer uses classify_skills_slash_command
+    // to determine whether this is a direct skill invocation.
+    return R::ok(std::string(args));
 }
 
 // ---------------------------------------------------------------------------
@@ -669,18 +668,30 @@ std::string format_slash_command_help_line(const SlashCommandSpec& spec) {
 
 // ---- Definition sources (mirrors Rust DefinitionSource) -------------------
 enum class DefinitionSource : std::uint8_t {
+    ProjectClaw,
+    ProjectOmc,
+    ProjectAgents,
     ProjectCodex,
     ProjectClaude,
+    UserClawHome,
     UserCodexHome,
+    UserClaw,
+    UserOmc,
     UserCodex,
     UserClaude,
 };
 
 const char* definition_source_label(DefinitionSource s) {
     switch (s) {
+    case DefinitionSource::ProjectClaw:    return "Project (.claw)";
+    case DefinitionSource::ProjectOmc:     return "Project (.omc)";
+    case DefinitionSource::ProjectAgents:  return "Project (.agents)";
     case DefinitionSource::ProjectCodex:   return "Project (.codex)";
     case DefinitionSource::ProjectClaude:  return "Project (.claude)";
+    case DefinitionSource::UserClawHome:   return "User ($CLAW_CONFIG_HOME)";
     case DefinitionSource::UserCodexHome:  return "User ($CODEX_HOME)";
+    case DefinitionSource::UserClaw:       return "User (~/.claw)";
+    case DefinitionSource::UserOmc:        return "User (~/.omc)";
     case DefinitionSource::UserCodex:      return "User (~/.codex)";
     case DefinitionSource::UserClaude:     return "User (~/.claude)";
     }
@@ -792,17 +803,25 @@ discover_definition_roots(const std::filesystem::path& cwd, std::string_view lea
 {
     std::vector<std::pair<DefinitionSource, std::filesystem::path>> roots;
     for (auto p = cwd; ; p = p.parent_path()) {
-        push_unique_root(roots, DefinitionSource::ProjectCodex,  p / ".codex"  / leaf);
-        push_unique_root(roots, DefinitionSource::ProjectClaude, p / ".claude" / leaf);
+        push_unique_root(roots, DefinitionSource::ProjectClaw,    p / ".claw"   / leaf);
+        push_unique_root(roots, DefinitionSource::ProjectOmc,     p / ".omc"    / leaf);
+        push_unique_root(roots, DefinitionSource::ProjectAgents,  p / ".agents" / leaf);
+        push_unique_root(roots, DefinitionSource::ProjectCodex,   p / ".codex"  / leaf);
+        push_unique_root(roots, DefinitionSource::ProjectClaude,  p / ".claude" / leaf);
         if (p == p.parent_path()) break;
     }
+    if (const char* claw_home = std::getenv("CLAW_CONFIG_HOME"))
+        push_unique_root(roots, DefinitionSource::UserClawHome,
+                         std::filesystem::path(claw_home) / leaf);
     if (const char* ch = std::getenv("CODEX_HOME"))
         push_unique_root(roots, DefinitionSource::UserCodexHome,
                          std::filesystem::path(ch) / leaf);
     if (const char* home = std::getenv("HOME")) {
         auto h = std::filesystem::path(home);
-        push_unique_root(roots, DefinitionSource::UserCodex,  h / ".codex"  / leaf);
-        push_unique_root(roots, DefinitionSource::UserClaude, h / ".claude" / leaf);
+        push_unique_root(roots, DefinitionSource::UserClaw,    h / ".claw"   / leaf);
+        push_unique_root(roots, DefinitionSource::UserOmc,     h / ".omc"    / leaf);
+        push_unique_root(roots, DefinitionSource::UserCodex,   h / ".codex"  / leaf);
+        push_unique_root(roots, DefinitionSource::UserClaude,  h / ".claude" / leaf);
     }
     return roots;
 }
@@ -811,15 +830,34 @@ discover_definition_roots(const std::filesystem::path& cwd, std::string_view lea
 std::vector<SkillRoot> discover_skill_roots(const std::filesystem::path& cwd) {
     std::vector<SkillRoot> roots;
     for (auto p = cwd; ; p = p.parent_path()) {
+        push_unique_skill_root(roots, DefinitionSource::ProjectClaw,
+                               p / ".claw"   / "skills",   SkillOrigin::SkillsDir);
+        push_unique_skill_root(roots, DefinitionSource::ProjectOmc,
+                               p / ".omc"    / "skills",   SkillOrigin::SkillsDir);
+        push_unique_skill_root(roots, DefinitionSource::ProjectAgents,
+                               p / ".agents" / "skills",   SkillOrigin::SkillsDir);
         push_unique_skill_root(roots, DefinitionSource::ProjectCodex,
                                p / ".codex"  / "skills",   SkillOrigin::SkillsDir);
         push_unique_skill_root(roots, DefinitionSource::ProjectClaude,
                                p / ".claude" / "skills",   SkillOrigin::SkillsDir);
+        push_unique_skill_root(roots, DefinitionSource::ProjectClaw,
+                               p / ".claw"   / "commands", SkillOrigin::LegacyCommandsDir);
+        push_unique_skill_root(roots, DefinitionSource::ProjectOmc,
+                               p / ".omc"    / "commands", SkillOrigin::LegacyCommandsDir);
+        push_unique_skill_root(roots, DefinitionSource::ProjectAgents,
+                               p / ".agents" / "commands", SkillOrigin::LegacyCommandsDir);
         push_unique_skill_root(roots, DefinitionSource::ProjectCodex,
                                p / ".codex"  / "commands", SkillOrigin::LegacyCommandsDir);
         push_unique_skill_root(roots, DefinitionSource::ProjectClaude,
                                p / ".claude" / "commands", SkillOrigin::LegacyCommandsDir);
         if (p == p.parent_path()) break;
+    }
+    if (const char* claw_home = std::getenv("CLAW_CONFIG_HOME")) {
+        auto ch = std::filesystem::path(claw_home);
+        push_unique_skill_root(roots, DefinitionSource::UserClawHome,
+                               ch / "skills",   SkillOrigin::SkillsDir);
+        push_unique_skill_root(roots, DefinitionSource::UserClawHome,
+                               ch / "commands", SkillOrigin::LegacyCommandsDir);
     }
     if (const char* ch = std::getenv("CODEX_HOME")) {
         auto codex = std::filesystem::path(ch);
@@ -830,12 +868,20 @@ std::vector<SkillRoot> discover_skill_roots(const std::filesystem::path& cwd) {
     }
     if (const char* home = std::getenv("HOME")) {
         auto h = std::filesystem::path(home);
+        push_unique_skill_root(roots, DefinitionSource::UserClaw,
+                               h / ".claw"   / "skills",   SkillOrigin::SkillsDir);
+        push_unique_skill_root(roots, DefinitionSource::UserOmc,
+                               h / ".omc"    / "skills",   SkillOrigin::SkillsDir);
+        push_unique_skill_root(roots, DefinitionSource::UserOmc,
+                               h / ".omc"    / "commands", SkillOrigin::LegacyCommandsDir);
         push_unique_skill_root(roots, DefinitionSource::UserCodex,
                                h / ".codex"  / "skills",   SkillOrigin::SkillsDir);
         push_unique_skill_root(roots, DefinitionSource::UserCodex,
                                h / ".codex"  / "commands", SkillOrigin::LegacyCommandsDir);
         push_unique_skill_root(roots, DefinitionSource::UserClaude,
                                h / ".claude" / "skills",   SkillOrigin::SkillsDir);
+        push_unique_skill_root(roots, DefinitionSource::UserClaude,
+                               h / ".claude" / "skills" / "omc-learned", SkillOrigin::SkillsDir);
         push_unique_skill_root(roots, DefinitionSource::UserClaude,
                                h / ".claude" / "commands", SkillOrigin::LegacyCommandsDir);
     }
@@ -1039,8 +1085,11 @@ std::string render_agents_report(const std::vector<AgentSummary>& agents) {
         "",
     };
 
-    for (auto src : {DefinitionSource::ProjectCodex, DefinitionSource::ProjectClaude,
-                     DefinitionSource::UserCodexHome, DefinitionSource::UserCodex,
+    for (auto src : {DefinitionSource::ProjectClaw, DefinitionSource::ProjectOmc,
+                     DefinitionSource::ProjectAgents, DefinitionSource::ProjectCodex,
+                     DefinitionSource::ProjectClaude, DefinitionSource::UserClawHome,
+                     DefinitionSource::UserCodexHome, DefinitionSource::UserClaw,
+                     DefinitionSource::UserOmc, DefinitionSource::UserCodex,
                      DefinitionSource::UserClaude})
     {
         std::vector<const AgentSummary*> group;
@@ -1079,8 +1128,11 @@ std::string render_skills_report(const std::vector<SkillSummary>& skills) {
         "",
     };
 
-    for (auto src : {DefinitionSource::ProjectCodex, DefinitionSource::ProjectClaude,
-                     DefinitionSource::UserCodexHome, DefinitionSource::UserCodex,
+    for (auto src : {DefinitionSource::ProjectClaw, DefinitionSource::ProjectOmc,
+                     DefinitionSource::ProjectAgents, DefinitionSource::ProjectCodex,
+                     DefinitionSource::ProjectClaude, DefinitionSource::UserClawHome,
+                     DefinitionSource::UserCodexHome, DefinitionSource::UserClaw,
+                     DefinitionSource::UserOmc, DefinitionSource::UserCodex,
                      DefinitionSource::UserClaude})
     {
         std::vector<const SkillSummary*> group;
@@ -1139,7 +1191,7 @@ std::string render_agents_usage(std::optional<std::string_view> unexpected) {
         "Agents",
         "  Usage            /agents [list|help]",
         "  Direct CLI       claw agents",
-        "  Sources          .codex/agents, .claude/agents, $CODEX_HOME/agents",
+        "  Sources          .claw/agents, ~/.claw/agents, $CLAW_CONFIG_HOME/agents",
     };
     if (unexpected) lines.push_back(std::format("  Unexpected       {}", *unexpected));
     std::string out;
@@ -1153,10 +1205,12 @@ std::string render_agents_usage(std::optional<std::string_view> unexpected) {
 std::string render_skills_usage(std::optional<std::string_view> unexpected) {
     std::vector<std::string> lines = {
         "Skills",
-        "  Usage            /skills [list|install <path>|help]",
-        "  Direct CLI       claw skills [list|install <path>|help]",
-        "  Install root     $CODEX_HOME/skills or ~/.codex/skills",
-        "  Sources          .codex/skills, .claude/skills, legacy /commands",
+        "  Usage            /skills [list|install <path>|help|<skill> [args]]",
+        "  Alias            /skill",
+        "  Direct CLI       claw skills [list|install <path>|help|<skill> [args]]",
+        "  Invoke           /skills help overview -> $help overview",
+        "  Install root     $CLAW_CONFIG_HOME/skills or ~/.claw/skills",
+        "  Sources          .claw/skills, .omc/skills, .agents/skills, .codex/skills, .claude/skills, ~/.claw/skills, ~/.omc/skills, ~/.claude/skills/omc-learned, ~/.codex/skills, ~/.claude/skills, legacy /commands",
     };
     if (unexpected) lines.push_back(std::format("  Unexpected       {}", *unexpected));
     std::string out;
@@ -1467,13 +1521,15 @@ std::optional<std::string> sanitize_skill_invocation_name(std::string_view candi
 
 // ---- default_skill_install_root ------------------------------------------
 std::filesystem::path default_skill_install_root() {
-    if (const char* ch = std::getenv("CODEX_HOME"))
+    if (const char* ch = std::getenv("CLAW_CONFIG_HOME"))
         return std::filesystem::path(ch) / "skills";
+    if (const char* codex = std::getenv("CODEX_HOME"))
+        return std::filesystem::path(codex) / "skills";
     if (const char* home = std::getenv("HOME"))
-        return std::filesystem::path(home) / ".codex" / "skills";
+        return std::filesystem::path(home) / ".claw" / "skills";
     throw std::system_error(
         std::make_error_code(std::errc::no_such_file_or_directory),
-        "unable to resolve a skills install root; set CODEX_HOME or HOME");
+        "unable to resolve a skills install root; set CLAW_CONFIG_HOME or HOME");
 }
 
 // ---- resolve_skill_install_source ----------------------------------------
@@ -1869,7 +1925,7 @@ validate_slash_command_input(std::string_view raw_input)
         return R::ok(slash_command::Agents{std::move(r.value())});
     }
 
-    if (command == "skills") {
+    if (command == "skills" || command == "skill") {
         auto r = parse_skills_args(remainder ? std::optional<std::string_view>(*remainder)
                                              : std::optional<std::string_view>{});
         if (r.is_error()) return R::err(r.error());
@@ -2106,6 +2162,117 @@ handle_skills_slash_command(std::optional<std::string_view> args,
     if (*norm == "-h" || *norm == "--help" || *norm == "help")
         return R::ok(render_skills_usage(std::nullopt));
     return R::ok(render_skills_usage(*norm));
+}
+
+// ---- classify_skills_slash_command / resolve_skill_invocation ----
+
+SkillSlashDispatchResult
+classify_skills_slash_command(std::optional<std::string_view> args) {
+    auto norm = normalize_optional_args(args);
+    if (!norm.has_value())                       return {SkillSlashDispatch::Local, {}};
+    if (*norm == "list" || *norm == "help"
+        || *norm == "-h" || *norm == "--help")    return {SkillSlashDispatch::Local, {}};
+    if (*norm == "install" || norm->starts_with("install "))
+                                                  return {SkillSlashDispatch::Local, {}};
+    // Direct skill invocation -- strip leading '/' and prepend '$'.
+    std::string prompt = "$";
+    std::string_view trimmed = *norm;
+    while (!trimmed.empty() && trimmed.front() == '/') trimmed.remove_prefix(1);
+    prompt += trimmed;
+    return {SkillSlashDispatch::Invoke, std::move(prompt)};
+}
+
+// Resolve a skill path inside the discovered roots.
+static std::optional<std::filesystem::path>
+resolve_skill_path_internal(const std::filesystem::path& cwd, std::string_view skill) {
+    std::string requested{skill};
+    // trim leading '/' and '$'
+    while (!requested.empty() && (requested.front() == '/' || requested.front() == '$'))
+        requested.erase(requested.begin());
+    if (requested.empty()) return std::nullopt;
+
+    auto roots = discover_skill_roots(cwd);
+    for (const auto& root : roots) {
+        std::error_code ec;
+        if (!std::filesystem::is_directory(root.path, ec)) continue;
+        for (auto& entry : std::filesystem::directory_iterator(root.path, ec)) {
+            if (root.origin == SkillOrigin::SkillsDir) {
+                if (!entry.is_directory()) continue;
+                auto skill_path = entry.path() / "SKILL.md";
+                if (!std::filesystem::is_regular_file(skill_path)) continue;
+                std::ifstream f(skill_path);
+                if (!f) continue;
+                std::string contents((std::istreambuf_iterator<char>(f)), {});
+                auto [name, _desc] = parse_skill_frontmatter(contents);
+                std::string entry_name = name.value_or(entry.path().filename().string());
+                std::string lower_entry, lower_req;
+                for (char c : entry_name) lower_entry += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                for (char c : requested)  lower_req   += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                if (lower_entry == lower_req) return skill_path;
+            } else {
+                // LegacyCommandsDir
+                auto path = entry.path();
+                std::filesystem::path md_path;
+                if (entry.is_directory()) {
+                    md_path = path / "SKILL.md";
+                    if (!std::filesystem::is_regular_file(md_path)) continue;
+                } else if (path.extension() == ".md") {
+                    md_path = path;
+                } else {
+                    continue;
+                }
+                std::ifstream f(md_path);
+                if (!f) continue;
+                std::string contents((std::istreambuf_iterator<char>(f)), {});
+                auto fallback = md_path.stem().string();
+                auto [name, _desc] = parse_skill_frontmatter(contents);
+                std::string entry_name = name.value_or(fallback);
+                std::string lower_entry, lower_req;
+                for (char c : entry_name) lower_entry += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                for (char c : requested)  lower_req   += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                if (lower_entry == lower_req) return md_path;
+            }
+        }
+    }
+    return std::nullopt;
+}
+
+Result<SkillSlashDispatchResult, std::string>
+resolve_skill_invocation(const std::filesystem::path& cwd,
+                         std::optional<std::string_view> args) {
+    using R = Result<SkillSlashDispatchResult, std::string>;
+    auto dispatch = classify_skills_slash_command(args);
+    if (dispatch.kind != SkillSlashDispatch::Invoke) return R::ok(std::move(dispatch));
+
+    // Extract the skill name from the "$skill [args]" prompt.
+    std::string_view prompt = dispatch.invoke_prompt;
+    if (!prompt.empty() && prompt.front() == '$') prompt.remove_prefix(1);
+    // Take first whitespace-delimited token as skill name.
+    auto space_pos = prompt.find(' ');
+    std::string skill_token{prompt.substr(0, space_pos)};
+    if (skill_token.empty()) return R::ok(std::move(dispatch));
+
+    auto resolved = resolve_skill_path_internal(cwd, skill_token);
+    if (resolved.has_value()) return R::ok(std::move(dispatch));
+
+    // Build error message with available skills list.
+    std::string message = "Unknown skill: " + skill_token;
+    try {
+        auto roots = discover_skill_roots(cwd);
+        auto available = load_skills_from_roots(roots);
+        std::vector<std::string> names;
+        for (const auto& s : available)
+            if (!s.shadowed_by.has_value()) names.push_back(s.name);
+        if (!names.empty()) {
+            message += "\n  Available skills: ";
+            for (std::size_t i = 0; i < names.size(); ++i) {
+                if (i) message += ", ";
+                message += names[i];
+            }
+        }
+    } catch (...) {}
+    message += "\n  Usage: /skills [list|install <path>|help|<skill> [args]]";
+    return R::err(std::move(message));
 }
 
 Result<std::string, runtime::ConfigError>

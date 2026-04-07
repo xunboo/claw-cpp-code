@@ -14,6 +14,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ---------------------------------------------------------------------------
 add_library(commands STATIC
     src/commands.cpp
+    src/runtime_types.cpp
+    src/plugin_types.cpp
 )
 
 target_include_directories(commands

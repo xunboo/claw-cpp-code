@@ -6,6 +6,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace claw::runtime {
 
@@ -78,6 +79,19 @@ struct LaneEventBlocker {
 
 void to_json(nlohmann::json& j, const LaneEventBlocker& b);
 
+// ── LaneCommitProvenance ─────────────────────────────────────────────────────
+
+struct LaneCommitProvenance {
+    std::string                commit;
+    std::string                branch;
+    std::optional<std::string> worktree;
+    std::optional<std::string> canonical_commit;
+    std::optional<std::string> superseded_by;
+    std::vector<std::string>   lineage;
+};
+
+void to_json(nlohmann::json& j, const LaneCommitProvenance& p);
+
 // ── LaneEvent ────────────────────────────────────────────────────────────────
 
 struct LaneEvent {
@@ -95,6 +109,12 @@ struct LaneEvent {
     [[nodiscard]] static LaneEvent started(std::string emitted_at);
     [[nodiscard]] static LaneEvent finished(std::string emitted_at,
                                             std::optional<std::string> detail = std::nullopt);
+    [[nodiscard]] static LaneEvent commit_created(std::string emitted_at,
+                                                  std::optional<std::string> detail,
+                                                  const LaneCommitProvenance& provenance);
+    [[nodiscard]] static LaneEvent superseded(std::string emitted_at,
+                                              std::optional<std::string> detail,
+                                              const LaneCommitProvenance& provenance);
     [[nodiscard]] static LaneEvent blocked(std::string emitted_at,
                                            const LaneEventBlocker& blocker);
     [[nodiscard]] static LaneEvent failed(std::string emitted_at,
@@ -108,5 +128,12 @@ struct LaneEvent {
 };
 
 void to_json(nlohmann::json& j, const LaneEvent& ev);
+
+// ── Dedup helper ─────────────────────────────────────────────────────────────
+
+/// Remove superseded commit events and keep only the latest per canonical commit.
+/// Mirrors Rust dedupe_superseded_commit_events().
+[[nodiscard]] std::vector<LaneEvent> dedupe_superseded_commit_events(
+    const std::vector<LaneEvent>& events);
 
 } // namespace claw::runtime

@@ -68,6 +68,7 @@ public:
     [[nodiscard]] std::optional<std::string> request_id() const noexcept;
     [[nodiscard]] const char* safe_failure_class() const noexcept;
     [[nodiscard]] bool is_generic_fatal_wrapper() const noexcept;
+    [[nodiscard]] bool is_context_window_failure() const noexcept;
 
     // Accessors for specific variant fields
     [[nodiscard]] std::string_view provider() const noexcept { return provider_; }
@@ -77,6 +78,11 @@ public:
     [[nodiscard]] const std::string& body() const noexcept { return body_; }
     [[nodiscard]] uint32_t attempts() const noexcept { return attempts_; }
     [[nodiscard]] const ApiError* last_error() const noexcept { return last_error_.get(); }
+    [[nodiscard]] const std::string& model() const noexcept { return model_; }
+    [[nodiscard]] uint32_t estimated_input_tokens() const noexcept { return estimated_input_tokens_; }
+    [[nodiscard]] uint32_t requested_output_tokens() const noexcept { return requested_output_tokens_; }
+    [[nodiscard]] uint32_t estimated_total_tokens() const noexcept { return estimated_total_tokens_; }
+    [[nodiscard]] uint32_t context_window_tokens() const noexcept { return context_window_tokens_; }
 
     // Copy / move
     ApiError(const ApiError&);

@@ -126,6 +126,7 @@ struct SlashInit        {};
 struct SlashMcp         { std::optional<std::string> args; };
 struct SlashAgents      { std::optional<std::string> args; };
 struct SlashSkills      { std::optional<std::string> args; };
+struct SlashDoctor      {};
 struct SlashSandbox     {};
 struct SlashVersion     {};
 struct SlashExit        {};
@@ -136,7 +137,7 @@ using SlashCommand = std::variant<
     SlashModel, SlashPermissions, SlashConfig,
     SlashMemory, SlashClear, SlashCost, SlashDiff,
     SlashCommit, SlashExport, SlashSession, SlashResume,
-    SlashInit, SlashMcp, SlashAgents, SlashSkills,
+    SlashInit, SlashMcp, SlashAgents, SlashSkills, SlashDoctor,
     SlashSandbox, SlashVersion, SlashExit, SlashUnknown>;
 
 /// Parse a text string as a slash command.

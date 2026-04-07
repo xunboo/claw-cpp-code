@@ -24,8 +24,8 @@ constexpr std::string_view STARTER_CLAUDE_JSON =
 constexpr std::string_view GITIGNORE_COMMENT = "# Claw Code local artifacts";
 
 const std::vector<std::string_view> GITIGNORE_ENTRIES = {
-    ".claude/settings.local.json",
-    ".claude/sessions/",
+    ".claw/settings.local.json",
+    ".claw/sessions/",
 };
 
 // ---- I/O helpers ----
@@ -283,8 +283,8 @@ std::string render_init_claude_md(const std::filesystem::path& cwd) {
     lines.emplace_back("## Working agreement");
     lines.emplace_back("- Prefer small, reviewable changes and keep generated bootstrap files "
         "aligned with actual repo workflows.");
-    lines.emplace_back("- Keep shared defaults in `.claude.json`; reserve "
-        "`.claude/settings.local.json` for machine-local overrides.");
+    lines.emplace_back("- Keep shared defaults in `.claw.json`; reserve "
+        "`.claw/settings.local.json` for machine-local overrides.");
     lines.emplace_back("- Do not overwrite existing `CLAUDE.md` content automatically; "
         "update it intentionally when repo workflows change.");
     lines.emplace_back("");
@@ -303,9 +303,9 @@ InitReport initialize_repo(const std::filesystem::path& cwd) {
     InitReport report;
     report.project_root = cwd;
 
-    report.artifacts.push_back({".claude/",   ensure_dir(cwd / ".claude")});
-    report.artifacts.push_back({".claude.json",
-        write_file_if_missing(cwd / ".claude.json", STARTER_CLAUDE_JSON)});
+    report.artifacts.push_back({".claw/",   ensure_dir(cwd / ".claw")});
+    report.artifacts.push_back({".claw.json",
+        write_file_if_missing(cwd / ".claw.json", STARTER_CLAUDE_JSON)});
     report.artifacts.push_back({".gitignore",
         ensure_gitignore_entries(cwd / ".gitignore")});
     auto content = render_init_claude_md(cwd);

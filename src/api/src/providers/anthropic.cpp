@@ -12,6 +12,7 @@
 // ---------------------------------------------------------------------------
 
 #include "providers/anthropic.hpp"
+#include "providers/mod.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -329,6 +330,8 @@ static CurlResult do_post_form(
 static void expect_success(const CurlResult& res) {
     if (res.status >= 200 && res.status < 300) return;
 
+    auto request_id = request_id_from_headers(res.raw_headers);
+
     std::string error_type;
     std::string error_msg;
     try {
@@ -345,7 +348,8 @@ static void expect_success(const CurlResult& res) {
                                   error_type,
                                   error_msg,
                                   res.body,
-                                  retryable));
+                                  retryable,
+                                  std::move(request_id)));
 }
 
 // ---------------------------------------------------------------------------
@@ -822,6 +826,9 @@ std::future<MessageResponse> AnthropicClient::send_message(const MessageRequest&
                 return *cached;
         }
 
+        // Context-window preflight (mirrors Rust self.preflight_message_request)
+        preflight_message_request(r);
+
         // Retry loop (mirrors Rust send_with_retry)
         uint32_t             attempts   = 0;
         std::optional<ApiError> last_error;
@@ -909,6 +916,9 @@ std::future<AnthropicMessageStream> AnthropicClient::stream_message(
 {
     return std::async(std::launch::async, [this, req]() -> AnthropicMessageStream {
         MessageRequest r = req.with_streaming(); // stream=true
+
+        // Context-window preflight (mirrors Rust self.preflight_message_request)
+        preflight_message_request(r);
 
         // We do not retry streaming requests (same behaviour as Rust: retry
         // happens inside send_with_retry which is called once; for streaming

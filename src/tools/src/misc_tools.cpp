@@ -159,14 +159,41 @@ resolve_skill_path(const std::string& skill) {
     requested = requested.substr(s);
 
     std::vector<fs::path> candidates;
+
+    // Project-local skill dirs (walk cwd ancestors)
+    {
+        std::error_code ec;
+        auto cwd = fs::current_path(ec);
+        if (!ec) {
+            for (auto p = cwd; ; p = p.parent_path()) {
+                candidates.push_back(p / ".omc" / "skills");
+                candidates.push_back(p / ".agents" / "skills");
+                candidates.push_back(p / ".claw" / "skills");
+                candidates.push_back(p / ".codex" / "skills");
+                candidates.push_back(p / ".claude" / "skills");
+                if (p == p.parent_path()) break;
+            }
+        }
+    }
+
+    // User-level skill dirs
+    if (const char* claw_home = std::getenv("CLAW_CONFIG_HOME")) {
+        candidates.push_back(fs::path(claw_home) / "skills");
+        candidates.push_back(fs::path(claw_home) / "skills" / "omc-learned");
+    }
     if (const char* codex = std::getenv("CODEX_HOME"))
         candidates.push_back(fs::path(codex) / "skills");
     if (const char* home = std::getenv("HOME")) {
         fs::path h(home);
+        candidates.push_back(h / ".claw" / "skills");
+        candidates.push_back(h / ".omc" / "skills");
         candidates.push_back(h / ".agents" / "skills");
         candidates.push_back(h / ".config" / "opencode" / "skills");
         candidates.push_back(h / ".codex" / "skills");
+        candidates.push_back(h / ".claude" / "skills");
+        candidates.push_back(h / ".claude" / "skills" / "omc-learned");
     }
+    candidates.push_back(fs::path("/home/bellman/.claw/skills"));
     candidates.push_back(fs::path("/home/bellman/.codex/skills"));
 
     for (auto& root : candidates) {
